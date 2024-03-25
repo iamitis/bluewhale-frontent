@@ -27,6 +27,7 @@ function handleExceed() {
 }
 
 function uploadHttpRequest() {
+  return new XMLHttpRequest()
 }
 </script>
 
@@ -51,7 +52,7 @@ function uploadHttpRequest() {
             <upload-filled/>
           </el-icon>
           <div class="el-upload__text">
-            将文件拖到此处或单击此处上传。
+            将文件拖到此处或单击此处上传。仅允许上传一份文件。
           </div>
         </el-upload>
       </el-form-item>
