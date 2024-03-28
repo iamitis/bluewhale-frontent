@@ -9,7 +9,10 @@
 import {computed, ref} from 'vue'
 import {uploadImage} from '../../../api/tools.ts'
 import {Plus, InfoFilled, UploadFilled} from "@element-plus/icons-vue"
-import {ElMessage} from "element-plus";
+import {ElFormItem, ElMessage} from "element-plus";
+import {router} from "../../../router";
+import {createStore} from "../../../api/store.ts";
+import {FormInstance} from "element-plus/lib/components";
 
 const dialogFormVisible = ref(false)
 const imageFileList = ref([])
@@ -17,9 +20,15 @@ const logoUrl = ref('')
 const name = ref('')
 const description = ref('')
 
+const hasName = computed(() => name.value != '')
+const hasDescription = computed(() => description.value != '')
+const hasImage = computed(() => imageFileList.value.length > 0)
+
+const formRef = ref<FormInstance>()
+
 // 创建按钮可用性
 const createDisabled = computed(() => {
-  // TODO
+  return !(hasName.value && hasDescription.value && hasImage.value)
 })
 
 function handleChange(file: any, fileList: any) {
@@ -51,13 +60,32 @@ function confirmCreate() {
     handleCreate()
     ElMessage({
       type: 'success',
-      message: '创建成功！',
+      message: '正在创建商店',
     })
   })
 }
 
 function handleCreate() {
   // TODO
+  createStore({
+    storeName: name.value,
+    category: description.value
+  }).then(res => {
+    if (res.data.code === '000') {  //类型守卫，它检查 res.data 对象中是否存在名为 code 的属性
+      ElMessage({
+        message: "创建商店成功！",
+        type: 'success',
+        center: true,
+      })
+      router.push({path: "/allstore"})
+    } else if (res.data.code === '400') {
+      ElMessage({
+        message: res.data.msg,
+        type: 'error',
+        center: true,
+      })
+    }
+  })
 }
 
 </script>
@@ -66,13 +94,13 @@ function handleCreate() {
 <template>
 
   <div class="add-button">
-  <el-button
-      @click="dialogFormVisible = true"
-      type="primary"
-      round
-      :icon="Plus">
-    创建商店
-  </el-button>
+    <el-button
+        @click="dialogFormVisible = true"
+        type="primary"
+        round
+        :icon="Plus">
+      创建商店
+    </el-button>
   </div>
 
   <el-dialog
@@ -80,7 +108,9 @@ function handleCreate() {
       width="20%"
       draggable
       title="创建一个新的商店">
-    <el-form label-position="top">
+    <el-form
+        ref="formRef"
+        label-position="top">
 
       <el-form-item label="商店名称">
         <el-input
@@ -88,7 +118,7 @@ function handleCreate() {
             maxlength="20"
             show-word-limit
             clearable
-            placeholder="请输入商店名称" />
+            placeholder="请输入商店名称"/>
       </el-form-item>
 
       <el-form-item label="商店描述">
@@ -99,26 +129,26 @@ function handleCreate() {
             show-word-limit
             clearable
             :prefix-icon="InfoFilled"
-            placeholder="简要介绍商店" />
+            placeholder="简要介绍商店"/>
       </el-form-item>
 
       <el-form-item label="商店Logo">
         <el-upload
-          v-model:file-list="imageFileList"
-          :limit="1"
-          :on-change="handleChange"
-          :on-exceed="handleExceed"
-          :on-remove="handleChange"
-          class="upload-demo"
-          list-type="picture"
-          :http-request="uploadHttpRequest"
-          drag>
-        <el-icon class="el-icon--upload">
-          <UploadFilled/>
-        </el-icon>
-        <div class="el-upload__text">
-          将图片拖到此处或<em>单击此处上传</em><br>仅允许上传一张图片
-        </div>
+            v-model:file-list="imageFileList"
+            :limit="1"
+            :on-change="handleChange"
+            :on-exceed="handleExceed"
+            :on-remove="handleChange"
+            class="upload-demo"
+            list-type="picture"
+            :http-request="uploadHttpRequest"
+            drag>
+          <el-icon class="el-icon--upload">
+            <UploadFilled/>
+          </el-icon>
+          <div class="el-upload__text">
+            将图片拖到此处或<em>单击此处上传</em><br>仅允许上传一张图片
+          </div>
         </el-upload>
       </el-form-item>
 
