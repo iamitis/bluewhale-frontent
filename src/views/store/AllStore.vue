@@ -11,7 +11,8 @@ getStoreInfo()
 
 function getStoreInfo() {
   allStoreInfo().then(res => {
-    storeList.value = res
+    storeList.value = res.result
+
   })
 }
 
@@ -30,7 +31,7 @@ function getStoreInfo() {
     <el-card
         v-else
         v-for="store in storeList">
-      {{store}}
+      {{ store }}
     </el-card>
 
   </el-main>
