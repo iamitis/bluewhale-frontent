@@ -8,14 +8,16 @@
 <script setup lang="ts">
 import {computed, reactive, ref} from "vue";
 import {Plus} from "@element-plus/icons-vue";
-import {ElMessage, FormInstance} from "element-plus";
+import {ElMessage, FormInstance, FormRules} from "element-plus";
 import {router} from "../../router";
+import {createProduct} from "../../api/product.ts";
 
 const dialogFormVisible = ref(false)
 const typeList = ref([
   'FOOD', 'CLOTHES', 'FURNITURE', 'ELECTRONICS', 'ENTERTAINMENT', 'SPORTS', 'LUXURY'
 ])
 const storeId = sessionStorage.getItem('storeId')
+const imageFileList = ref([])
 
 interface RuleForm {
   name: string
@@ -28,7 +30,7 @@ const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<RuleForm>({
   name: '',
   type: '',
-  price: '',
+  price: -1,
   description: '',
 })
 
@@ -107,16 +109,16 @@ function confirmCreate() {
 
 function handleCreate() {
   createProduct({
-    storeName: name.value,
-    category: description.value
+    productName: ruleForm.name,
+    productCategory: ruleForm.type
   }).then(res => {
     if (res.data.code === '000') {  //类型守卫，它检查 res.data 对象中是否存在名为 code 的属性
       ElMessage({
-        message: "创建商店成功！",
+        message: "创建商品成功！",
         type: 'success',
         center: true,
       })
-      router.push({path: "/allstore"})
+      router.push({path: `/storeDetail/${storeId}`})
     } else if (res.data.code === '400') {
       ElMessage({
         message: res.data.msg,
@@ -126,6 +128,8 @@ function handleCreate() {
     }
   })
 }
+
+
 </script>
 
 
@@ -175,7 +179,7 @@ function handleCreate() {
 
       <el-form-item label="商品价格" prop="price">
         <el-input
-            v-model.number="ruleForm.price" />
+            v-model.number="ruleForm.price"/>
       </el-form-item>
 
       <el-form-item label="商品描述" prop="description">

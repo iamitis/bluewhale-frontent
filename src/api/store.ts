@@ -2,7 +2,6 @@
 // 开发时请解除3-4行的注释
 import {axios} from '../utils/request'
 import {STORE_MODULE} from './_prefix'
-import {ref} from "vue";
 
 export type StoreInfo = {
     storeName: string,
@@ -25,8 +24,16 @@ export const allStoresInfo = () => {
 }
 
 export const storeInfo = (storeId: number) => {
-    return axios.get(`${STORE_MODULE}/getStore/${storeId}`, storeId)
+    return axios.get(`${STORE_MODULE}/getStore/${storeId}`)
         .then(res => {
             return res.data.result
         })
+}
+
+export const allProductsInfo = (storeId: number) => {
+    return axios.get(`${STORE_MODULE}/getAllProducts/${storeId}`)
+        .then(res => {
+                return res.data.result
+            }
+        )
 }

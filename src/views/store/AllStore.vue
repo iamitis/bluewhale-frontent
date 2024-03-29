@@ -13,7 +13,6 @@ getStoreInfo()
 function getStoreInfo() {
   allStoresInfo().then(res => {
     storeList.value = res
-
   })
 }
 
@@ -27,19 +26,11 @@ function getStoreInfo() {
         description="店家跑路了/_ \">
     </el-empty>
 
-<<<<<<< HEAD
-    <el-card
-        v-else
-        v-for="store in storeList">
-      {{ store }}
-    </el-card>
-=======
     <StoreItem
         v-for="store in storeList"
         :store-name="store.storeName"
         :description="store.category"
         :store-id="store.storeId"/>
->>>>>>> 651c74040951b609b238be63a87669e322977114
 
     <create-store v-if="role === 'MANAGER'"/>
   </el-main>
