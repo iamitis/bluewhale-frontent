@@ -5,7 +5,8 @@ import {STORE_MODULE} from './_prefix'
 
 export type StoreInfo = {
     storeName: string,
-    category: string
+    category: string,
+    imageUrl: string
 }
 
 export const createStore = (storeInfo: StoreInfo) => {

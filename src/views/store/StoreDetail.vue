@@ -8,6 +8,7 @@ const url = window.location.href
 const storeId = ref()
 const storeName = ref('')
 const description = ref('')
+const logoUrl = ref('')
 
 getStoreId().then(res => {
   getStoreInfo(res)
@@ -23,6 +24,7 @@ function getStoreInfo(storeId) {
   storeInfo(storeId).then(res => {
     storeName.value = res.storeName
     description.value = res.category
+    logoUrl.value = res.imageUrl
   })
 }
 
@@ -33,7 +35,7 @@ function getStoreInfo(storeId) {
   <el-container>
     <!--希望把商店详情的一部分内容放在这个侧边栏里，你要真不想放也没事-->
     <el-aside width="25%" class="page-aside">
-      <img src="">
+      <img src={{logoUrl}}  alt="logo"/>
       <h1>{{storeName}}</h1>
       <h1>{{description}}</h1>
     </el-aside>

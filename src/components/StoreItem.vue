@@ -7,6 +7,7 @@ import {computed, ref} from "vue";
 const props = defineProps({
   storeName: String,
   description: String,
+  logoUrl: String,
   storeId: Number
 })
 
@@ -22,7 +23,8 @@ const props = defineProps({
         {{storeName}}
       </template>
       <p>{{description}}</p>
-      <img />
+      <img src={{logoUrl}} alt="logo" />
+      <p>{{logoUrl}}</p>
     </el-card>
   </router-link>
 
@@ -31,6 +33,6 @@ const props = defineProps({
 <style scoped>
 .store-card {
   width: 480px;
-  height: 480px;
+  height: 220px;
 }
 </style>
