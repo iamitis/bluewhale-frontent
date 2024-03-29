@@ -12,7 +12,6 @@ import {Plus, InfoFilled, UploadFilled} from "@element-plus/icons-vue"
 import {ElFormItem, ElMessage} from "element-plus";
 import {router} from "../../../router";
 import {createStore} from "../../../api/store.ts";
-import {FormInstance} from "element-plus/lib/components";
 
 const dialogFormVisible = ref(false)
 const imageFileList = ref([])
@@ -23,9 +22,6 @@ const description = ref('')
 const hasName = computed(() => name.value != '')
 const hasDescription = computed(() => description.value != '')
 const hasImage = computed(() => imageFileList.value.length > 0)
-
-const formRef = ref<FormInstance>()
-
 // 创建按钮可用性
 const createDisabled = computed(() => {
   return !(hasName.value && hasDescription.value && hasImage.value)
@@ -66,7 +62,6 @@ function confirmCreate() {
 }
 
 function handleCreate() {
-  // TODO
   createStore({
     storeName: name.value,
     category: description.value
@@ -109,7 +104,6 @@ function handleCreate() {
       draggable
       title="创建一个新的商店">
     <el-form
-        ref="formRef"
         label-position="top">
 
       <el-form-item label="商店名称">
