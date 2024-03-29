@@ -4,6 +4,9 @@ export const API_MODULE = '/api'
 //用户模块
 export const USER_MODULE = `${API_MODULE}/users`
 
+
+export const IMAGE_MODULE = `${API_MODULE}/image`
+
 //Lab2新增
 //商店模块
 export const STORE_MODULE = `${API_MODULE}/stores`

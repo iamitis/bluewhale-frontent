@@ -14,13 +14,14 @@ getStoreId().then(res => {
   getStoreInfo(res)
   sessionStorage.setItem('storeId', storeId + '')
 })
+
 async function getStoreId() {
   const args = url.split('/')
   storeId.value = args[5]
   return storeId.value
 }
 
-function getStoreInfo(storeId) {
+function getStoreInfo(storeId: number) {
   storeInfo(storeId).then(res => {
     storeName.value = res.storeName
     description.value = res.category
@@ -35,13 +36,13 @@ function getStoreInfo(storeId) {
   <el-container>
     <!--希望把商店详情的一部分内容放在这个侧边栏里，你要真不想放也没事-->
     <el-aside width="25%" class="page-aside">
-      <img src={{logoUrl}}  alt="logo"/>
-      <h1>{{storeName}}</h1>
-      <h1>{{description}}</h1>
+      <img src={{logoUrl}} alt="logo"/>
+      <h1>{{ storeName }}</h1>
+      <h1>{{ description }}</h1>
     </el-aside>
 
     <el-main>
-      <create-product />
+      <create-product/>
     </el-main>
   </el-container>
 </template>

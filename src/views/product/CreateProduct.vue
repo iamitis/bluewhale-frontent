@@ -7,6 +7,7 @@
 
 <script setup lang="ts">
 import {computed, reactive, ref} from "vue";
+import {uploadImage} from '../../api/tools.ts'
 import {Plus} from "@element-plus/icons-vue";
 import {ElMessage, FormInstance, FormRules} from "element-plus";
 import {router} from "../../router";
@@ -18,12 +19,14 @@ const typeList = ref([
 ])
 const storeId = sessionStorage.getItem('storeId')
 const imageFileList = ref([])
+const imageUrl = ref([])
 
 interface RuleForm {
   name: string
   type: string
   price: number
   description: string
+  imageFileList: FileList[]
 }
 
 const ruleFormRef = ref<FormInstance>()
@@ -32,6 +35,7 @@ const ruleForm = reactive<RuleForm>({
   type: '',
   price: -1,
   description: '',
+  imageFileList: []
 })
 
 const rules = reactive<FormRules<RuleForm>>({
@@ -78,12 +82,23 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   })
 }
 
-function handleChange() {
-  // TODO
+function handleChange(file: any, fileList: any) {
+  imageFileList.value = fileList
+  let formData = new FormData()
+  formData.append('file', file.raw)
+  console.log(formData.get('file'))
+  uploadImage(file.raw).then(res => {
+    imageUrl.value = res.data.result
+  })
 }
 
 function handleRemove() {
   // TODO
+}
+
+
+function handleExceed() {
+  ElMessage.warning(`当前限制至少选择两个文件`)
 }
 
 function uploadHttpRequest() {
@@ -217,6 +232,7 @@ function handleCreate() {
           新建
         </el-button>
       </span>
+
 
     </el-form>
   </el-dialog>
