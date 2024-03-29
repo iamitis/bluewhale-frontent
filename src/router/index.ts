@@ -31,16 +31,6 @@ const router = createRouter({
                 component: () => import('../views/store/AllStore.vue'),
                 meta: {title: '商品列表界面/主页'}
             },
-            //你也可以把创建商店界面改成一个弹窗
-            {
-                path: '/createStore',
-                name: 'createStore',
-                component: () => import('../views/store/components/CreateStore.vue'),
-                meta: {
-                    title: '创建商店',
-                    permission: ['MANAGER']
-                }
-            },
             {
                 path: '/storeDetail/:storeId',
                 name: 'storeDetail',

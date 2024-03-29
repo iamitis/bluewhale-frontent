@@ -31,7 +31,8 @@ function handleChange(file: any, fileList: any) {
   imageFileList.value = fileList
   let formData = new FormData()
   formData.append('file', file.raw)
-  uploadImage(formData).then(res => {
+  console.log(formData.get('file'))
+  uploadImage(file.raw).then(res => {
     logoUrl.value = res.data.result
   })
 }
@@ -54,17 +55,14 @@ function confirmCreate() {
       }
   ).then(() => {
     handleCreate()
-    ElMessage({
-      type: 'success',
-      message: '正在创建商店',
-    })
   })
 }
 
 function handleCreate() {
   createStore({
     storeName: name.value,
-    category: description.value
+    category: description.value,
+    imageUrl: logoUrl.value
   }).then(res => {
     if (res.data.code === '000') {  //类型守卫，它检查 res.data 对象中是否存在名为 code 的属性
       ElMessage({
@@ -154,6 +152,7 @@ function handleCreate() {
           创建
         </el-button>
       </span>
+      <p>{{logoUrl}}{{imageFileList}}</p>
 
     </el-form>
   </el-dialog>

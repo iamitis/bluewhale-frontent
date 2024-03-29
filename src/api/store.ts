@@ -6,7 +6,8 @@ import {ref} from "vue";
 
 export type StoreInfo = {
     storeName: string,
-    category: string
+    category: string,
+    imageUrl: string
 }
 
 export const createStore = (storeInfo: StoreInfo) => {
