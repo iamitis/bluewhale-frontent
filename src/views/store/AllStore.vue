@@ -2,7 +2,8 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import CreateStore from "./components/CreateStore.vue";
-import {allStoreInfo} from "../../api/store.ts";
+import {allStoresInfo} from "../../api/store.ts";
+import StoreItem from "../../components/StoreItem.vue";
 
 const role = sessionStorage.getItem('role');
 const storeList = ref([]);
@@ -10,7 +11,7 @@ const storeList = ref([]);
 getStoreInfo()
 
 function getStoreInfo() {
-  allStoreInfo().then(res => {
+  allStoresInfo().then(res => {
     storeList.value = res
   })
 }
@@ -20,19 +21,18 @@ function getStoreInfo() {
 
 <template>
   <el-main class="main">
-
     <el-empty
         v-if="storeList === []"
         description="店家跑路了/_ \">
-      <create-store v-if="role === 'MANAGER'"/>
     </el-empty>
 
-    <el-card
-        v-else
-        v-for="store in storeList">
-      {{store}}
-    </el-card>
+    <StoreItem
+        v-for="store in storeList"
+        :store-name="store.storeName"
+        :description="store.category"
+        :store-id="store.storeId"/>
 
+    <create-store v-if="role === 'MANAGER'"/>
   </el-main>
 </template>
 
@@ -45,6 +45,7 @@ function getStoreInfo() {
   justify-content: center;
   align-items: center;
   align-content: center;
+  gap: 20px;
 }
 
 </style>
