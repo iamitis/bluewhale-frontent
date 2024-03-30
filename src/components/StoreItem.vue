@@ -21,7 +21,7 @@ const props = defineProps({
         class="store-card"
         shadow="always">
       <template #header>
-        <span class="store-name">{{storeName}}</span>
+        <span class="store-name"><b>{{storeName}}</b></span>
       </template>
       <el-row
           gutter="12"
@@ -38,7 +38,7 @@ const props = defineProps({
       <el-col
           :span="12"
           class="dsc-col">
-        <p>{{description}}</p>
+        <p class="store-dsc">{{description}}</p>
       </el-col>
       </el-row>
     </el-card>
@@ -48,9 +48,10 @@ const props = defineProps({
 
 <style scoped>
 .store-card {
-  width: 480px;
-  height: 350px;
+  width: 450px;
+  height: 320px;
   padding: 0;
+  border-radius: 18px;
 }
 
 .el-card /deep/ .el-card__header {
@@ -63,14 +64,30 @@ const props = defineProps({
 }
 
 .logo-col {
-  background-color: aliceblue;
+  background: linear-gradient(90deg, aliceblue 60%, floralwhite);
 }
 
 .dsc-col {
-  background-color: floralwhite;
+  background: floralwhite;
 }
 
 .el-card /deep/ .el-card__body {
   padding: 0;
+}
+
+.store-name {
+  text-decoration: none;
+  color: darkslategray;
+  letter-spacing: 2px;
+  font-family: "Microsoft YaHei UI",serif;
+  font-size: 170%;
+}
+
+.store-dsc {
+  text-decoration: none;
+  color: black;
+  letter-spacing: 1px;
+  text-indent: 20px;
+  font-family: "Microsoft YaHei UI Light",serif;
 }
 </style>
