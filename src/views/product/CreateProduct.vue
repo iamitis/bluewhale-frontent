@@ -6,7 +6,7 @@
 这个传递数据的过程可能需要用到props-->
 
 <script setup lang="ts">
-import {computed, reactive, ref} from "vue";
+import {reactive, ref} from "vue";
 import {uploadImage} from '../../api/tools.ts'
 import {Plus} from "@element-plus/icons-vue";
 import {ElMessage, FormInstance, FormRules} from "element-plus";
@@ -17,7 +17,7 @@ const dialogFormVisible = ref(false)
 const typeList = ref([
   'FOOD', 'CLOTHES', 'FURNITURE', 'ELECTRONICS', 'ENTERTAINMENT', 'SPORTS', 'LUXURY'
 ])
-const storeId = sessionStorage.getItem('storeId')
+const storeId = parseInt(sessionStorage.getItem('storeId') as string, 10)
 const imageFileList = ref([])
 const imageUrl = ref([])
 
@@ -33,7 +33,7 @@ const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<RuleForm>({
   name: '',
   type: '',
-  price: -1,
+  price: 0,
   description: '',
   imageFileList: []
 })
@@ -125,7 +125,10 @@ function confirmCreate() {
 function handleCreate() {
   createProduct({
     productName: ruleForm.name,
-    productCategory: ruleForm.type
+    productCategory: ruleForm.type,
+    productStoreId: storeId,
+    productPrice: ruleForm.price,
+    productDescription: ruleForm.description
   }).then(res => {
     if (res.data.code === '000') {  //类型守卫，它检查 res.data 对象中是否存在名为 code 的属性
       ElMessage({
@@ -209,10 +212,12 @@ function handleCreate() {
       <el-form-item label="商品图片">
         <el-upload
             v-model:file-list="imageFileList"
-            class="upload-demo"
-            list-type="picture"
+            :limit="2"
             :on-remove="handleRemove"
             :on-change="handleChange"
+            :on-exceed="handleExceed"
+            class="upload-demo"
+            list-type="picture"
             :http-request="uploadHttpRequest"
             drag>
           <el-icon class="el-icon--upload">

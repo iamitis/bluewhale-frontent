@@ -43,7 +43,7 @@ function getProductInfo(productId: number) {
     <el-aside width="25%" class="page-aside">
       <h1>{{ productName }}</h1>
       <h1>{{ productType }}</h1>
-      <h1>{{ productDescription}}</h1>
+      <h1>{{ productDescription }}</h1>
     </el-aside>
 
 

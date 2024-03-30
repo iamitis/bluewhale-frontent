@@ -6,6 +6,9 @@ import {IMAGE_MODULE, PRODUCT_MODULE} from './_prefix'
 export type ProductInfo = {
     productName: string,
     productCategory: string
+    productStoreId: number
+    productPrice: number
+    productDescription: string
 }
 
 
