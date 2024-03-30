@@ -5,21 +5,21 @@ import {storeInfo} from "../../api/store.ts";
 import CreateProduct from "../product/CreateProduct.vue";
 
 const url = window.location.href
-const storeId = ref()
+let storeId = 0
 const storeName = ref('')
 const description = ref('')
 const logoUrl = ref('')
 
 getStoreId().then(res => {
   getStoreInfo(res)
-  sessionStorage.setItem('storeId', storeId.value + '')
+  sessionStorage.setItem('storeId', storeId + '')
 })
 
 async function getStoreId() {
   const args = url.split('/')
   console.log(args)
-  storeId.value = args[5]
-  return storeId.value
+  storeId = parseInt(args[5])
+  return storeId
 }
 
 function getStoreInfo(storeId: number) {
@@ -43,7 +43,7 @@ function getStoreInfo(storeId: number) {
     </el-aside>
 
     <el-main>
-      <create-product/>
+      <create-product :store-id="storeId"/>
     </el-main>
   </el-container>
 </template>

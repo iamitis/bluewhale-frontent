@@ -17,7 +17,11 @@ const dialogFormVisible = ref(false)
 const typeList = ref([
   'FOOD', 'CLOTHES', 'FURNITURE', 'ELECTRONICS', 'ENTERTAINMENT', 'SPORTS', 'LUXURY'
 ])
-const storeId: number = +(sessionStorage.getItem('storeId'))
+
+const pros = defineProps({
+  storeId: Number
+})
+
 const imageFileList = ref([])
 const imageUrl = ref([])
 
@@ -123,11 +127,10 @@ function confirmCreate() {
 }
 
 function handleCreate() {
- //console.log(storeId)
   createProduct({
     productName: ruleForm.name,
     productCategory: ruleForm.type,
-    productStoreId: storeId,
+    productStoreId: pros.storeId,
     productPrice: ruleForm.price,
     productDescription: ruleForm.description
   }).then(res => {
@@ -137,7 +140,7 @@ function handleCreate() {
         type: 'success',
         center: true,
       })
-      router.push({path: `/storeDetail/${storeId}`})
+      router.push({path: `/storeDetail/${pros.storeId}`})
     } else if (res.data.code === '400') {
       ElMessage({
         message: res.data.msg,
