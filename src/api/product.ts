@@ -47,9 +47,3 @@ export const updateProductSales = (productId: number, productSales: number) => {
 
 
 
-
-
-
-
-
-
