@@ -14,12 +14,10 @@ export type ProductInfo = {
     productImageUrl: string
 }
 
-export type CoverImage = {
-    imageBelong: string,
-    belongId: number,
-    ossUrl: []
+export type DetailImage = {
+    productId: number,
+    pictures
 }
-
 
 export const createProduct = (productInfo: ProductInfo) => {
     return axios.post(`${PRODUCT_MODULE}/createProduct`, productInfo,
@@ -52,10 +50,12 @@ export const updateProductSales = (productId: number, productSales: number) => {
         })
 }
 
-export const setCover = (coverImage: CoverImage) => {
-    return axios.post(`${IMAGE_MODULE}/imagesUpdate`, coverImage,
+export const updateProductPicture = (detailImage: DetailImage) => {
+    console.log(detailImage)
+    return axios.post(`${PRODUCT_MODULE}/updateProductPicture`, detailImage,
         {headers: {'Content-Type': "application/json"}})
         .then(res => {
+            console.log(res.data.result)
             return res.data.result
         })
 }
