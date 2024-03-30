@@ -36,4 +36,5 @@ const props = defineProps({
   width: 680px;
   height: 250px;
 }
+
 </style>

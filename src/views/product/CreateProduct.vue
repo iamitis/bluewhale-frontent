@@ -102,8 +102,6 @@ function handleChangeDetail(file: any, fileList: any) {
   formData.append('file', file.raw)
   uploadImage(formData).then(res => {
     detailUrl.value = res.data.result
-  }).then(() => {
-    console.log(detailUrl.value)
   })
 }
 
@@ -126,7 +124,6 @@ function confirmCreate() {
       type: 'success',
       message: '正在创建商品',
     })
-
   })
 }
 
@@ -148,8 +145,7 @@ function handleCreate() {
         center: true,
       })
       productId = res.data.result
-      console.log([detailUrl.value])
-      uploadDetailImages()
+      window.location.reload()
     } else if (res.data.code === '400') {
       ElMessage({
         message: res.data.msg,
@@ -158,6 +154,8 @@ function handleCreate() {
       })
       window.location.reload()
     }
+  }).then(() => {
+    uploadDetailImages()
   })
 }
 
@@ -167,9 +165,7 @@ function uploadDetailImages() {
         productId: productId,
         pictures: [detailUrl.value]
       }
-  ).then(() => {
-    window.location.reload()
-  })
+  )
 }
 </script>
 
