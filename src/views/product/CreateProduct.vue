@@ -10,7 +10,7 @@ import {computed, reactive, ref} from "vue";
 import {uploadImage} from '../../api/tools.ts'
 import {Plus, UploadFilled} from "@element-plus/icons-vue";
 import {ElMessage, FormInstance, FormRules} from "element-plus";
-import {createProduct, setProductImages} from "../../api/product.ts";
+import {createProduct, setCover} from "../../api/product.ts";
 
 let dialogFormVisible = ref(false)
 const typeList = ref([
@@ -21,9 +21,8 @@ const pros = defineProps({
   storeId: Number
 })
 
-const imageFileList = ref([])
-const imageUrl = ref([])
-const hasAtLeastTwoImages = computed(() => imageFileList.value.length >= 2)
+const coverFileList = ref([])
+const coverUrl = ref('')
 
 interface RuleForm {
   name: string
@@ -81,23 +80,18 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid) => {
     if (valid) {
-      if (hasAtLeastTwoImages.value) {
-        confirmCreate()
-      } else {
-        ElMessage.warning(`至少上传两张图片`)
-      }
+      confirmCreate()
     }
   })
 
 }
 
 function handleChange(file: any, fileList: any) {
-  imageFileList.value = fileList
+  coverFileList.value = fileList
   let formData = new FormData()
   formData.append('file', file.raw)
-  console.log(formData.get('file'))
-  uploadImage(FormData).then(res => {
-    imageUrl.value = res.data.result
+  uploadImage(formData).then(res => {
+    coverUrl.value = res.data.result
   })
 }
 
@@ -130,23 +124,16 @@ function handleCreate() {
     productCategory: ruleForm.type,
     productStoreId: pros.storeId,
     productPrice: ruleForm.price,
-    productDescription: ruleForm.description
+    productDescription: ruleForm.description,
+    imgUrl: coverUrl.value
   }).then(res => {
     if (res.data.code === '000') {  //类型守卫，它检查 res.data 对象中是否存在名为 code 的属性
-      setProductImages(
-          {
-            imageBelong: 'STORE',
-            belongId: pros.storeId,
-            ossUrl: imageUrl.value
-          },
-      ).then(() => {
-        ElMessage({
-          message: "创建商品成功！",
-          type: 'success',
-          center: true,
-        })
-        window.location.reload()
+      ElMessage({
+        message: "创建商品成功！",
+        type: 'success',
+        center: true,
       })
+      window.location.reload()
     } else if (res.data.code === '400') {
       ElMessage({
         message: res.data.msg,
@@ -220,10 +207,10 @@ function handleCreate() {
             clearable/>
       </el-form-item>
 
-      <el-form-item label="商品图片">
+      <el-form-item label="商品封面图">
         <el-upload
-            v-model:file-list="imageFileList"
-            :limit="15"
+            v-model:file-list="coverFileList"
+            :limit="1"
             :on-remove="handleChange"
             :on-change="handleChange"
             class="upload-demo"
@@ -235,9 +222,34 @@ function handleCreate() {
           </el-icon>
           <div class="el-upload__text">
             将图片拖到此处或<em>单击此处上传</em><br>
-            至少上传两张图片
           </div>
+          <template #tip>
+            <div class="el-upload__tip">
+              请上传一张大小不超过1MB的图片
+            </div>
+          </template>
         </el-upload>
+      </el-form-item>
+
+      <el-form-item label="商品详情图">
+        <el-upload
+            v-model:file-list="detailFileList"
+            :limit="15"
+            class="upload-demo"
+            list-type="picture"
+            :http-request="uploadHttpRequest"
+            drag/>
+        <el-icon class="el-icon--upload">
+          <upload-filled/>
+        </el-icon>
+        <div class="el-upload__text">
+          将图片拖到此处或<em>单击此处上传</em><br>
+        </div>
+        <template #tip>
+          <div class="el-upload__tip">
+            上传图片大小不可超过1MB
+          </div>
+        </template>
       </el-form-item>
 
       <span class="create-button">
