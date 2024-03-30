@@ -118,12 +118,7 @@ function confirmCreate() {
         center: true,
       }
   ).then(() => {
-    dialogFormVisible.value = false
     handleCreate()
-    ElMessage({
-      type: 'success',
-      message: '正在创建商品',
-    })
   })
 }
 
@@ -146,13 +141,13 @@ function handleCreate() {
       })
       productId = res.data.result
       window.location.reload()
+      dialogFormVisible.value = false
     } else if (res.data.code === '400') {
       ElMessage({
         message: res.data.msg,
         type: 'error',
         center: true,
       })
-      window.location.reload()
     }
   }).then(() => {
     uploadDetailImages()
