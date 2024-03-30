@@ -41,27 +41,16 @@ const load = () => {
     </el-empty>
 
     <template v-else>
-    <div
-        class="infinite-list-wrapper">
-      <ul
-          v-infinite-scroll="load"
-          infinite-scroll-distance="10"
-          class="list"
-          :infinite-scroll-disabled="disabled">
-        <StoreItem
-            v-for="(store,index) in storeList.slice(0, count)"
-            :key="index"
-            class="list-item"
-            :store-name="store.storeName"
-            :description="store.category"
-            :store-id="store.storeId"
-            :logo-url="store.imageUrl"/>
-      </ul>
-      <p v-if="loading">加载中...</p>
-      <p v-if="nomore && total > 3">没有更多了/_ \</p>
-    </div>
+      <StoreItem
+          v-for="store in storeList"
+          :key="index"
+          class="list-item"
+          :store-name="store.storeName"
+          :description="store.category"
+          :store-id="store.storeId"
+          :logo-url="store.storeImageUrl"/>
 
-    <create-store v-if="role === 'MANAGER'"/>
+      <create-store v-if="role === 'MANAGER'"/>
     </template>
   </el-main>
 </template>
@@ -78,26 +67,5 @@ const load = () => {
   gap: 20px;
 }
 
-.infinite-list-wrapper {
-  height: calc(100vh);
-}
-
-.infinite-list-wrapper .list {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.infinite-list-wrapper .list-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--el-color-danger-light-9);
-  color: var(--el-color-primary);
-}
-
-.infinite-list-wrapper .list-item + .list-item {
-  margin-top: 10px;
-}
 
 </style>
