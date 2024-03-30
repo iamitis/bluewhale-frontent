@@ -61,7 +61,7 @@ function handleCreate() {
   createStore({
     storeName: name.value,
     category: description.value,
-    imageUrl: logoUrl.value
+    storeImageUrl: logoUrl.value
   }).then(res => {
     if (res.data.code === '000') {  //类型守卫，它检查 res.data 对象中是否存在名为 code 的属性
       ElMessage({

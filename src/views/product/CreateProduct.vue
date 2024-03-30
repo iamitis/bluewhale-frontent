@@ -92,7 +92,6 @@ function handleChange(file: any, fileList: any) {
   formData.append('file', file.raw)
   uploadImage(formData).then(res => {
     coverUrl.value = res.data.result
-    console.log(coverUrl.value)
   })
 }
 
