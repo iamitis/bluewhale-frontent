@@ -6,7 +6,7 @@
 这个传递数据的过程可能需要用到props-->
 
 <script setup lang="ts">
-import {reactive, ref} from "vue";
+import {computed, reactive, ref} from "vue";
 import {uploadImage} from '../../api/tools.ts'
 import {Plus} from "@element-plus/icons-vue";
 import {ElMessage, FormInstance, FormRules} from "element-plus";
@@ -23,6 +23,7 @@ const pros = defineProps({
 
 const imageFileList = ref([])
 const imageUrl = ref([])
+const hasAtLeastTwoImages = computed(() => imageFileList.value.length >= 2)
 
 interface RuleForm {
   name: string
@@ -80,8 +81,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid) => {
     if (valid) {
-      dialogFormVisible.value = false
-      confirmCreate()
+      if (hasAtLeastTwoImages.value) {
+        dialogFormVisible.value = false
+        confirmCreate()
+      } else {
+        ElMessage.warning(`至少上传两张图片`)
+      }
     }
   })
 
@@ -95,15 +100,6 @@ function handleChange(file: any, fileList: any) {
   uploadImage(file.raw).then(res => {
     imageUrl.value = res.data.result
   })
-}
-
-function handleRemove() {
-  // TODO
-}
-
-
-function handleExceed() {
-  ElMessage.warning(`当前限制至少选择两个文件`)
 }
 
 function uploadHttpRequest() {
@@ -219,10 +215,9 @@ function handleCreate() {
       <el-form-item label="商品图片">
         <el-upload
             v-model:file-list="imageFileList"
-            :limit="2"
-            :on-remove="handleRemove"
+            :limit="15"
+            :on-remove="handleChange"
             :on-change="handleChange"
-            :on-exceed="handleExceed"
             class="upload-demo"
             list-type="picture"
             :http-request="uploadHttpRequest"

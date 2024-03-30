@@ -13,7 +13,6 @@ const logoUrl = ref('')
 
 getStoreId().then(res => {
   getStoreInfo(res)
-  sessionStorage.setItem('storeId', storeId + '')
 })
 
 async function getStoreId() {

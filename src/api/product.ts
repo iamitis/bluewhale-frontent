@@ -11,6 +11,12 @@ export type ProductInfo = {
     productDescription: string
 }
 
+export type PrdImgInfo = {
+    imageBelong: string,
+    belongId: number,
+    ossUrl: string
+}
+
 
 export const createProduct = (productInfo: ProductInfo) => {
     return axios.post(`${PRODUCT_MODULE}/createProduct`, productInfo,
@@ -43,13 +49,10 @@ export const updateProductSales = (productId: number, productSales: number) => {
         })
 }
 
-
-
-
-
-
-
-
-
-
-
+export const setProductImages = (prdImgInfo: PrdImgInfo) => {
+    return axios.post(`${IMAGE_MODULE}/imagesUpdate`, prdImgInfo,
+        {headers: {'Content-Type': "application/json"}})
+        .then(res => {
+            return res.data.result
+        })
+}
