@@ -8,8 +8,9 @@ const props = defineProps({
   storeName: String,
   description: String,
   logoUrl: String,
-  storeId: Number
+  storeId: Number,
 })
+
 
 </script>
 
@@ -23,8 +24,8 @@ const props = defineProps({
         {{storeName}}
       </template>
       <p>{{description}}</p>
-      <el-image src="props.logoUrl" alt="logo" />
-      <p>{{logoUrl}}0</p>
+      <img :src="logoUrl" alt="logo" />
+      <p>{{logoUrl}}</p>
     </el-card>
   </router-link>
 
