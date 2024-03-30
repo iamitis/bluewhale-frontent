@@ -125,7 +125,9 @@ function handleCreate() {
     productStoreId: pros.storeId,
     productPrice: ruleForm.price,
     productDescription: ruleForm.description,
-    productImageUrl: coverUrl.value
+    productImageUrl: coverUrl.value,
+    productRemains: 0,
+    productSales: 0
   }).then(res => {
     if (res.data.code === '000') {  //类型守卫，它检查 res.data 对象中是否存在名为 code 的属性
       ElMessage({

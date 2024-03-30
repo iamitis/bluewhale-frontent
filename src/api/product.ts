@@ -8,6 +8,8 @@ export type ProductInfo = {
     productName: string,
     productDescription: string
     productPrice: number
+    productRemains: number
+    productSales: number
     productCategory: string
     productImageUrl: string
 }

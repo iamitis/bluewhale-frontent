@@ -9,11 +9,10 @@ const productId = ref()
 const productName = ref('')
 const productType = ref('')
 const productDescription = ref('')
-const imageUrls = ref([])
+const productImageUrls = ref([])
 
 getProductId().then(res => {
   getProductInfo(res)
-  sessionStorage.setItem('productId', productId + '')
 })
 
 async function getProductId() {
@@ -25,12 +24,11 @@ async function getProductId() {
 function getProductInfo(productId: number) {
   productInfo(productId).then(res => {
     productName.value = res.productName
-    productType.value = res.category
-    productDescription.value = res.description
+    productType.value = res.productCategory
+    productDescription.value = res.productDescription
   })
   getProductImages(productType.value, productId).then(res => {
-    imageUrls.value = res
-
+    productImageUrls.value = res
   })
 }
 
