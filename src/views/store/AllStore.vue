@@ -28,7 +28,7 @@ const load = () => {
   setTimeout(() => {
     count.value += 5
     loading.value = false
-  }, 1000)
+  }, 100)
 }
 </script>
 
@@ -56,7 +56,6 @@ const load = () => {
             :description="store.category"
             :store-id="store.storeId"
             :logo-url="store.imageUrl"/>
-        <p>{{storeList[0]}}</p>
       </ul>
       <p v-if="loading">加载中...</p>
       <p v-if="nomore && total > 3">没有更多了/_ \</p>
