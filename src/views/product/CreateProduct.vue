@@ -10,7 +10,7 @@ import {reactive, ref} from "vue";
 import {uploadImage} from '../../api/tools.ts'
 import {Plus, UploadFilled} from "@element-plus/icons-vue";
 import {ElMessage, FormInstance, FormRules} from "element-plus";
-import {createProduct} from "../../api/product.ts";
+import {createProduct, updateProductPicture} from "../../api/product.ts";
 
 let dialogFormVisible = ref(false)
 const typeList = ref([
@@ -23,13 +23,15 @@ const pros = defineProps({
 
 const coverFileList = ref([])
 const coverUrl = ref('')
+const detailFileList = ref([])
+const detailUrl = ref([])
+let productId = 0
 
 interface RuleForm {
   name: string
   type: string
   price: number
   description: string
-  imageFileList: FileList[]
 }
 
 const ruleFormRef = ref<FormInstance>()
@@ -38,7 +40,6 @@ const ruleForm = reactive<RuleForm>({
   type: '',
   price: 0,
   description: '',
-  imageFileList: []
 })
 
 const rules = reactive<FormRules<RuleForm>>({
@@ -86,12 +87,23 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
 }
 
-function handleChange(file: any, fileList: any) {
+function handleChangeCover(file: any, fileList: any) {
   coverFileList.value = fileList
   let formData = new FormData()
   formData.append('file', file.raw)
   uploadImage(formData).then(res => {
     coverUrl.value = res.data.result
+  })
+}
+
+function handleChangeDetail(file: any, fileList: any) {
+  detailFileList.value = fileList
+  let formData = new FormData()
+  formData.append('file', file.raw)
+  uploadImage(formData).then(res => {
+    detailUrl.value = res.data.result
+  }).then(() => {
+    console.log(detailUrl.value)
   })
 }
 
@@ -133,7 +145,9 @@ function handleCreate() {
         type: 'success',
         center: true,
       })
-      window.location.reload()
+      productId = res.data.result
+      console.log([detailUrl.value])
+      uploadDetailImages()
     } else if (res.data.code === '400') {
       ElMessage({
         message: res.data.msg,
@@ -145,7 +159,16 @@ function handleCreate() {
   })
 }
 
-
+function uploadDetailImages() {
+  updateProductPicture(
+      {
+        productId: productId,
+        pictures: [detailUrl.value]
+      }
+  ).then(() => {
+    window.location.reload()
+  })
+}
 </script>
 
 
@@ -211,8 +234,8 @@ function handleCreate() {
         <el-upload
             v-model:file-list="coverFileList"
             :limit="1"
-            :on-remove="handleChange"
-            :on-change="handleChange"
+            :on-remove="handleChangeCover"
+            :on-change="handleChangeCover"
             class="upload-demo"
             list-type="picture"
             :http-request="uploadHttpRequest"
@@ -237,6 +260,8 @@ function handleCreate() {
             :limit="15"
             class="upload-demo"
             list-type="picture"
+            :on-change="handleChangeDetail"
+            :on-remove="handleChangeDetail"
             :http-request="uploadHttpRequest"
             drag/>
         <el-icon class="el-icon--upload">
