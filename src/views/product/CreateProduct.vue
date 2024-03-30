@@ -17,7 +17,7 @@ const dialogFormVisible = ref(false)
 const typeList = ref([
   'FOOD', 'CLOTHES', 'FURNITURE', 'ELECTRONICS', 'ENTERTAINMENT', 'SPORTS', 'LUXURY'
 ])
-const storeId = parseInt(sessionStorage.getItem('storeId') as string, 10)
+const storeId: number = +(sessionStorage.getItem('storeId'))
 const imageFileList = ref([])
 const imageUrl = ref([])
 
@@ -123,6 +123,7 @@ function confirmCreate() {
 }
 
 function handleCreate() {
+ //console.log(storeId)
   createProduct({
     productName: ruleForm.name,
     productCategory: ruleForm.type,
