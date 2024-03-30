@@ -21,11 +21,26 @@ const props = defineProps({
         class="store-card"
         shadow="always">
       <template #header>
-        {{storeName}}
+        <span class="store-name">{{storeName}}</span>
       </template>
-      <p>{{description}}</p>
-      <img :src="logoUrl" alt="logo" />
-      <p>{{logoUrl}}</p>
+      <el-row
+          gutter="12"
+          class="card-body">
+      <el-col
+          :span="12"
+          class="logo-col">
+      <el-image
+          :src="logoUrl"
+          alt="logo"
+          class="store-logo"
+          fit="contain"/>
+      </el-col>
+      <el-col
+          :span="12"
+          class="dsc-col">
+        <p>{{description}}</p>
+      </el-col>
+      </el-row>
     </el-card>
   </router-link>
 
@@ -33,8 +48,29 @@ const props = defineProps({
 
 <style scoped>
 .store-card {
-  width: 680px;
-  height: 250px;
+  width: 480px;
+  height: 350px;
+  padding: 0;
 }
 
+.el-card /deep/ .el-card__header {
+  background-color: skyblue;
+}
+
+.store-logo {
+  width: 100%;
+  height: 290px;
+}
+
+.logo-col {
+  background-color: aliceblue;
+}
+
+.dsc-col {
+  background-color: floralwhite;
+}
+
+.el-card /deep/ .el-card__body {
+  padding: 0;
+}
 </style>
