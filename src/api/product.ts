@@ -14,7 +14,7 @@ export type ProductInfo = {
 export type PrdImgInfo = {
     imageBelong: string,
     belongId: number,
-    ossUrl: string
+    ossUrl: []
 }
 
 

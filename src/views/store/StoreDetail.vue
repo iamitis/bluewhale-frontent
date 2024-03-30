@@ -17,7 +17,6 @@ getStoreId().then(res => {
 
 async function getStoreId() {
   const args = url.split('/')
-  console.log(args)
   storeId = parseInt(args[5])
   return storeId
 }

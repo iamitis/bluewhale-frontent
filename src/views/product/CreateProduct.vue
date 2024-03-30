@@ -8,9 +8,9 @@
 <script setup lang="ts">
 import {computed, reactive, ref} from "vue";
 import {uploadImage} from '../../api/tools.ts'
-import {Plus} from "@element-plus/icons-vue";
+import {Plus, UploadFilled} from "@element-plus/icons-vue";
 import {ElMessage, FormInstance, FormRules} from "element-plus";
-import {createProduct} from "../../api/product.ts";
+import {createProduct, setProductImages} from "../../api/product.ts";
 
 let dialogFormVisible = ref(false)
 const typeList = ref([
@@ -82,7 +82,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   await formEl.validate((valid) => {
     if (valid) {
       if (hasAtLeastTwoImages.value) {
-        dialogFormVisible.value = false
         confirmCreate()
       } else {
         ElMessage.warning(`至少上传两张图片`)
@@ -97,7 +96,7 @@ function handleChange(file: any, fileList: any) {
   let formData = new FormData()
   formData.append('file', file.raw)
   console.log(formData.get('file'))
-  uploadImage(file.raw).then(res => {
+  uploadImage(FormData).then(res => {
     imageUrl.value = res.data.result
   })
 }
@@ -115,6 +114,7 @@ function confirmCreate() {
         center: true,
       }
   ).then(() => {
+    dialogFormVisible.value = false
     handleCreate()
     ElMessage({
       type: 'success',
@@ -133,12 +133,20 @@ function handleCreate() {
     productDescription: ruleForm.description
   }).then(res => {
     if (res.data.code === '000') {  //类型守卫，它检查 res.data 对象中是否存在名为 code 的属性
-      ElMessage({
-        message: "创建商品成功！",
-        type: 'success',
-        center: true,
+      setProductImages(
+          {
+            imageBelong: 'STORE',
+            belongId: pros.storeId,
+            ossUrl: imageUrl.value
+          },
+      ).then(() => {
+        ElMessage({
+          message: "创建商品成功！",
+          type: 'success',
+          center: true,
+        })
+        window.location.reload()
       })
-      window.location.reload()
     } else if (res.data.code === '400') {
       ElMessage({
         message: res.data.msg,
