@@ -10,10 +10,9 @@ import {reactive, ref} from "vue";
 import {uploadImage} from '../../api/tools.ts'
 import {Plus} from "@element-plus/icons-vue";
 import {ElMessage, FormInstance, FormRules} from "element-plus";
-import {router} from "../../router";
 import {createProduct} from "../../api/product.ts";
 
-const dialogFormVisible = ref(false)
+let dialogFormVisible = ref(false)
 const typeList = ref([
   'FOOD', 'CLOTHES', 'FURNITURE', 'ELECTRONICS', 'ENTERTAINMENT', 'SPORTS', 'LUXURY'
 ])
@@ -81,9 +80,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid) => {
     if (valid) {
+      dialogFormVisible.value = false
       confirmCreate()
     }
   })
+
 }
 
 function handleChange(file: any, fileList: any) {
@@ -123,6 +124,7 @@ function confirmCreate() {
       type: 'success',
       message: '正在创建商品',
     })
+
   })
 }
 
@@ -140,13 +142,14 @@ function handleCreate() {
         type: 'success',
         center: true,
       })
-      router.push({path: `/storeDetail/${pros.storeId}`})
+      window.location.reload()
     } else if (res.data.code === '400') {
       ElMessage({
         message: res.data.msg,
         type: 'error',
         center: true,
       })
+      window.location.reload()
     }
   })
 }
@@ -241,7 +244,6 @@ function handleCreate() {
           新建
         </el-button>
       </span>
-
 
     </el-form>
   </el-dialog>
