@@ -31,8 +31,7 @@ function handleChange(file: any, fileList: any) {
   imageFileList.value = fileList
   let formData = new FormData()
   formData.append('file', file.raw)
-  console.log(formData.get('file'))
-  uploadImage(file.raw).then(res => {
+  uploadImage(formData).then(res => {
     logoUrl.value = res.data.result
   })
 }

@@ -23,8 +23,8 @@ const props = defineProps({
         {{storeName}}
       </template>
       <p>{{description}}</p>
-      <img src={{logoUrl}} alt="logo" />
-      <p>{{logoUrl}}</p>
+      <el-image src="props.logoUrl" alt="logo" />
+      <p>{{logoUrl}}0</p>
     </el-card>
   </router-link>
 
@@ -32,7 +32,7 @@ const props = defineProps({
 
 <style scoped>
 .store-card {
-  width: 480px;
-  height: 220px;
+  width: 680px;
+  height: 250px;
 }
 </style>
