@@ -4,12 +4,12 @@ import {axios} from '../utils/request'
 import {IMAGE_MODULE, PRODUCT_MODULE} from './_prefix'
 
 export type ProductInfo = {
-    productName: string,
-    productCategory: string
     productStoreId: number
-    productPrice: number
+    productName: string,
     productDescription: string
-    imgUrl: string
+    productPrice: number
+    productCategory: string
+    productImageUrl: string
 }
 
 export type CoverImage = {

@@ -6,11 +6,11 @@
 这个传递数据的过程可能需要用到props-->
 
 <script setup lang="ts">
-import {computed, reactive, ref} from "vue";
+import {reactive, ref} from "vue";
 import {uploadImage} from '../../api/tools.ts'
 import {Plus, UploadFilled} from "@element-plus/icons-vue";
 import {ElMessage, FormInstance, FormRules} from "element-plus";
-import {createProduct, setCover} from "../../api/product.ts";
+import {createProduct} from "../../api/product.ts";
 
 let dialogFormVisible = ref(false)
 const typeList = ref([
@@ -92,6 +92,7 @@ function handleChange(file: any, fileList: any) {
   formData.append('file', file.raw)
   uploadImage(formData).then(res => {
     coverUrl.value = res.data.result
+    console.log(coverUrl.value)
   })
 }
 
@@ -125,7 +126,7 @@ function handleCreate() {
     productStoreId: pros.storeId,
     productPrice: ruleForm.price,
     productDescription: ruleForm.description,
-    imgUrl: coverUrl.value
+    productImageUrl: coverUrl.value
   }).then(res => {
     if (res.data.code === '000') {  //类型守卫，它检查 res.data 对象中是否存在名为 code 的属性
       ElMessage({
