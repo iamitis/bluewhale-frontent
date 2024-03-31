@@ -120,6 +120,7 @@ function uploadDetailImages(productId: number) {
   uploadAllDetail2Oss().then((finalUrl) => {
     console.log(finalUrl)
     finalUrl.map(url => {
+      console.log(url,"\n", productId)
       return updateProductPicture(
           {
             productId: productId,
