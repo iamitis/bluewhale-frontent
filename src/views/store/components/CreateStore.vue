@@ -69,7 +69,6 @@ function handleCreate() {
         type: 'success',
         center: true,
       })
-      router.push({path: "/allstore"})
     } else if (res.data.code === '400') {
       ElMessage({
         message: res.data.msg,

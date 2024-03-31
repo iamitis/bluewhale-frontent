@@ -38,7 +38,6 @@ getProductsInfo()
 function getProductsInfo() {
   allProductsInfo(storeId).then(res => {
     productList.value = res
-    total.value = productList.value.length
   })
 }
 
