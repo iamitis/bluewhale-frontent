@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {reactive, ref} from "vue";
-import {updateProductSales} from "../../api/product.ts";
+import {updateProductSales} from "../api/product.ts";
 import {ElMessage, FormInstance, FormRules} from "element-plus";
-import {router} from "../../router";
+import {router} from "../router";
 import {Plus} from "@element-plus/icons-vue";
 
 

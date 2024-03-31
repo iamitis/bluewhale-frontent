@@ -2,9 +2,9 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {allProductsInfo, storeInfo} from "../../api/store.ts";
-import CreateProduct from "../product/CreateProduct.vue";
+import CreateProduct from "../../components/CreateProduct.vue";
 import StoreItem from "../../components/StoreItem.vue";
-import CreateStore from "./components/CreateStore.vue";
+import CreateStore from "../../components/CreateStore.vue";
 import ProductItem from "../../components/ProductItem.vue";
 
 const url = window.location.href

@@ -7,10 +7,10 @@
 
 <script setup lang="ts">
 import {computed, reactive, ref} from "vue";
-import {uploadImage} from '../../api/tools.ts'
+import {uploadImage} from '../api/tools.ts'
 import {Plus, UploadFilled} from "@element-plus/icons-vue";
 import {ElMessage, FormInstance, FormRules} from "element-plus";
-import {createProduct, updateProductPicture} from "../../api/product.ts";
+import {createProduct, updateProductPicture} from "../api/product.ts";
 
 let dialogFormVisible = ref(false)
 const typeList = ref([

@@ -7,7 +7,10 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    CreateProduct: typeof import('./src/components/CreateProduct.vue')['default']
+    CreateStore: typeof import('./src/components/CreateStore.vue')['default']
     ElAffix: typeof import('element-plus/es')['ElAffix']
+    ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
@@ -28,8 +31,12 @@ declare module 'vue' {
     ElInput: typeof import('element-plus/es')['ElInput']
     ElMain: typeof import('element-plus/es')['ElMain']
     ElOption: typeof import('element-plus/es')['ElOption']
+    ElRate: typeof import('element-plus/es')['ElRate']
+    ElResult: typeof import('element-plus/es')['ElResult']
     ElRow: typeof import('element-plus/es')['ElRow']
+    ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElSelect: typeof import('element-plus/es')['ElSelect']
+    ElSpace: typeof import('element-plus/es')['ElSpace']
     ElTag: typeof import('element-plus/es')['ElTag']
     ElUpload: typeof import('element-plus/es')['ElUpload']
     Header: typeof import('./src/components/Header.vue')['default']
@@ -37,5 +44,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     StoreItem: typeof import('./src/components/StoreItem.vue')['default']
+    UpdateProduct: typeof import('./src/components/UpdateProduct.vue')['default']
   }
 }
