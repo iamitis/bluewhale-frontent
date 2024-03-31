@@ -17,19 +17,6 @@ function getStoreInfo() {
   })
 }
 
-const total = ref(0)
-const min = computed(() => 5 <= total.value ? 5 : total.value)
-const count = ref(min.value)
-const loading = ref(false)
-const nomore = computed(() => count.value >= total.value)
-const disabled = computed(() => loading.value || nomore.value)
-const load = () => {
-  loading.value = true
-  setTimeout(() => {
-    count.value += 5
-    loading.value = false
-  }, 100)
-}
 </script>
 
 
@@ -43,7 +30,6 @@ const load = () => {
     <template v-else>
       <StoreItem
           v-for="store in storeList"
-          :key="index"
           class="list-item"
           :store-name="store.storeName"
           :description="store.category"

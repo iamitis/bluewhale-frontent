@@ -28,6 +28,7 @@ function logout() {
 
 
 <template>
+  <el-affix :offset="0">
   <el-header class="custom-header" height="20">
     <el-row :gutter="10">
 
@@ -63,6 +64,7 @@ function logout() {
       </el-col>
     </el-row>
   </el-header>
+  </el-affix>
 </template>
 
 

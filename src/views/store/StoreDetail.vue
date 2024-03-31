@@ -5,16 +5,15 @@ import {allProductsInfo, storeInfo} from "../../api/store.ts";
 import CreateProduct from "../product/CreateProduct.vue";
 import StoreItem from "../../components/StoreItem.vue";
 import CreateStore from "./components/CreateStore.vue";
+import ProductItem from "../../components/ProductItem.vue";
 
 const url = window.location.href
 let storeId = 0
 const storeName = ref('')
 const description = ref('')
 const logoUrl = ref('')
-
 const productList = ref([])
-const total = ref(0)
-
+const storeScore = ref(5)
 
 getStoreId().then(res => {
   getStoreInfo(res)
@@ -30,7 +29,7 @@ function getStoreInfo(storeId: number) {
   storeInfo(storeId).then(res => {
     storeName.value = res.storeName
     description.value = res.category
-    logoUrl.value = res.imageUrl
+    logoUrl.value = res.storeImageUrl
   })
 }
 
@@ -49,45 +48,55 @@ function getProductsInfo() {
 
 <template>
   <el-container>
-    <!--希望把商店详情的一部分内容放在这个侧边栏里，你要真不想放也没事-->
-    <el-aside width="25%" class="page-aside">
-      <img src={{logoUrl}} alt="logo"/>
-      <h1>{{ storeName }}</h1>
-      <h1>{{ description }}</h1>
+    <el-aside width="20%" class="page-aside">
+      <el-affix :offset="80">
+        <el-space
+            fill
+            size="large"
+            direction="vertical"
+            class="store-info">
+
+          <el-card class="store-logo-card">
+            <el-image
+                :src="logoUrl"
+                alt="logo"
+                fit="contain"
+                class="store-logo"/>
+          </el-card>
+
+          <el-card class="store-name-card">
+            <div class="store-name-row">
+              <span class="store-name">{{ storeName }}</span>
+              <el-rate v-model="storeScore"/>
+              <p class="store-dsc">{{ description }}</p>
+            </div>
+          </el-card>
+
+        </el-space>
+      </el-affix>
     </el-aside>
 
     <el-main class="main">
-      <create-product :store-id="storeId"/>
-
       <el-empty
           v-if="productList === []"
           description="店家跑路了/_ \">
       </el-empty>
 
       <template v-else>
-        <div
-            class="infinite-list-wrapper">
-          <ul
-              v-infinite-scroll="load"
-              infinite-scroll-distance="10"
-              class="list"
-              :infinite-scroll-disabled="disabled">
-            <StoreItem
-                v-for="(product,index) in productList.slice(0, count)"
-                :key="index"
-                class="list-item"
-                :product-name="product.productName"
-                :type="product.productType"
-                :product-id="product.productId"/>
-          </ul>
-          <p v-if="loading">加载中...</p>
-          <p v-if="nomore && total > 3">没有更多了/_ \</p>
-        </div>
-
-        <create-store v-if="role === 'MANAGER'"/>
+        <product-item
+            v-for="product in productList"
+            :key="product.productSales"
+            :product-cover-url="product.productImageUrl"
+            :product-description="product.productDescription"
+            :product-id="product.productId"
+            :product-name="product.productName"
+            :product-price="product.productPrice"
+            :store-id="storeId"/>
       </template>
-
     </el-main>
+    <el-affix :offset="80" class="create-button">
+      <create-product :store-id="storeId"/>
+    </el-affix>
   </el-container>
 </template>
 
@@ -95,5 +104,57 @@ function getProductsInfo() {
 <style scoped>
 .page-aside {
   border-right: lightgrey solid 1px;
+}
+
+.main {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  gap: 20px;
+}
+
+.store-info {
+  width: 100%;
+}
+
+.store-logo-card {
+  background: aliceblue;
+  border-radius: 20px;
+  width: 90%;
+}
+
+.store-logo {
+  width: 90%;
+  height: 90%;
+}
+
+.store-name-card {
+  text-align: center;
+  border-radius: 20px;
+}
+
+.store-name {
+  display: block;
+  text-decoration: none;
+  color: darkslategray;
+  letter-spacing: 2px;
+  font-family: "Microsoft YaHei UI", serif;
+  font-size: 170%;
+}
+
+.store-dsc {
+  text-align: start;
+  text-indent: 20px;
+  font-family: "Microsoft YaHei UI Light", serif;
+  color: black;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+
+.create-button {
+  /* TODO: hope proper position */
 }
 </style>

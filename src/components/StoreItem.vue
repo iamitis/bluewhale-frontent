@@ -2,8 +2,6 @@
 <!--商店列表父组件中的单个商店子组件-->
 <script setup lang="ts">
 
-import {computed, ref} from "vue";
-
 const props = defineProps({
   storeName: String,
   description: String,
@@ -11,35 +9,34 @@ const props = defineProps({
   storeId: Number,
 })
 
-
 </script>
 
 <template>
 
-  <router-link :to="'/storeDetail/'+storeId" v-slot="{navigate}">
+  <router-link :to="'/storedetail/'+storeId" v-slot="{navigate}">
     <el-card
         class="store-card"
         shadow="always">
       <template #header>
-        <span class="store-name"><b>{{storeName}}</b></span>
+        <span class="store-name"><b>{{ storeName }}</b></span>
       </template>
       <el-row
           gutter="12"
           class="card-body">
-      <el-col
-          :span="12"
-          class="logo-col">
-      <el-image
-          :src="logoUrl"
-          alt="logo"
-          class="store-logo"
-          fit="contain"/>
-      </el-col>
-      <el-col
-          :span="12"
-          class="dsc-col">
-        <p class="store-dsc">{{description}}</p>
-      </el-col>
+        <el-col
+            :span="12"
+            class="logo-col">
+          <el-image
+              :src="logoUrl"
+              alt="logo"
+              class="store-logo"
+              fit="contain"/>
+        </el-col>
+        <el-col
+            :span="12"
+            class="dsc-col">
+          <p class="store-dsc">{{ description }}</p>
+        </el-col>
       </el-row>
     </el-card>
   </router-link>
@@ -79,7 +76,7 @@ const props = defineProps({
   text-decoration: none;
   color: darkslategray;
   letter-spacing: 2px;
-  font-family: "Microsoft YaHei UI",serif;
+  font-family: "Microsoft YaHei UI", serif;
   font-size: 170%;
 }
 
@@ -88,6 +85,6 @@ const props = defineProps({
   color: black;
   letter-spacing: 1px;
   text-indent: 20px;
-  font-family: "Microsoft YaHei UI Light",serif;
+  font-family: "Microsoft YaHei UI Light", serif;
 }
 </style>
