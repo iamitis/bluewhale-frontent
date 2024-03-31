@@ -2,6 +2,7 @@
 import {ref, computed} from 'vue'
 import {router} from '../../router'
 import {userRegister} from "../../api/user.ts"
+import {allStoresInfo} from "../../api/store.ts";
 
 // 输入框值（需要在前端拦截不合法输入：是否为空+额外规则）
 const name = ref('')
@@ -43,6 +44,17 @@ const registerDisabled = computed(() => {
         hasStoreName.value && telLegal.value && isPasswordIdentical.value)
   }
 })
+
+const storeLists = ref([])
+
+
+getStoreInfo()
+
+function getStoreInfo() {
+  allStoresInfo().then(res => {
+    storeLists.value = res
+  })
+}
 
 // 注册按钮触发
 function handleRegister() {
@@ -156,14 +168,14 @@ function handleRegister() {
             <el-col :span="7" v-if="identity==='STAFF'">
               <el-form-item>
                 <label for="address">
-                  所属商店（需待Lab2中完善）
+                  所属商店
                 </label>
                 <el-select id="storeName"
                            v-model="storeId"
                            placeholder="请选择"
                            style="width: 100%;"
                 >
-                  <el-option value="1" label="商店1"/>
+                  <el-option v-for="store in storeLists" :label="store.storeName"/>
                 </el-select>
               </el-form-item>
             </el-col>
