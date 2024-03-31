@@ -25,7 +25,6 @@ const coverFileList = ref([])
 const coverUrl = ref('')
 const detailFileList = ref([])
 const detailUrl = ref([])
-let productId = -1
 
 interface RuleForm {
   name: string
@@ -117,18 +116,17 @@ function uploadAllDetail2Oss() {
 
 // after detailUrl filled,
 // upload it to backend
-function uploadDetailImages() {
-  uploadAllDetail2Oss().then((finalDetailUrl) => {
-    console.log(finalDetailUrl)
-    updateProductPicture(
-        {
-          productId: productId,
-          pictures: finalDetailUrl
-        }
-    ).then((res) => {
-      console.log(res.data.result)
-      return res
-    })
+
+async function uploadDetailImages(productId: number) {
+  await uploadAllDetail2Oss().then(() => {
+    console.log(detailUrl.value)
+    for (let url in detailUrl.value) {
+      updateProductPicture(
+          {
+            productId: productId,
+            picture: url
+          })
+    }
   })
 }
 
@@ -166,8 +164,7 @@ function handleCreate() {
         type: 'success',
         center: true,
       })
-      productId = res.data.result
-      uploadDetailImages()
+      uploadDetailImages(res.data.result)
     } else if (res.data.code === '400') {
       ElMessage({
         message: res.data.msg,
