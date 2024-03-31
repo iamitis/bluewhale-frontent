@@ -8,6 +8,5 @@ import Header from "../components/Header.vue"
   <router-view />
 </template>
 
-
 <style scoped>
 </style>

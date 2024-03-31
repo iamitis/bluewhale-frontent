@@ -10,7 +10,6 @@ import {computed, ref} from 'vue'
 import {uploadImage} from '../../../api/tools.ts'
 import {Plus, InfoFilled, UploadFilled} from "@element-plus/icons-vue"
 import {ElFormItem, ElMessage} from "element-plus";
-import {router} from "../../../router";
 import {createStore} from "../../../api/store.ts";
 
 const dialogFormVisible = ref(false)
@@ -69,6 +68,7 @@ function handleCreate() {
         type: 'success',
         center: true,
       })
+      window.location.reload()
     } else if (res.data.code === '400') {
       ElMessage({
         message: res.data.msg,
@@ -150,7 +150,6 @@ function handleCreate() {
           创建
         </el-button>
       </span>
-      <p>{{logoUrl}}{{imageFileList}}</p>
 
     </el-form>
   </el-dialog>

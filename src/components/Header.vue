@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {router} from '../router'
 import {parseRole} from "../utils"
-import {Plus, Goods, User, SwitchButton} from "@element-plus/icons-vue"   //图标
+import {Goods, User, SwitchButton} from "@element-plus/icons-vue"   //图标
 
 const role = sessionStorage.getItem('role')    //登录的时候插入的
 
@@ -70,7 +70,7 @@ function logout() {
 
 <style scoped>
 .custom-header {
-  background-color: #409eff;
+  background: skyblue;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
 

@@ -17,6 +17,7 @@ const productSales = ref(-1)
 const dialogFormVisible = ref(false)
 const addSalesNum = ref()
 const addDisabled = computed(() => (1 <= addSalesNum))
+const role = sessionStorage.getItem('role')
 
 getProductId().then(res => {
   getProductInfo(res)
@@ -45,8 +46,8 @@ function getProductInfo(productId: number) {
 function addProductSales() {
   updateProductSales(
       {
-        productId: productId.value,
-        productSales: parseInt(addSalesNum.value)
+        product_id: productId.value,
+        sales: parseInt(addSalesNum.value)
       }
   ).then(res => {
     if (res.data.code === '000') {
@@ -55,6 +56,7 @@ function addProductSales() {
         type: 'success',
         center: true,
       })
+      window.location.reload()
     } else if (res.data.code === '400') {
       ElMessage({
         message: res.data.msg,
@@ -107,7 +109,9 @@ function confirmAdd() {
             </div>
           </el-card>
 
-          <el-card class="sales-card">
+          <el-card
+              v-if="role === 'STAFF'"
+              class="sales-card">
             <el-tag class="sales">
               当前库存  {{ productSales }}
             </el-tag>

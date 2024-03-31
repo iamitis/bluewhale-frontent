@@ -14,6 +14,7 @@ const description = ref('')
 const logoUrl = ref('')
 const productList = ref([])
 const storeScore = ref(5)
+const role = sessionStorage.getItem('role')
 
 getStoreId().then(res => {
   getStoreInfo(res)
@@ -93,9 +94,7 @@ function getProductsInfo() {
             :store-id="storeId"/>
       </template>
     </el-main>
-    <el-affix :offset="80" class="create-button">
-      <create-product :store-id="storeId"/>
-    </el-affix>
+      <create-product :store-id="storeId" v-if="role === 'STAFF'"/>
   </el-container>
 </template>
 

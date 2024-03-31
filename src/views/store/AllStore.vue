@@ -21,24 +21,30 @@ function getStoreInfo() {
 
 
 <template>
-  <el-main class="main">
-    <el-empty
-        v-if="storeList === []"
-        description="店家跑路了/_ \">
-    </el-empty>
+  <el-container>
+    <el-main class="main">
+      <el-empty
+          v-if="storeList.length === 0"
+          description="商场倒闭了/_ \">
+      </el-empty>
 
-    <template v-else>
-      <StoreItem
-          v-for="store in storeList"
-          class="list-item"
-          :store-name="store.storeName"
-          :description="store.category"
-          :store-id="store.storeId"
-          :logo-url="store.storeImageUrl"/>
+      <template v-else>
+        <StoreItem
+            v-for="store in storeList"
+            class="list-item"
+            :store-name="store.storeName"
+            :description="store.category"
+            :store-id="store.storeId"
+            :logo-url="store.storeImageUrl"/>
+      </template>
+    </el-main>
 
-      <create-store v-if="role === 'MANAGER'"/>
-    </template>
-  </el-main>
+    <create-store
+        v-if="role === 'MANAGER'"
+        class="create-button"
+        target=".main"/>
+
+  </el-container>
 </template>
 
 
@@ -50,8 +56,12 @@ function getStoreInfo() {
   justify-content: center;
   align-items: center;
   align-content: center;
-  gap: 20px;
+  gap: 30px;
 }
 
-
+.create-button {
+  position: fixed;
+  right: 10px;
+  top: 0;
+}
 </style>

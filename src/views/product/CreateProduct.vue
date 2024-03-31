@@ -6,7 +6,7 @@
 这个传递数据的过程可能需要用到props-->
 
 <script setup lang="ts">
-import {reactive, ref} from "vue";
+import {computed, reactive, ref} from "vue";
 import {uploadImage} from '../../api/tools.ts'
 import {Plus, UploadFilled} from "@element-plus/icons-vue";
 import {ElMessage, FormInstance, FormRules} from "element-plus";
@@ -25,6 +25,9 @@ const coverFileList = ref([])
 const coverUrl = ref('')
 const detailFileList = ref([])
 const detailUrl = ref([])
+
+const require1Cover = computed(() => coverFileList.value.length === 1)
+const requireAtLeast1Detail = computed(() => detailFileList.value.length >= 1)
 
 interface RuleForm {
   name: string
@@ -81,7 +84,21 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid) => {
     if (valid) {
-      confirmCreate()
+      if (!require1Cover) {
+        ElMessage({
+          message: `需要一张封面`,
+          type: 'error',
+          center: true,
+        })
+      } else if (!requireAtLeast1Detail) {
+        ElMessage({
+          message: `需要上传至少一张商品详情图`,
+          type: 'error',
+          center: true,
+        })
+      } else {
+        confirmCreate()
+      }
     }
   })
 
@@ -285,8 +302,6 @@ function handleCreate() {
             上传图片大小不可超过1MB
           </div>
         </template>
-        <p>{{ detailUrl }}</p>
-        <p>{{ detailFileList }}</p>
       </el-form-item>
 
       <span class="create-button">

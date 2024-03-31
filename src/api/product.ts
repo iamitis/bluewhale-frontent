@@ -20,8 +20,8 @@ export type DetailImage = {
 }
 
 export type UpdateInfo = {
-    productId: number
-    productSales: number
+    product_id: number
+    sales: number
 }
 
 export type DetailImageInfo = {
@@ -55,7 +55,7 @@ export const getProductImages = (detailImageInfo: DetailImageInfo) => {
 
 export const updateProductSales = (updateInfo: UpdateInfo) => {
     console.log(updateInfo)
-    return axios.post(`${PRODUCT_MODULE}/updateProductSales`, null,
+    return axios.put(`${PRODUCT_MODULE}/updateProductSales`, null,
         {params: updateInfo},
     )
         .then(res => {
