@@ -50,29 +50,29 @@ function getProductsInfo() {
   <el-container>
     <el-aside width="20%" class="page-aside">
       <el-affix :offset="80">
-      <el-space
-          fill
-          size="large"
-          direction="vertical"
-          class="store-info">
+        <el-space
+            fill
+            size="large"
+            direction="vertical"
+            class="store-info">
 
-        <el-card class="store-logo-card">
-          <el-image
-              :src="logoUrl"
-              alt="logo"
-              fit="contain"
-              class="store-logo"/>
-        </el-card>
+          <el-card class="store-logo-card">
+            <el-image
+                :src="logoUrl"
+                alt="logo"
+                fit="contain"
+                class="store-logo"/>
+          </el-card>
 
-        <el-card class="store-name-card">
-          <div class="store-name-row">
-            <span class="store-name">{{ storeName }}</span>
-            <el-rate v-model="storeScore"/>
-            <p class="store-dsc">{{ description }}</p>
-          </div>
-        </el-card>
+          <el-card class="store-name-card">
+            <div class="store-name-row">
+              <span class="store-name">{{ storeName }}</span>
+              <el-rate v-model="storeScore"/>
+              <p class="store-dsc">{{ description }}</p>
+            </div>
+          </el-card>
 
-      </el-space>
+        </el-space>
       </el-affix>
     </el-aside>
 
@@ -93,8 +93,10 @@ function getProductsInfo() {
             :product-price="product.productPrice"
             :store-id="storeId"/>
       </template>
-      <create-product :store-id="storeId"/>
     </el-main>
+    <el-affix :offset="80" class="create-button">
+      <create-product :store-id="storeId"/>
+    </el-affix>
   </el-container>
 </template>
 
@@ -123,6 +125,7 @@ function getProductsInfo() {
   border-radius: 20px;
   width: 90%;
 }
+
 .store-logo {
   width: 90%;
   height: 90%;
@@ -132,6 +135,7 @@ function getProductsInfo() {
   text-align: center;
   border-radius: 20px;
 }
+
 .store-name {
   display: block;
   text-decoration: none;
@@ -148,5 +152,9 @@ function getProductsInfo() {
   color: black;
   text-decoration: none;
   letter-spacing: 1px;
+}
+
+.create-button {
+  /* TODO: hope proper position */
 }
 </style>
