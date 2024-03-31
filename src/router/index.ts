@@ -15,7 +15,7 @@ const router = createRouter({
         meta: {title: '用户注册'}
     }, {
         path: '/home',
-        redirect: '/allStore',
+        redirect: '/allstore',
         component: () => import('../views/Home.vue'),
         children: [
             {
@@ -26,16 +26,22 @@ const router = createRouter({
             },
             //以下为Lab2新增，添加了商店模块的界面，请大家自己添加商品模块的界面
             {
-                path: '/allStore',
+                path: '/allstore',
                 name: 'allStore',
                 component: () => import('../views/store/AllStore.vue'),
                 meta: {title: '商品列表界面/主页'}
             },
             {
-                path: '/storeDetail/:storeId',
+                path: '/storedetail/:storeId',
                 name: 'storeDetail',
                 component: () => import('../views/store/StoreDetail.vue'),
                 meta: {title: '店铺详情'}
+            },
+            {
+                path: '/storedetail/:storeId/productdetail/:productId',
+                name: 'productDetail',
+                component: () => import('../views/product/ProductDetail.vue'),
+                meta: {title: '商品详情'}
             }
         ]
     }, {

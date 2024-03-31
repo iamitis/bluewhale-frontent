@@ -13,7 +13,7 @@ const props = defineProps({
 
 <template>
 
-  <router-link :to="'/storeDetail/'+storeId" v-slot="{navigate}">
+  <router-link :to="'/storedetail/'+storeId" v-slot="{navigate}">
     <el-card
         class="store-card"
         shadow="always">

@@ -5,16 +5,14 @@ import {allProductsInfo, storeInfo} from "../../api/store.ts";
 import CreateProduct from "../product/CreateProduct.vue";
 import StoreItem from "../../components/StoreItem.vue";
 import CreateStore from "./components/CreateStore.vue";
+import ProductItem from "../../components/ProductItem.vue";
 
 const url = window.location.href
 let storeId = 0
 const storeName = ref('')
 const description = ref('')
 const logoUrl = ref('')
-
 const productList = ref([])
-const total = ref(0)
-
 const storeScore = ref(5)
 
 getStoreId().then(res => {
@@ -50,12 +48,13 @@ function getProductsInfo() {
 
 <template>
   <el-container>
-    <el-aside width="25%" class="page-aside">
+    <el-aside width="20%" class="page-aside">
+      <el-affix :offset="80">
       <el-space
           fill
-          fill-ratio="90"
           size="large"
-          direction="vertical">
+          direction="vertical"
+          class="store-info">
 
         <el-card class="store-logo-card">
           <el-image
@@ -74,39 +73,27 @@ function getProductsInfo() {
         </el-card>
 
       </el-space>
+      </el-affix>
     </el-aside>
 
     <el-main class="main">
-      <create-product :store-id="storeId"/>
-
       <el-empty
           v-if="productList === []"
           description="店家跑路了/_ \">
       </el-empty>
 
       <template v-else>
-        <div
-            class="infinite-list-wrapper">
-          <ul
-              v-infinite-scroll="load"
-              infinite-scroll-distance="10"
-              class="list"
-              :infinite-scroll-disabled="disabled">
-            <StoreItem
-                v-for="(product,index) in productList.slice(0, count)"
-                :key="index"
-                class="list-item"
-                :product-name="product.productName"
-                :type="product.productType"
-                :product-id="product.productId"/>
-          </ul>
-          <p v-if="loading">加载中...</p>
-          <p v-if="nomore && total > 3">没有更多了/_ \</p>
-        </div>
-
-        <create-store v-if="role === 'MANAGER'"/>
+        <product-item
+            v-for="product in productList"
+            :key="product.productSales"
+            :product-cover-url="product.productImageUrl"
+            :product-description="product.productDescription"
+            :product-id="product.productId"
+            :product-name="product.productName"
+            :product-price="product.productPrice"
+            :store-id="storeId"/>
       </template>
-
+      <create-product :store-id="storeId"/>
     </el-main>
   </el-container>
 </template>
@@ -117,9 +104,24 @@ function getProductsInfo() {
   border-right: lightgrey solid 1px;
 }
 
+.main {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  gap: 20px;
+}
+
+.store-info {
+  width: 100%;
+}
+
 .store-logo-card {
   background: aliceblue;
   border-radius: 20px;
+  width: 90%;
 }
 .store-logo {
   width: 90%;
