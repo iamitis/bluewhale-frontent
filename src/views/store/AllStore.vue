@@ -13,7 +13,6 @@ getStoreInfo()
 function getStoreInfo() {
   allStoresInfo().then(res => {
     storeList.value = res
-    total.value = storeList.value.length
   })
 }
 

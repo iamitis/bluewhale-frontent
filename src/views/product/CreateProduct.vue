@@ -84,13 +84,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid) => {
     if (valid) {
-      if (!require1Cover) {
+      if (!require1Cover.value) {
         ElMessage({
           message: `需要一张封面`,
           type: 'error',
           center: true,
         })
-      } else if (!requireAtLeast1Detail) {
+      } else if (!requireAtLeast1Detail.value) {
         ElMessage({
           message: `需要上传至少一张商品详情图`,
           type: 'error',

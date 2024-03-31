@@ -14,6 +14,10 @@ const router = createRouter({
         component: () => import('../views/user/Register.vue'),
         meta: {title: '用户注册'}
     }, {
+        path: '/allstoreno',
+        component: () => import('../views/store/AllStoreNo.vue'),
+        meta: {title: '商品列表界面/主页'}
+    }, {
         path: '/home',
         redirect: '/allstore',
         component: () => import('../views/Home.vue'),
