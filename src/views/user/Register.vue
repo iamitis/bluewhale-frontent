@@ -175,7 +175,11 @@ function handleRegister() {
                            placeholder="请选择"
                            style="width: 100%;"
                 >
-                  <el-option v-for="store in storeLists" :label="store.storeName"/>
+                  <el-option
+                      v-for="store in storeLists"
+                      :label="store.storeName"
+                      :value="store.storeId"
+                      :key="store.storeName"/>
                 </el-select>
               </el-form-item>
             </el-col>
