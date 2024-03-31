@@ -15,6 +15,7 @@ const logoUrl = ref('')
 const productList = ref([])
 const total = ref(0)
 
+const storeScore = ref(5)
 
 getStoreId().then(res => {
   getStoreInfo(res)
@@ -30,7 +31,7 @@ function getStoreInfo(storeId: number) {
   storeInfo(storeId).then(res => {
     storeName.value = res.storeName
     description.value = res.category
-    logoUrl.value = res.imageUrl
+    logoUrl.value = res.storeImageUrl
   })
 }
 
@@ -49,11 +50,30 @@ function getProductsInfo() {
 
 <template>
   <el-container>
-    <!--希望把商店详情的一部分内容放在这个侧边栏里，你要真不想放也没事-->
     <el-aside width="25%" class="page-aside">
-      <img src={{logoUrl}} alt="logo"/>
-      <h1>{{ storeName }}</h1>
-      <h1>{{ description }}</h1>
+      <el-space
+          fill
+          fill-ratio="90"
+          size="large"
+          direction="vertical">
+
+        <el-card class="store-logo-card">
+          <el-image
+              :src="logoUrl"
+              alt="logo"
+              fit="contain"
+              class="store-logo"/>
+        </el-card>
+
+        <el-card class="store-name-card">
+          <div class="store-name-row">
+            <span class="store-name">{{ storeName }}</span>
+            <el-rate v-model="storeScore"/>
+            <p class="store-dsc">{{ description }}</p>
+          </div>
+        </el-card>
+
+      </el-space>
     </el-aside>
 
     <el-main class="main">
@@ -95,5 +115,36 @@ function getProductsInfo() {
 <style scoped>
 .page-aside {
   border-right: lightgrey solid 1px;
+}
+
+.store-logo-card {
+  background: aliceblue;
+  border-radius: 20px;
+}
+.store-logo {
+  width: 90%;
+  height: 90%;
+}
+
+.store-name-card {
+  text-align: center;
+  border-radius: 20px;
+}
+.store-name {
+  display: block;
+  text-decoration: none;
+  color: darkslategray;
+  letter-spacing: 2px;
+  font-family: "Microsoft YaHei UI", serif;
+  font-size: 170%;
+}
+
+.store-dsc {
+  text-align: start;
+  text-indent: 20px;
+  font-family: "Microsoft YaHei UI Light", serif;
+  color: black;
+  text-decoration: none;
+  letter-spacing: 1px;
 }
 </style>
