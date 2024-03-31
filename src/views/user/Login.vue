@@ -66,7 +66,7 @@ function exit() {
         center: true
       }
   ).then(() => {
-    router.push({path: "/"})
+    router.push({path: "/allstoreno"})
   })
 }
 </script>
@@ -153,6 +153,7 @@ function exit() {
 }
 
 .exit {
+  position: absolute;
   top: 10px;
   right: 10px;
 }
