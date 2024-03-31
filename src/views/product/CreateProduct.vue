@@ -25,7 +25,7 @@ const coverFileList = ref([])
 const coverUrl = ref('')
 const detailFileList = ref([])
 const detailUrl = ref([])
-let productId = 0
+let productId = -1
 
 interface RuleForm {
   name: string
@@ -34,6 +34,7 @@ interface RuleForm {
   description: string
 }
 
+// 表单校验
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<RuleForm>({
   name: '',
@@ -98,10 +99,33 @@ function handleChangeCover(file: any, fileList: any) {
 
 function handleChangeDetail(file: any, fileList: any) {
   detailFileList.value = fileList
-  let formData = new FormData()
-  formData.append('file', file.raw)
-  uploadImage(formData).then(res => {
-    detailUrl.value = res.data.result
+}
+
+// after product created,
+// upload all images in detailFileList to Oss,
+// and push returned urls to detailUrl
+async function uploadAllDetail2Oss() {
+  for (let img of detailFileList.value) {
+    let formData = new FormData()
+    formData.append('file', img.raw)
+    uploadImage(formData).then(res => {
+      detailUrl.value.push(res.data.result)
+    })
+    console.log(detailUrl.value)
+  }
+}
+
+// after detailUrl filled,
+// upload it to backend
+async function uploadDetailImages() {
+  await uploadAllDetail2Oss().then(() => {
+    console.log(detailUrl.value)
+    updateProductPicture(
+        {
+          productId: productId,
+          pictures: detailUrl.value
+        }
+    )
   })
 }
 
@@ -118,12 +142,7 @@ function confirmCreate() {
         center: true,
       }
   ).then(() => {
-    dialogFormVisible.value = false
     handleCreate()
-    ElMessage({
-      type: 'success',
-      message: '正在创建商品',
-    })
   })
 }
 
@@ -145,28 +164,17 @@ function handleCreate() {
         center: true,
       })
       productId = res.data.result
-      window.location.reload()
+      uploadDetailImages()
     } else if (res.data.code === '400') {
       ElMessage({
         message: res.data.msg,
         type: 'error',
         center: true,
       })
-      window.location.reload()
     }
-  }).then(() => {
-    uploadDetailImages()
   })
 }
 
-function uploadDetailImages() {
-  updateProductPicture(
-      {
-        productId: productId,
-        pictures: [detailUrl.value]
-      }
-  )
-}
 </script>
 
 
@@ -273,6 +281,8 @@ function uploadDetailImages() {
             上传图片大小不可超过1MB
           </div>
         </template>
+        <p>{{ detailUrl }}</p>
+        <p>{{ detailFileList }}</p>
       </el-form-item>
 
       <span class="create-button">

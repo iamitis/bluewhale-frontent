@@ -21,11 +21,26 @@ const props = defineProps({
         class="store-card"
         shadow="always">
       <template #header>
-        {{storeName}}
+        <span class="store-name"><b>{{storeName}}</b></span>
       </template>
-      <p>{{description}}</p>
-      <img :src="logoUrl" alt="logo" />
-      <p>{{logoUrl}}</p>
+      <el-row
+          gutter="12"
+          class="card-body">
+      <el-col
+          :span="12"
+          class="logo-col">
+      <el-image
+          :src="logoUrl"
+          alt="logo"
+          class="store-logo"
+          fit="contain"/>
+      </el-col>
+      <el-col
+          :span="12"
+          class="dsc-col">
+        <p class="store-dsc">{{description}}</p>
+      </el-col>
+      </el-row>
     </el-card>
   </router-link>
 
@@ -33,8 +48,46 @@ const props = defineProps({
 
 <style scoped>
 .store-card {
-  width: 680px;
-  height: 250px;
+  width: 450px;
+  height: 320px;
+  padding: 0;
+  border-radius: 18px;
 }
 
+.el-card /deep/ .el-card__header {
+  background-color: skyblue;
+}
+
+.store-logo {
+  width: 100%;
+  height: 290px;
+}
+
+.logo-col {
+  background: linear-gradient(90deg, aliceblue 60%, floralwhite);
+}
+
+.dsc-col {
+  background: floralwhite;
+}
+
+.el-card /deep/ .el-card__body {
+  padding: 0;
+}
+
+.store-name {
+  text-decoration: none;
+  color: darkslategray;
+  letter-spacing: 2px;
+  font-family: "Microsoft YaHei UI",serif;
+  font-size: 170%;
+}
+
+.store-dsc {
+  text-decoration: none;
+  color: black;
+  letter-spacing: 1px;
+  text-indent: 20px;
+  font-family: "Microsoft YaHei UI Light",serif;
+}
 </style>
