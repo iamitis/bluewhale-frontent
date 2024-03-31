@@ -103,19 +103,20 @@ function handleChangeDetail(file: any, fileList: any) {
 // after product created,
 // upload all images in detailFileList to Oss,
 // and push returned urls to detailUrl
-async function uploadAllDetail2Oss() {
-  for (let img of detailFileList.value) {
-    let formData = new FormData()
-    formData.append('file', img.raw)
-    uploadImage(formData).then(res => {
-      detailUrl.value.push(res.data.result)
-    })
-    console.log(detailUrl.value)
-  }
+function uploadAllDetail2Oss() {
+  const uploadPromises = detailFileList.value.map(img => {
+    let formData = new FormData();
+    formData.append('file', img.raw);
+    return uploadImage(formData).then(res => {
+      return res.data.result;
+    });
+  });
+  return Promise.all(uploadPromises);
 }
 
 // after detailUrl filled,
 // upload it to backend
+
 async function uploadDetailImages(productId: number) {
   await uploadAllDetail2Oss().then(() => {
     console.log(detailUrl.value)
