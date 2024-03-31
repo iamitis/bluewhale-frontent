@@ -51,6 +51,24 @@ function handleLogin() {
     }
   })
 }
+
+function exit() {
+  ElMessageBox.confirm(
+      '是否要跳过登入/注册',
+      '提示',
+      {
+        customClass: "customDialog",
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: "warning",
+        showClose: false,
+        roundButton: true,
+        center: true
+      }
+  ).then(() => {
+    router.push({path: "/"})
+  })
+}
 </script>
 
 
@@ -82,6 +100,14 @@ function handleLogin() {
               <router-link to="/register" v-slot="{navigate}">
                 <el-button @click="navigate">去注册</el-button>
               </router-link>
+          </span>
+
+          <span class="exit">
+            <a @click="exit">
+               <el-button type="danger">跳过注册/登入</el-button>
+            </a>
+
+
           </span>
         </el-form>
       </div>
@@ -124,5 +150,10 @@ function handleLogin() {
   gap: 30px;
   align-items: center;
   justify-content: right;
+}
+
+.exit {
+  top: 10px;
+  right: 10px;
 }
 </style>
