@@ -83,6 +83,12 @@ function handleLogin() {
                 <el-button @click="navigate">去注册</el-button>
               </router-link>
           </span>
+
+          <span class="exit">
+           <router-link to="/allstore" v-slot="navigate">
+             <el-button @click="navigate" type="danger">跳过登入/注册</el-button>
+           </router-link>
+          </span>
         </el-form>
       </div>
     </el-card>
@@ -124,5 +130,11 @@ function handleLogin() {
   gap: 30px;
   align-items: center;
   justify-content: right;
+}
+
+.exit {
+  top: 10px; /* 距离顶部的距离 */
+  right: 10px; /* 距离右侧的距离 */
+  position: absolute;
 }
 </style>
