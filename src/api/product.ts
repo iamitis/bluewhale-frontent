@@ -19,6 +19,11 @@ export type DetailImage = {
     picture: string
 }
 
+export type UpdateInfo = {
+    productId: number
+    productSales: number
+}
+
 export const createProduct = (productInfo: ProductInfo) => {
     return axios.post(`${PRODUCT_MODULE}/createProduct`, productInfo,
         {headers: {'Content-Type': 'application/json'}})
@@ -42,9 +47,10 @@ export const getProductImages = (productType: string, productId: number) => {
 }
 
 
-export const updateProductSales = (productId: number, productSales: number) => {
-    return axios.post(`${PRODUCT_MODULE}/updateProductSales`, {param1: productId, param2: productSales},
-        {headers: {'Content-Type': "application/json"}})
+export const updateProductSales = (updateInfo: UpdateInfo) => {
+    return axios.post(`${PRODUCT_MODULE}/updateProductSales`, null,
+        {params: updateInfo},
+    )
         .then(res => {
             return res.data.result
         })
