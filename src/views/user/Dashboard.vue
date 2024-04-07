@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {computed, ref} from 'vue'
+import {storeInfo} from "../../api/store.ts";
 import {userInfo, userInfoUpdate} from '../../api/user.ts'
 import {parseRole, parseTime} from "../../utils"
 import {router} from '../../router'
@@ -7,6 +8,7 @@ import {UserFilled} from "@element-plus/icons-vue"
 
 const role = sessionStorage.getItem("role")
 const name = ref('')
+const storeId = ref()
 const storeName = ref('')
 const tel = ref('')
 const address = ref('')
@@ -31,11 +33,16 @@ function getUserInfo() {
   userInfo().then(res => {
     name.value = res.data.result.name
     tel.value = res.data.result.phone
-    storeName.value = res.data.result.storeName
+    storeId.value = res.data.result.storeId
     address.value = res.data.result.address
     regTime.value = parseTime(res.data.result.createTime)
-
     newName.value = name.value
+    return storeId.value
+  }).then(res => {
+    return storeInfo(res)
+  }).then(res => {
+    storeName.value = res.storeName
+    sessionStorage.setItem('storeName', storeName.value)
   })
 }
 
