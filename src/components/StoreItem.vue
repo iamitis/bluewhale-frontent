@@ -51,6 +51,10 @@ const props = defineProps({
   border-radius: 18px;
 }
 
+.store-card:hover{
+  box-shadow: 0 0 10px 10px lavender;
+}
+
 .el-card /deep/ .el-card__header {
   background-color: skyblue;
 }
