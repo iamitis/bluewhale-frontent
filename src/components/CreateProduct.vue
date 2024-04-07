@@ -13,9 +13,9 @@ import {ElMessage, FormInstance, FormRules} from "element-plus";
 import {createProduct, updateProductPicture} from "../api/product.ts";
 
 let dialogFormVisible = ref(false)
-const typeList = ref([
-  'FOOD', 'CLOTHES', 'FURNITURE', 'ELECTRONICS', 'ENTERTAINMENT', 'SPORTS', 'LUXURY'
-])
+const typeList = ref(
+  {'食品': 'FOOD', '服装': 'CLOTHES', '家具': 'FURNITURE', '电子': 'ELECTRONICS', '娱乐': 'ENTERTAINMENT', '运动': 'SPORTS', '奢侈品': 'LUXURY'},
+)
 
 const pros = defineProps({
   storeId: Number
@@ -135,19 +135,19 @@ function uploadAllDetail2Oss() {
 // upload it to backend
 function uploadDetailImages(productId: number) {
   uploadAllDetail2Oss().then((finalUrl) => {
-    console.log(finalUrl)
-    finalUrl.map(url => {
-      console.log(url,"\n", productId)
+    const promises = finalUrl.map(url => {
       return updateProductPicture(
           {
             productId: productId,
             picture: url
           }
       ).then(res => {
-        console.log(res)
         return res
       })
     })
+    return Promise.all(promises)
+  }).then(() => {
+    window.location.reload()
   })
 }
 
@@ -237,9 +237,9 @@ function handleCreate() {
             v-model="ruleForm.type"
             style="width: 100%">
           <el-option
-              v-for="type in typeList"
-              :key="type"
-              :value="type"/>
+              v-for="(value, key) in typeList"
+              :label="key"
+              :value="value"/>
         </el-select>
       </el-form-item>
 

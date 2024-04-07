@@ -102,10 +102,12 @@ function getProductsInfo() {
 
 <style scoped>
 .page-aside {
+  background: aliceblue;
   border-right: lightgrey solid 1px;
 }
 
 .main {
+  background: aliceblue;
   display: flex;
   display: -webkit-flex;
   flex-flow: row wrap;
@@ -120,7 +122,7 @@ function getProductsInfo() {
 }
 
 .store-logo-card {
-  background: aliceblue;
+  background: floralwhite;
   border-radius: 20px;
   width: 90%;
 }
@@ -131,6 +133,7 @@ function getProductsInfo() {
 }
 
 .store-name-card {
+  background: floralwhite;
   text-align: center;
   border-radius: 20px;
 }

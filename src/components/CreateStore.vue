@@ -89,6 +89,7 @@ function handleCreate() {
         @click="dialogFormVisible = true"
         type="primary"
         round
+        text
         :icon="Plus">
       创建商店
     </el-button>

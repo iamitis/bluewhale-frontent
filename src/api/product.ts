@@ -45,7 +45,6 @@ export const productInfo = (productId: number) => {
 }
 
 export const getProductImages = (detailImageInfo: DetailImageInfo) => {
-    console.log(detailImageInfo)
     return axios.get(`${IMAGE_MODULE}/imagesDownload`, {params: detailImageInfo})
         .then(res => {
             return res.data.result
@@ -54,7 +53,6 @@ export const getProductImages = (detailImageInfo: DetailImageInfo) => {
 
 
 export const updateProductSales = (updateInfo: UpdateInfo) => {
-    console.log(updateInfo)
     return axios.put(`${PRODUCT_MODULE}/updateProductSales`, null,
         {params: updateInfo},
     )
@@ -67,7 +65,6 @@ export const updateProductPicture = (detailImage: DetailImage) => {
     return axios.post(`${PRODUCT_MODULE}/updateProductPicture`, null,
         {params: detailImage})
         .then(res => {
-            console.log(res.data.result)
             return res.data.result
         })
 }

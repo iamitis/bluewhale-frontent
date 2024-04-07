@@ -36,19 +36,17 @@ function getStoreInfo() {
             :store-id="store.storeId"
             :logo-url="store.storeImageUrl"/>
       </template>
+      <create-store
+          v-if="role === 'MANAGER'"
+          class="create-button"/>
     </el-main>
-
-    <create-store
-        v-if="role === 'MANAGER'"
-        class="create-button"
-        target=".main"/>
-
   </el-container>
 </template>
 
 
 <style scoped>
 .main {
+  background: aliceblue;
   display: flex;
   display: -webkit-flex;
   flex-flow: row wrap;
@@ -59,8 +57,5 @@ function getStoreInfo() {
 }
 
 .create-button {
-  position: fixed;
-  right: 10px;
-  top: 0;
 }
 </style>
