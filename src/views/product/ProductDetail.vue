@@ -3,6 +3,7 @@
 import {computed, ref} from "vue";
 import {productInfo, getProductImages, updateProductSales} from "../../api/product.ts";
 import {ElMessage} from "element-plus";
+import UpdateProduct from "../../components/UpdateProduct.vue";
 
 const url = window.location.href
 const productId = ref(-1)
@@ -46,43 +47,6 @@ function getProductInfo(productId: number) {
   })
 }
 
-function addProductSales() {
-  updateProductSales(
-      {
-        product_id: productId.value,
-        sales: parseInt(addSalesNum.value)
-      }
-  ).then(res => {
-    if (res.data.code === '000') {
-      ElMessage( {
-        message: "添加库存成功！",
-        type: 'success',
-        center: true,
-      })
-      window.location.reload()
-    } else if (res.data.code === '400') {
-      ElMessage({
-        message: res.data.msg,
-        type: 'error',
-        center: true,
-      })
-    }
-  })
-}
-
-function confirmAdd() {
-  ElMessageBox.confirm(
-      '确定要添加库存吗？',
-      {
-        confirmButtonText: '确定',
-        cancelButtonText: '还没想好',
-        center: true,
-      }
-  ).then(() => {
-    addProductSales()
-  })
-}
-
 </script>
 
 
@@ -118,14 +82,15 @@ function confirmAdd() {
             <el-tag class="sales">
               当前库存  {{ productSales }}
             </el-tag>
-            <el-button
-                class="update-sales"
-                type="primary"
-                text
-                round
-                @click="dialogFormVisible = true">
-              添加库存
-            </el-button>
+<!--            <el-button-->
+<!--                class="update-sales"-->
+<!--                type="primary"-->
+<!--                text-->
+<!--                round-->
+<!--                @click="dialogFormVisible = true">-->
+<!--              添加库存-->
+<!--            </el-button>-->
+            <update-product :product-id="productId"/>
           </el-card>
 
         </el-space>

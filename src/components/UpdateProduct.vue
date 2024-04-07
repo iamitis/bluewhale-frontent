@@ -2,33 +2,34 @@
 import {reactive, ref} from "vue";
 import {updateProductSales} from "../api/product.ts";
 import {ElMessage, FormInstance, FormRules} from "element-plus";
-import {router} from "../router";
-import {Plus} from "@element-plus/icons-vue";
-
 
 const dialogFormVisible = ref(false)
-const productId = parseInt(sessionStorage.getItem('productId') as string, 10)
-
-
-interface RuleForm {
-  sales: number
-}
+const props = defineProps({
+  productId: Number
+})
 
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<RuleForm>({
-  sales: -1
+  sales: ''
 })
 
 const rules = reactive<FormRules<RuleForm>>({
   sales: [
     {
-      required: true,
-      message: '请填写更新后商品数量',
-      trigger: 'blur'
-    },
-    {
-      type: 'number',
-      message: '需为数字'
+      validator: (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('请填写添加数量'))
+        }
+        setTimeout(() => {
+          if (!Number.isInteger(value)) {
+            callback(new Error('需为整数'))
+          } else if (value < 1) {
+            callback(new Error('数量需大于0'))
+          } else {
+            callback()
+          }
+        })
+      }
     }
   ]
 })
@@ -45,7 +46,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
 function confirmUpdate() {
   ElMessageBox.confirm(
-      '确定要更新商品吗？',
+      '确定要添加库存吗？',
       {
         confirmButtonText: '确定',
         cancelButtonText: '还没想好',
@@ -55,21 +56,25 @@ function confirmUpdate() {
     handleUpdate()
     ElMessage({
       type: 'success',
-      message: '正在创建商品',
+      message: '正在更新库存',
     })
   })
 }
 
 function handleUpdate() {
-  updateProductSales(productId, ruleForm.sales)
+  updateProductSales(
+      {
+        product_id: props.productId,
+        sales: ruleForm.sales
+      })
       .then(res => {
         if (res.data.code === '000') {
           ElMessage({
-            message: "创建商品成功！",
+            message: "更新库存成功！",
             type: 'success',
             center: true,
           })
-          router.push({path: `/productDetail/${productId}`})
+          window.location.reload()
         } else if (res.data.code == '400') {
           ElMessage({
             message: res.data.msg,
@@ -90,8 +95,8 @@ function handleUpdate() {
         @click="dialogFormVisible = true"
         type="primary"
         round
-        :icon="Plus">
-      更新商品数量
+        text>
+      添加库存
     </el-button>
   </div>
 
@@ -99,7 +104,7 @@ function handleUpdate() {
       v-model="dialogFormVisible"
       width="20%"
       draggable
-      title="更新商品数量">
+      title="更新商品库存">
 
     <el-form
         ref="ruleFormRef"
@@ -108,7 +113,7 @@ function handleUpdate() {
         status-icon
         label-position="top">
 
-      <el-form-item label="商品数量" prop="sales">
+      <el-form-item label="添加数量" prop="sales">
         <el-input
             v-model.number="ruleForm.sales"/>
       </el-form-item>
@@ -118,7 +123,7 @@ function handleUpdate() {
         <el-button
             @click="submitForm(ruleFormRef)"
             type="primary">
-          更新
+          添加
         </el-button>
       </span>
 
@@ -128,15 +133,6 @@ function handleUpdate() {
 </template>
 
 <style scoped>
-
-.add-button {
-  padding-top: 10px;
-  display: flex;
-  flex-direction: row;
-  gap: 30px;
-  align-items: center;
-  justify-content: center;
-}
 
 .create-button {
   padding-top: 10px;
