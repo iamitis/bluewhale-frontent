@@ -15,9 +15,11 @@ const productDetailImages = ref([])
 const productScore = ref(5)
 const productSales = ref(-1)
 const dialogFormVisible = ref(false)
+const productStoreId = ref()
 const addSalesNum = ref()
 const addDisabled = computed(() => (1 <= addSalesNum))
 const role = sessionStorage.getItem('role')
+const storeIdOfUser = Number(sessionStorage.getItem('storeId'))
 
 getProductId().then(res => {
   getProductInfo(res)
@@ -37,6 +39,7 @@ function getProductInfo(productId: number) {
     productCoverUrl.value = res.productImageUrl
     productPrice.value = res.productPrice
     productSales.value = res.productSales
+    productStoreId.value = res.productStoreId
   })
   getProductImages({imageBelong: 'PRODUCT', belongId: productId}).then(res => {
     productDetailImages.value = res
@@ -110,7 +113,7 @@ function confirmAdd() {
           </el-card>
 
           <el-card
-              v-if="role === 'STAFF'"
+              v-if="role === 'STAFF' && storeIdOfUser === productStoreId"
               class="sales-card">
             <el-tag class="sales">
               当前库存  {{ productSales }}

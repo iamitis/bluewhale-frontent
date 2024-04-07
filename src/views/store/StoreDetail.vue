@@ -10,6 +10,7 @@ import ProductItem from "../../components/ProductItem.vue";
 const url = window.location.href
 let storeId = 0
 const storeName = ref('')
+const storeNameOfUser = sessionStorage.getItem('storeName')
 const description = ref('')
 const logoUrl = ref('')
 const productList = ref([])
@@ -94,7 +95,7 @@ function getProductsInfo() {
             :store-id="storeId"/>
       </template>
     </el-main>
-      <create-product :store-id="storeId" v-if="role === 'STAFF'"/>
+      <create-product :store-id="storeId" v-if="role === 'STAFF' && storeName === storeNameOfUser"/>
   </el-container>
 </template>
 
