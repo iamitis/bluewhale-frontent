@@ -71,8 +71,8 @@ function logout() {
 <style scoped>
 .custom-header {
   background: skyblue;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  /*border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;*/
 
   display: flex;
   flex-direction: column;

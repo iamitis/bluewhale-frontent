@@ -50,14 +50,14 @@ function getProductsInfo() {
 <template>
   <el-container>
     <el-aside width="20%" class="page-aside">
-      <el-affix :offset="80">
+      <el-affix :offset="65">
         <el-space
             fill
-            size="large"
+            :size="0"
             direction="vertical"
             class="store-info">
 
-          <el-card class="store-logo-card">
+          <el-card class="store-logo-card" shadow="never">
             <el-image
                 :src="logoUrl"
                 alt="logo"
@@ -65,7 +65,7 @@ function getProductsInfo() {
                 class="store-logo"/>
           </el-card>
 
-          <el-card class="store-name-card">
+          <el-card class="store-name-card" shadow="never">
             <div class="store-name-row">
               <span class="store-name">{{ storeName }}</span>
               <el-rate v-model="storeScore"/>
@@ -94,8 +94,8 @@ function getProductsInfo() {
             :product-price="product.productPrice"
             :store-id="storeId"/>
       </template>
-    </el-main>
       <create-product :store-id="storeId" v-if="role === 'STAFF' && storeName === storeNameOfUser"/>
+    </el-main>
   </el-container>
 </template>
 
@@ -123,7 +123,6 @@ function getProductsInfo() {
 
 .store-logo-card {
   background: floralwhite;
-  border-radius: 20px;
   width: 90%;
 }
 
@@ -135,7 +134,6 @@ function getProductsInfo() {
 .store-name-card {
   background: floralwhite;
   text-align: center;
-  border-radius: 20px;
 }
 
 .store-name {

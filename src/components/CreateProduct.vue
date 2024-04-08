@@ -206,6 +206,7 @@ function handleCreate() {
         @click="dialogFormVisible = true"
         type="primary"
         round
+        text
         :icon="Plus">
       新建商品
     </el-button>

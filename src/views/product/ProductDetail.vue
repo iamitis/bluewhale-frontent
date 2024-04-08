@@ -4,6 +4,7 @@ import {computed, ref} from "vue";
 import {productInfo, getProductImages, updateProductSales} from "../../api/product.ts";
 import {ElMessage} from "element-plus";
 import UpdateProduct from "../../components/UpdateProduct.vue";
+import CreateOrder from "../../components/CreateOrder.vue";
 
 const url = window.location.href
 const productId = ref(-1)
@@ -21,6 +22,7 @@ const addSalesNum = ref()
 const addDisabled = computed(() => (1 <= addSalesNum))
 const role = sessionStorage.getItem('role')
 const storeIdOfUser = Number(sessionStorage.getItem('storeId'))
+const orderDialogVisible = ref(false)
 
 getProductId().then(res => {
   getProductInfo(res)
@@ -53,14 +55,14 @@ function getProductInfo(productId: number) {
 <template>
   <el-container>
     <el-aside width="20%" class="page-aside">
-      <el-affix :offset="80">
+      <el-affix :offset="65">
         <el-space
             fill
-            size="small"
+            :size="0"
             direction="vertical"
             class="product-info">
 
-          <el-card class="product-cover-card">
+          <el-card class="product-cover-card" shadow="never">
             <el-image
                 :src="productCoverUrl"
                 alt="cover"
@@ -68,7 +70,7 @@ function getProductInfo(productId: number) {
                 class="product-cover"/>
           </el-card>
 
-          <el-card class="product-name-card">
+          <el-card class="product-name-card" shadow="never">
             <div class="product-name-row">
               <span class="product-name">{{ productName }}</span>
               <el-rate v-model="productScore"/>
@@ -78,18 +80,11 @@ function getProductInfo(productId: number) {
 
           <el-card
               v-if="role === 'STAFF' && storeIdOfUser === productStoreId"
-              class="sales-card">
+              class="sales-card"
+              shadow="never">
             <el-tag class="sales">
               当前库存  {{ productSales }}
             </el-tag>
-<!--            <el-button-->
-<!--                class="update-sales"-->
-<!--                type="primary"-->
-<!--                text-->
-<!--                round-->
-<!--                @click="dialogFormVisible = true">-->
-<!--              添加库存-->
-<!--            </el-button>-->
             <update-product :product-id="productId"/>
           </el-card>
 
@@ -113,32 +108,29 @@ function getProductInfo(productId: number) {
         </el-carousel-item>
       </el-carousel>
 
-      <el-tag
-          class="product-price">
+      <el-tag class="product-price">
         ￥{{ productPrice }}.00
       </el-tag>
 
+      <el-button
+          @click="orderDialogVisible = true"
+          class="order-button"
+          color="lightpink">
+        立即购买
+      </el-button>
       <el-dialog
-          v-model="dialogFormVisible"
+          class="order-dialog"
+          v-model="orderDialogVisible"
           width="20%"
           draggable
-          title="添加商品库存">
-        <el-form>
-          <el-form-item label="添加数量">
-            <el-input
-              v-model="addSalesNum"
-              clearable />
-          </el-form-item>
-
-          <span class="add-button">
-            <el-button
-                @click="confirmAdd"
-                :disabled="addDisabled"
-                type="primary">
-              添加
-            </el-button>
-          </span>
-        </el-form>
+          :title="'购买 ' + productName">
+        <el-image :src="productCoverUrl" class="order-image" />
+        <p>当前仅剩 : {{productSales}}</p>
+        <create-order
+            :product-id="productId"
+            :product-name="productName"
+            :product-price="productPrice"
+            :product-sales="productSales"/>
       </el-dialog>
     </el-main>
   </el-container>
@@ -157,7 +149,6 @@ function getProductInfo(productId: number) {
 
 .product-cover-card {
   background: floralwhite;
-  border-radius: 20px;
   width: 90%;
 }
 
@@ -169,7 +160,6 @@ function getProductInfo(productId: number) {
 .product-name-card {
   background: floralwhite;
   text-align: center;
-  border-radius: 20px;
 }
 
 .product-name {
@@ -203,7 +193,6 @@ function getProductInfo(productId: number) {
 .sales-card {
   background: floralwhite;
   text-align: center;
-  border-radius: 20px;
 }
 
 .sales {
@@ -214,11 +203,29 @@ function getProductInfo(productId: number) {
 
 .el-main {
   background: aliceblue;
+  gap: 20px;
 }
+
 .product-price {
   height: 50px;
   width: 100px;
   font-size: 120%;
   text-indent: -10px;
+}
+
+.order-button {
+  height: 48px;
+  width: 100px;
+  font-size: 120%;
+  margin-left: 20px;
+  color: steelblue;
+}
+
+.order-dialog {
+}
+
+.order-image {
+  width: 90%;
+  margin-bottom: 10px;
 }
 </style>
