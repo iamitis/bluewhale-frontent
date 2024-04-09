@@ -9,11 +9,16 @@ const props = defineProps({
 })
 const count = ref(1)
 const pickup = ref('')
+const address = ref('')
 const hasPickup = computed(() => pickup.value !== '')
+const hasAddress = computed(() => address.value !== '')
 
 function checkForm() {
   if (!hasPickup.value) {
     ElMessage.warning('请选择取货方式')
+    return false
+  } else if (pickup.value === 'DELIVERY' && !hasAddress.value) {
+    ElMessage.warning('请填写收货地址')
     return false
   } else {
     handleCreate()
@@ -38,6 +43,9 @@ function handleCreate() {
     <el-form-item label="取货方式">
         <el-radio v-model="pickup" label="DELIVERY" size="large">快递送达</el-radio>
         <el-radio v-model="pickup" label="PICKUP" size="large">到店自提</el-radio>
+    </el-form-item>
+    <el-form-item v-if="pickup === 'DELIVERY'" label="收获地址">
+      <el-input v-model="address"></el-input>
     </el-form-item>
     <span>总价 : ￥{{count*productPrice}}</span>
     <span class="create-button-box">

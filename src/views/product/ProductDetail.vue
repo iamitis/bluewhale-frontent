@@ -113,11 +113,18 @@ function getProductInfo(productId: number) {
       </el-tag>
 
       <el-button
+          v-if="productSales > 0"
           @click="orderDialogVisible = true"
           class="order-button"
           color="lightpink">
         立即购买
       </el-button>
+      <el-tag
+          v-else
+          color="darkgrey"
+          class="no-stock">
+        商品抢光了>_&lt;
+      </el-tag>
       <el-dialog
           class="order-dialog"
           v-model="orderDialogVisible"
@@ -139,7 +146,7 @@ function getProductInfo(productId: number) {
 
 <style scoped>
 .page-aside {
-  background: aliceblue;
+  background: floralwhite;
   border-right: lightgrey solid 1px;
 }
 
@@ -202,7 +209,7 @@ function getProductInfo(productId: number) {
 }
 
 .el-main {
-  background: aliceblue;
+  background: linear-gradient(to right, floralwhite 0%, aliceblue 50%);
   gap: 20px;
 }
 
@@ -219,6 +226,14 @@ function getProductInfo(productId: number) {
   font-size: 120%;
   margin-left: 20px;
   color: steelblue;
+}
+
+.no-stock {
+  height: 48px;
+  width: 150px;
+  font-size: 110%;
+  margin-left: 20px;
+  color: black;
 }
 
 .order-dialog {

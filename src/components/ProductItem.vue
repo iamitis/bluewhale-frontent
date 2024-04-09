@@ -23,7 +23,7 @@ const props = defineProps({
         <span class="product-name"><b>{{productName}}</b></span>
       </template>
       <el-row
-          gutter="12"
+          :gutter="12"
           class="card-body">
         <el-col
             :span="12"
@@ -69,7 +69,7 @@ const props = defineProps({
 }
 
 .cover-col {
-  background: linear-gradient(90deg, aliceblue 60%, floralwhite);
+  background: linear-gradient(to right, aliceblue 60%, floralwhite);
 }
 
 .dtl-col {

@@ -102,12 +102,12 @@ function getProductsInfo() {
 
 <style scoped>
 .page-aside {
-  background: aliceblue;
+  background: floralwhite;
   border-right: lightgrey solid 1px;
 }
 
 .main {
-  background: aliceblue;
+  background: linear-gradient(to right, floralwhite 0%, aliceblue 20%);
   display: flex;
   display: -webkit-flex;
   flex-flow: row wrap;
