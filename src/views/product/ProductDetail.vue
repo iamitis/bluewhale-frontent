@@ -5,6 +5,7 @@ import {productInfo, getProductImages, updateProductSales} from "../../api/produ
 import {ElMessage} from "element-plus";
 import UpdateProduct from "../../components/UpdateProduct.vue";
 import CreateOrder from "../../components/CreateOrder.vue";
+import {router} from "../../router";
 
 const url = window.location.href
 const productId = ref(-1)
@@ -16,10 +17,7 @@ const productPrice = ref(-1)
 const productDetailImages = ref([])
 const productScore = ref(5)
 const productSales = ref(-1)
-const dialogFormVisible = ref(false)
 const productStoreId = ref()
-const addSalesNum = ref()
-const addDisabled = computed(() => (1 <= addSalesNum))
 const role = sessionStorage.getItem('role')
 const storeIdOfUser = Number(sessionStorage.getItem('storeId'))
 const orderDialogVisible = ref(false)
@@ -29,8 +27,9 @@ getProductId().then(res => {
 })
 
 async function getProductId() {
-  const args = url.split('/')
-  productId.value = parseInt(args[7])
+  //const args = url.split('/')
+  //productId.value = parseInt(args[7])
+  productId.value = Number(router.currentRoute.value.params.productId)
   return productId.value
 }
 

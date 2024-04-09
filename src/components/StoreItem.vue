@@ -21,7 +21,7 @@ const props = defineProps({
         <span class="store-name"><b>{{ storeName }}</b></span>
       </template>
       <el-row
-          gutter="12"
+          :gutter="12"
           class="card-body">
         <el-col
             :span="12"

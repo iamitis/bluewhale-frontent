@@ -3,14 +3,14 @@
 import {ref} from "vue";
 import {allProductsInfo, storeInfo} from "../../api/store.ts";
 import CreateProduct from "../../components/CreateProduct.vue";
-import StoreItem from "../../components/StoreItem.vue";
-import CreateStore from "../../components/CreateStore.vue";
 import ProductItem from "../../components/ProductItem.vue";
+import {router} from "../../router";
+import {ShoppingTrolley} from "@element-plus/icons-vue";
 
 const url = window.location.href
 let storeId = 0
 const storeName = ref('')
-const storeNameOfUser = sessionStorage.getItem('storeName')
+const storeIdOfUser = Number(sessionStorage.getItem('storeId'))
 const description = ref('')
 const logoUrl = ref('')
 const productList = ref([])
@@ -22,8 +22,9 @@ getStoreId().then(res => {
 })
 
 async function getStoreId() {
-  const args = url.split('/')
-  storeId = parseInt(args[5])
+  //const args = url.split('/')
+  //storeId = parseInt(args[5])
+  storeId = Number(router.currentRoute.value.params.storeId)
   return storeId
 }
 
@@ -79,8 +80,16 @@ function getProductsInfo() {
 
     <el-main class="main">
       <el-empty
-          v-if="productList === []"
+          v-if="productList.length === 0"
           description="店家跑路了/_ \">
+        <el-button
+            text
+            type="primary"
+            class="empty-button"
+            @click="() => {router.push('allstore')}">
+          > 看看别的店
+          <el-icon class="el-icon--right"><shopping-trolley /></el-icon>
+        </el-button>
       </el-empty>
 
       <template v-else>
@@ -94,7 +103,7 @@ function getProductsInfo() {
             :product-price="product.productPrice"
             :store-id="storeId"/>
       </template>
-      <create-product :store-id="storeId" v-if="role === 'STAFF' && storeName === storeNameOfUser"/>
+      <create-product :store-id="storeId" v-if="role === 'STAFF' && storeId === storeIdOfUser"/>
     </el-main>
   </el-container>
 </template>

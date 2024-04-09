@@ -40,7 +40,7 @@ function handleLogin() {
         sessionStorage.setItem('name', res.data.result.name)
         sessionStorage.setItem('role', res.data.result.role)
         sessionStorage.setItem('storeId', res.data.result.storeId)
-        router.push({path: "/dashboard"})
+        router.push({path: "/allstore"})
       })
     } else if (res.data.code === '400') {
       ElMessage({
