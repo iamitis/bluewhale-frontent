@@ -23,6 +23,7 @@ const orderCreateTime = ref('')
 const orderPayTime = ref('')
 const payDialogVisible = ref(false)
 const shipDialogVisible = ref(false)
+const receiveDialogVisible = ref(false)
 const role = sessionStorage.getItem('role')
 
 getOrder()
@@ -95,8 +96,9 @@ function getOrder() {
         <el-col v-if="orderState === 'UNGET' && role === 'CUSTOMER'" :span="2">
           <el-button
               class="go-receive-button"
-              color="lightpink"
-              @click="payDialogVisible = true">
+              color="deepskyblue"
+              style="color: white"
+              @click="receiveDialogVisible = true">
             确认收货
           </el-button>
         </el-col>
@@ -132,6 +134,14 @@ function getOrder() {
         draggable
         :title="'为 ' + productName + ' 发货'">
       <ship-order :order-id="orderId" :count="count" />
+    </el-dialog>
+    <el-dialog
+        class="receive-dialog"
+        v-model="receiveDialogVisible"
+        width="20%"
+        draggable
+        :title="'确认您购买的商品 ' + productName + ' 已收到'">
+      <receive-order :order-id="orderId" :count="count" />
     </el-dialog>
   </el-main>
 </template>

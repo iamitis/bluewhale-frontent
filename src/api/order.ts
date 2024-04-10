@@ -14,6 +14,11 @@ export type OrderCreateInfo = {
     getProducts: string, // way of pickup
 }
 
+export type OrderPayInfo = {
+    invoiceId: number,
+    invoicePrice: number,
+}
+
 export const getAllOrderByUserId = (userId: number) => {
     return axios.get(`${USER_MODULE}/getAllInvoices`, {params: {'userId': userId}})
         .then(res => {
@@ -36,8 +41,9 @@ export const createOrder = (orderCreateInfo: OrderCreateInfo) => {
         })
 }
 
-export const payOrder = (invoiceId: number) => {
-    return axios.post(`${ORDER_MODULE}/payInvoice`, null, {params: invoiceId})
+export const payOrder = (orderPayInfo: OrderPayInfo) => {
+    console.log(orderPayInfo)
+    return axios.post(`${ORDER_MODULE}/payInvoice`, null, {params: orderPayInfo})
         .then(res => {
             return res
         })
@@ -45,6 +51,13 @@ export const payOrder = (invoiceId: number) => {
 
 export const shipOrder = (invoiceId: number) => {
     return axios.post(`${ORDER_MODULE}/sendInvoice`, null, {params: invoiceId})
+        .then(res => {
+            return res
+        })
+}
+
+export const receiveOrder = (invoiceId: number) => {
+    return axios.post(`${ORDER_MODULE}/getInvoice`, null, {params: invoiceId})
         .then(res => {
             return res
         })

@@ -80,7 +80,7 @@ function getProductsInfo() {
 
     <el-main class="main">
       <el-empty
-          v-if="productList.length === 0"
+          v-if="productList.length === 0 && role !== 'STAFF'"
           description="店家跑路了/_ \">
         <el-button
             text

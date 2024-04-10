@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import {payOrder} from "../api/order.ts";
 import {ElMessage} from "element-plus";
+import {computed, ref} from "vue";
 
 const props = defineProps({
   orderId: Number,
   totalPrice: Number,
 })
+const payment = ref(props.totalPrice) // 现在还没有优惠券模块，先让用户自己输入实际付款金额
 
 function confirmPay() {
   ElMessageBox.confirm(
@@ -21,14 +23,17 @@ function confirmPay() {
 }
 
 function handlePay() {
-  payOrder({invoiceId: props.orderId}).then(res => {
+  payOrder({
+    invoiceId: props.orderId,
+    invoicePrice: payment.value
+  }).then(res => {
     if (res.data.code === '000') {
       ElMessage({
         message: "支付成功！",
         type: 'success',
         center: true,
       })
-      window.location.reload()
+      //window.location.reload()
     } else if (res.data.code === '400') {
       ElMessage({
         message: res.data.msg,
@@ -44,9 +49,11 @@ function handlePay() {
   <div class="pay-box">
       <el-text size="large">
         支付金额 : &emsp;
-        <el-tag type="warning">
-          ￥{{ totalPrice }}
-        </el-tag>
+        <el-input-number
+            v-model="payment"
+            :precision="2"
+            :step="0.1"
+            :max="props.totalPrice" />
       </el-text>
     <el-button
         @click="confirmPay"

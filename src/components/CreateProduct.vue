@@ -25,14 +25,15 @@ const coverFileList = ref([])
 const coverUrl = ref('')
 const detailFileList = ref([])
 const detailUrl = ref([])
+const price = ref(0)
 
 const require1Cover = computed(() => coverFileList.value.length === 1)
 const requireAtLeast1Detail = computed(() => detailFileList.value.length >= 1)
+const hasPrice = computed(() => price.value > 0)
 
 interface RuleForm {
   name: string
   type: string
-  price: number
   description: string
 }
 
@@ -41,7 +42,6 @@ const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<RuleForm>({
   name: '',
   type: '',
-  price: 0,
   description: '',
 })
 
@@ -59,17 +59,6 @@ const rules = reactive<FormRules<RuleForm>>({
       message: '请选择商品类型',
       trigger: 'change',
     },
-  ],
-  price: [
-    {
-      required: true,
-      message: '请填写商品价格',
-      trigger: 'blur'
-    },
-    {
-      type: 'number',
-      message: '需为数字'
-    }
   ],
   description: [
     {
@@ -95,6 +84,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           message: `需要上传至少一张商品详情图`,
           type: 'error',
           center: true,
+        })
+      } else if (!hasPrice.value) {
+        ElMessage({
+          message: `请填写商品价格`,
+          type: 'error',
+          center: true
         })
       } else {
         confirmCreate()
@@ -244,9 +239,12 @@ function handleCreate() {
         </el-select>
       </el-form-item>
 
-      <el-form-item label="商品价格" prop="price">
-        <el-input
-            v-model.number="ruleForm.price"/>
+      <el-form-item label="商品价格">
+        <el-input-number
+            v-model="price"
+            :min="0"
+            :precision="2"
+            :step="0.1"/>
       </el-form-item>
 
       <el-form-item label="商品描述" prop="description">
