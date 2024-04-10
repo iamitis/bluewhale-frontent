@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import {productInfo} from "../api/product.ts";
-import {formattedTime} from "../api/order.ts";
+import {formattedTime, stateMap} from "../api/order.ts";
 
 const props = defineProps([
   'order'
@@ -10,6 +10,15 @@ const productName = ref('')
 const productUrl = ref('')
 const productPrice = ref(-1) // unit price
 const orderCreateTime = ref('')
+const printState = computed(() => {
+  return stateMap(props.order.invoiceStatus)
+})
+const stateTagType = computed(() => {
+  return printState.value.type
+})
+const stateTagText = computed(() => {
+  return printState.value.text
+})
 
 getProduct().then(res => {
   productName.value = res.productName
@@ -28,7 +37,7 @@ function getProduct() {
     <el-card class="order-card">
       <el-row>
         <el-col>
-          <el-tag>{{ props.order.invoiceStatus }}</el-tag>
+          <el-tag :type="stateTagType">{{ stateTagText }}</el-tag>
         </el-col>
       </el-row>
       <el-row justify="space-between">

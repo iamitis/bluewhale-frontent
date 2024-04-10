@@ -42,7 +42,6 @@ export const createOrder = (orderCreateInfo: OrderCreateInfo) => {
 }
 
 export const payOrder = (orderPayInfo: OrderPayInfo) => {
-    console.log(orderPayInfo)
     return axios.post(`${ORDER_MODULE}/payInvoice`, null, {params: orderPayInfo})
         .then(res => {
             return res
@@ -72,4 +71,19 @@ export const formattedTime = (timestamp) => {
     const minutes = date.getMinutes()
     const seconds = date.getSeconds()
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+}
+
+export const stateMap =  (state: string) => {
+    if (state === 'UNPAID') {
+        return {text: '待支付', type: 'danger'}
+    } else if (state === 'UNSEND') {
+        return {text: '待发货', type: 'primary'}
+    } else if (state === 'UNGET') {
+        return {text: '待收货', type: 'primary'}
+    } else if (state === 'UNCOMMENT') {
+        return {text: '待评价', type: 'success'}
+    } else if (state === 'DONE') {
+        return {text: '已完成', type: 'info'}
+    }
+    return {text: 'error', type: 'danger'}
 }

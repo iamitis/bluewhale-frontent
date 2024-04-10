@@ -33,7 +33,7 @@ function handlePay() {
         type: 'success',
         center: true,
       })
-      //window.location.reload()
+      window.location.reload()
     } else if (res.data.code === '400') {
       ElMessage({
         message: res.data.msg,
@@ -53,6 +53,7 @@ function handlePay() {
             v-model="payment"
             :precision="2"
             :step="0.1"
+            :min="0"
             :max="props.totalPrice" />
       </el-text>
     <el-button

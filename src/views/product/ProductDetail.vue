@@ -112,14 +112,14 @@ function getProductInfo(productId: number) {
       </el-tag>
 
       <el-button
-          v-if="productSales > 0"
+          v-if="productSales > 0 && role === 'CUSTOMER'"
           @click="orderDialogVisible = true"
           class="order-button"
           color="lightpink">
         立即购买
       </el-button>
       <el-tag
-          v-else
+          v-if="productSales <= 0"
           color="darkgrey"
           class="no-stock">
         商品抢光了>_&lt;
