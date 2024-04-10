@@ -2,12 +2,17 @@
 import {ref} from "vue";
 import OrderItem from "../../components/OrderItem.vue";
 import {router} from "../../router";
-import {ShoppingTrolley} from "@element-plus/icons-vue"   //图标
+import {ShoppingTrolley} from "@element-plus/icons-vue"
+import {getAllOrderByUserId} from "../../api/order.ts";   //图标
 
+const userId = Number(sessionStorage.getItem('userId'))
 const orderList = ref([])
 
+getOrderList()
 function getOrderList() {
-  // todo
+  getAllOrderByUserId(userId).then(res => {
+    orderList.value = res
+  })
 }
 </script>
 
@@ -25,7 +30,11 @@ function getOrderList() {
         <el-icon class="el-icon--right"><shopping-trolley /></el-icon>
       </el-button>
     </el-empty>
-    <order-item v-else v-for="order in orderList" />
+    <order-item
+        v-else
+        v-for="order in orderList"
+        :order="order"
+        class="order-item"/>
   </el-main>
 </template>
 
@@ -35,6 +44,11 @@ function getOrderList() {
   display: -webkit-flex;
   flex-flow: column;
   justify-content: center;
+  align-items: center;
   background: floralwhite;
+}
+
+.order-item {
+  width: 60%;
 }
 </style>

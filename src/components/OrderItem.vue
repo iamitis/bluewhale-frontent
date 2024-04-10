@@ -1,33 +1,60 @@
 <script setup lang="ts">
+import {ref} from "vue";
+import {productInfo} from "../api/product.ts";
+import {formattedTime} from "../api/order.ts";
+
 const props = defineProps([
   'order'
 ])
+const productName = ref('')
+const productUrl = ref('')
+const productPrice = ref(-1) // unit price
+const orderCreateTime = ref('')
+
+getProduct().then(res => {
+  productName.value = res.productName
+  productUrl.value = res.productImageUrl
+  productPrice.value = res.productPrice
+})
+orderCreateTime.value = formattedTime(Date.parse(props.order.invoiceTime))
+
+function getProduct() {
+  return productInfo(props.order.invoiceProductId)
+}
 </script>
 
 <template>
-  <router-link :to="'/orderdetail' + order.orderId" v-slot="{navigate}">
-    <el-card
-        class="order-card">
+  <router-link :to="'/orderdetail/' + props.order.invoiceId" v-slot="{navigate}">
+    <el-card class="order-card">
       <el-row>
         <el-col>
-          <h1>{{ order.name }}</h1>
-        </el-col>
-        <el-col>
-          <el-tag>{{ order.state }}</el-tag>
+          <el-tag>{{ props.order.invoiceStatus }}</el-tag>
         </el-col>
       </el-row>
-      <el-row>
-        <span>单价 : {{ order.productPrice }}</span>
-        <span>数量 : {{ order.count }}</span>
-        <span>总价 : {{ order.totalPrice }}</span>
-      </el-row>
-      <el-row>
-        <p>下单时间 : {{ order.createTime }}</p>
+      <el-row justify="space-between">
+        <el-col :span="12">
+          <h1>{{ productName }}</h1>
+          <p>
+            <span><b>单价 : ￥{{ productPrice }}</b>&emsp;&emsp;</span>
+            <span><b>数量 : {{ props.order.invoiceProductNum }}</b>&emsp;&emsp;</span>
+            <span><b>总价 : ￥{{ props.order.invoicePrice }}</b></span>
+          </p>
+          <el-text tag="b">下单时间 : {{ orderCreateTime }}</el-text>
+        </el-col>
+        <el-col :span="4">
+          <el-image :src="productUrl"></el-image>
+        </el-col>
       </el-row>
     </el-card>
   </router-link>
 </template>
 
 <style scoped>
+.order-card {
+  background: aliceblue;
+}
 
+.order-card:hover {
+  box-shadow: 0 0 10px 10px lavender;
+}
 </style>

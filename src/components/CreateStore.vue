@@ -184,7 +184,6 @@ function handleCreate() {
   padding-top: 10px;
   display: flex;
   flex-direction: row;
-  gap: 30px;
   align-items: center;
   justify-content: right;
 }
