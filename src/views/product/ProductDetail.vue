@@ -17,7 +17,7 @@ const productPrice = ref(-1)
 const productDetailImages = ref([])
 const productScore = ref(5)
 const productSales = ref(-1)
-const productStoreId = ref()
+const productStoreId = ref(-1)
 const role = sessionStorage.getItem('role')
 const storeIdOfUser = Number(sessionStorage.getItem('storeId'))
 const orderDialogVisible = ref(false)
@@ -136,6 +136,7 @@ function getProductInfo(productId: number) {
             :product-id="productId"
             :product-name="productName"
             :product-price="productPrice"
+            :product-store-id="productStoreId"
             :product-sales="productSales"/>
       </el-dialog>
     </el-main>

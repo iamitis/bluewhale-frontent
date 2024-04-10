@@ -7,11 +7,11 @@ import ProductItem from "../../components/ProductItem.vue";
 import {router} from "../../router";
 import {ShoppingTrolley} from "@element-plus/icons-vue";
 
-const url = window.location.href
 let storeId = 0
 const storeName = ref('')
 const storeIdOfUser = Number(sessionStorage.getItem('storeId'))
 const description = ref('')
+const storeAddress = ref('')
 const logoUrl = ref('')
 const productList = ref([])
 const storeScore = ref(5)
@@ -22,8 +22,6 @@ getStoreId().then(res => {
 })
 
 async function getStoreId() {
-  //const args = url.split('/')
-  //storeId = parseInt(args[5])
   storeId = Number(router.currentRoute.value.params.storeId)
   return storeId
 }
@@ -32,6 +30,7 @@ function getStoreInfo(storeId: number) {
   storeInfo(storeId).then(res => {
     storeName.value = res.storeName
     description.value = res.category
+    storeAddress.value = res.storeAddress
     logoUrl.value = res.storeImageUrl
   })
 }
@@ -71,6 +70,7 @@ function getProductsInfo() {
               <span class="store-name">{{ storeName }}</span>
               <el-rate v-model="storeScore"/>
               <p class="store-dsc">{{ description }}</p>
+              <p class="store-address">商店地址 : <br>{{storeAddress}}</p>
             </div>
           </el-card>
 
@@ -86,7 +86,7 @@ function getProductsInfo() {
             text
             type="primary"
             class="empty-button"
-            @click="() => {router.push('allstore')}">
+            @click="() => {router.replace('/allstore')}">
           > 看看别的店
           <el-icon class="el-icon--right"><shopping-trolley /></el-icon>
         </el-button>
@@ -156,11 +156,17 @@ function getProductsInfo() {
 
 .store-dsc {
   text-align: start;
-  text-indent: 20px;
   font-family: "Microsoft YaHei UI Light", serif;
   color: black;
   text-decoration: none;
   letter-spacing: 1px;
+}
+
+.store-address {
+  text-align: start;
+  font-family: "Microsoft YaHei UI Light", serif;
+  font-size: 90%;
+  color: black;
 }
 
 .create-button {

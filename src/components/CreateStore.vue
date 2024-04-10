@@ -8,7 +8,7 @@
 <script setup lang="ts">
 import {computed, ref} from 'vue'
 import {uploadImage} from '../api/tools.ts'
-import {Plus, InfoFilled, UploadFilled} from "@element-plus/icons-vue"
+import {Plus, InfoFilled, UploadFilled, Location} from "@element-plus/icons-vue"
 import {ElFormItem, ElMessage} from "element-plus";
 import {createStore} from "../api/store.ts";
 
@@ -17,13 +17,15 @@ const imageFileList = ref([])
 const logoUrl = ref('')
 const name = ref('')
 const description = ref('')
+const storeAddress = ref('')
 
 const hasName = computed(() => name.value != '')
 const hasDescription = computed(() => description.value != '')
+const hasAddress = computed(() => storeAddress.value != '')
 const hasImage = computed(() => imageFileList.value.length > 0)
 // 创建按钮可用性
 const createDisabled = computed(() => {
-  return !(hasName.value && hasDescription.value && hasImage.value)
+  return !(hasName.value && hasDescription.value && hasAddress.value && hasImage.value)
 })
 
 function handleChange(file: any, fileList: any) {
@@ -60,6 +62,7 @@ function handleCreate() {
   createStore({
     storeName: name.value,
     category: description.value,
+    storeAddress: storeAddress.value,
     storeImageUrl: logoUrl.value
   }).then(res => {
     if (res.data.code === '000') {  //类型守卫，它检查 res.data 对象中是否存在名为 code 的属性
@@ -116,11 +119,20 @@ function handleCreate() {
         <el-input
             v-model="description"
             type="textarea"
-            maxlength="30"
+            maxlength="50"
             show-word-limit
             clearable
             :prefix-icon="InfoFilled"
             placeholder="简要介绍商店"/>
+      </el-form-item>
+
+      <el-form-item label="商店地址">
+        <el-input
+            v-model="storeAddress"
+            type="textarea"
+            clearable
+            :prefix-icon="Location"
+            placeholder="请填写商店地址，具体到商场内地址" />
       </el-form-item>
 
       <el-form-item label="商店Logo">

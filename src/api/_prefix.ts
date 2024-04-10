@@ -12,3 +12,5 @@ export const IMAGE_MODULE = `${API_MODULE}/image`
 export const STORE_MODULE = `${API_MODULE}/stores`
 //商品模块
 export const PRODUCT_MODULE = `${API_MODULE}/products`
+// 订单模块
+export const ORDER_MODULE = `${API_MODULE}/invoices`
