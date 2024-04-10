@@ -1,5 +1,6 @@
 import {axios} from '../utils/request'
 import {ORDER_MODULE, USER_MODULE} from './_prefix'
+import {install} from "element-plus";
 
 export type OrderCreateInfo = {
     invoiceProductId: number,
@@ -37,6 +38,13 @@ export const createOrder = (orderCreateInfo: OrderCreateInfo) => {
 
 export const payOrder = (invoiceId: number) => {
     return axios.post(`${ORDER_MODULE}/payInvoice`, null, {params: invoiceId})
+        .then(res => {
+            return res
+        })
+}
+
+export const shipOrder = (invoiceId: number) => {
+    return axios.post(`${ORDER_MODULE}/sendInvoice`, null, {params: invoiceId})
         .then(res => {
             return res
         })

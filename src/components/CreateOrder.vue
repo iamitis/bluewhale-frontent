@@ -58,6 +58,7 @@ function handleCreate() {
         type: 'success',
         center: true,
       })
+      window.location.reload()
     }
   })
 }

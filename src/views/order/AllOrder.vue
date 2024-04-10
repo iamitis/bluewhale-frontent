@@ -46,6 +46,7 @@ function getOrderList() {
   justify-content: center;
   align-items: center;
   background: floralwhite;
+  gap: 20px;
 }
 
 .order-item {
