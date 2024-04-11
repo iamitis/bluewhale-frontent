@@ -23,11 +23,14 @@ const uncommentOrderList = computed(() => {
 const doneOrderList = computed(() => {
   return orderList.value.filter((order) => order.invoiceStatus === 'DONE')
 })
+const chosenList = ref([])
 
 getOrderList()
+
 function getOrderList() {
   getAllOrderByUserId(userId).then(res => {
     orderList.value = res
+    chosenList.value = res
   })
 }
 </script>
@@ -43,71 +46,63 @@ function getOrderList() {
           class="empty-button"
           @click="() => {router.replace('allstore')}">
         > 去商店区转转
-        <el-icon class="el-icon--right"><shopping-trolley /></el-icon>
+        <el-icon class="el-icon--right">
+          <shopping-trolley/>
+        </el-icon>
       </el-button>
     </el-empty>
-    <span>
-    <el-button
-        v-model="orderType"
-        @click="orderType = 'ALL'">
-      所有订单
-    </el-button>
-    <el-button
-        v-model="orderType"
-        @click="orderType = 'UNPAID'">
-      待支付
-    </el-button>
-    <el-button
-        v-model="orderType"
-        @click="orderType = 'UPSEND'">
-      待发货
-    </el-button>
-    <el-button
-        v-model="orderType"
-        @click="orderType = 'UNGET'">
-      待收货
-    </el-button>
-    <el-button
-        v-model="orderType"
-        @click="orderType = 'UNCOMMENT'">
-      待评价
-    </el-button>
-    <el-button
-        v-model="orderType"
-        @click="orderType = 'DONE'">
-      已完成
-    </el-button>
-      </span>
+    <div v-if="orderList.length > 0" class="choose-button">
+      <el-button
+          v-model="orderType"
+          color="skyblue"
+          plain
+          @click="chosenList = orderList">
+        所有订单
+      </el-button>
+      <el-button
+          v-model="orderType"
+          type="danger"
+          plain
+          @click="chosenList = unpaidOrderList">
+        待支付
+      </el-button>
+      <el-button
+          v-model="orderType"
+          type="primary"
+          plain
+          @click="chosenList = unsendOrderList">
+        待发货
+      </el-button>
+      <el-button
+          v-model="orderType"
+          type="primary"
+          plain
+          @click="chosenList = ungetOrderList">
+        待收货
+      </el-button>
+      <el-button
+          v-model="orderType"
+          type="success"
+          plain
+          @click="chosenList = uncommentOrderList">
+        待评价
+      </el-button>
+      <el-button
+          v-model="orderType"
+          type="info"
+          plain
+          @click="chosenList = doneOrderList">
+        已完成
+      </el-button>
+    </div>
     <order-item
-        v-if="orderList.length > 0 && orderType === 'ALL'"
-        v-for="order in orderList"
+        v-if="chosenList.length > 0"
+        v-for="order in chosenList"
         :order="order"
         class="order-item"/>
-    <order-item
-        v-if="orderList.length > 0 && orderType === 'UNPAID'"
-        v-for="order in unpaidOrderList"
-        :order="order"
-        class="order-item"/>
-    <order-item
-        v-if="orderList.length > 0 && orderType === 'UNSEND'"
-        v-for="order in unsendOrderList"
-        :order="order"
-        class="order-item"/>
-    <order-item
-        v-if="orderList.length > 0 && orderType === 'UNGET'"
-        v-for="order in ungetOrderList"
-        :order="order"
-        class="order-item"/>
-    <order-item
-        v-if="orderList.length > 0 && orderType === 'UNCOMMENT'"
-        v-for="order in uncommentOrderList"
-        :order="order"
-        class="order-item"/>
-    <order-item
-        v-if="orderList.length > 0 && orderType === 'DONE'"
-        v-for="order in doneOrderList"
-        :order="order"
-        class="order-item"/>
+    <el-empty
+        v-if="chosenList.length === 0"
+        description="什么也没有/_ \"/>
   </el-main>
 </template>
 
@@ -120,6 +115,19 @@ function getOrderList() {
   align-items: center;
   background: floralwhite;
   gap: 20px;
+}
+
+.choose-button {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+
+  position: fixed;
+  top: 270px;
+  left: 80px
 }
 
 .order-item {

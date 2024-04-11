@@ -1,8 +1,7 @@
 <!--Lab2新增-商品详情界面-->
 <script setup lang="ts">
 import {computed, ref} from "vue";
-import {productInfo, getProductImages, updateProductSales} from "../../api/product.ts";
-import {ElMessage} from "element-plus";
+import {productInfo, getProductImages} from "../../api/product.ts";
 import UpdateProduct from "../../components/UpdateProduct.vue";
 import CreateOrder from "../../components/CreateOrder.vue";
 import {router} from "../../router";
@@ -27,8 +26,6 @@ getProductId().then(res => {
 })
 
 async function getProductId() {
-  //const args = url.split('/')
-  //productId.value = parseInt(args[7])
   productId.value = Number(router.currentRoute.value.params.productId)
   return productId.value
 }

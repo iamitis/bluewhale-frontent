@@ -5,7 +5,7 @@ import {allProductsInfo, storeInfo} from "../../api/store.ts";
 import CreateProduct from "../../components/CreateProduct.vue";
 import ProductItem from "../../components/ProductItem.vue";
 import {router} from "../../router";
-import {ShoppingTrolley} from "@element-plus/icons-vue";
+import {Location, ShoppingTrolley} from "@element-plus/icons-vue";
 
 let storeId = 0
 const storeName = ref('')
@@ -70,7 +70,7 @@ function getProductsInfo() {
               <span class="store-name">{{ storeName }}</span>
               <el-rate v-model="storeScore"/>
               <p class="store-dsc">{{ description }}</p>
-              <p class="store-address">商店地址 : <br>{{storeAddress}}</p>
+              <p class="store-address"><el-tag type="info" round><el-icon><location /></el-icon>{{storeAddress}}</el-tag></p>
             </div>
           </el-card>
 
@@ -167,6 +167,7 @@ function getProductsInfo() {
   font-family: "Microsoft YaHei UI Light", serif;
   font-size: 90%;
   color: black;
+  margin-bottom: -8px;
 }
 
 .create-button {
