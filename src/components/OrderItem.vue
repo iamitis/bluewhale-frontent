@@ -11,7 +11,7 @@ const productUrl = ref('')
 const productPrice = ref(-1) // unit price
 const orderCreateTime = ref('')
 const printState = computed(() => {
-  return stateMap(props.order.invoiceStatus)
+  return stateMap.get(props.order.invoiceStatus)
 })
 const stateTagType = computed(() => {
   return printState.value.type

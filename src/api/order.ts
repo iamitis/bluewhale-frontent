@@ -73,17 +73,9 @@ export const formattedTime = (timestamp) => {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
 }
 
-export const stateMap =  (state: string) => {
-    if (state === 'UNPAID') {
-        return {text: '待支付', type: 'danger'}
-    } else if (state === 'UNSEND') {
-        return {text: '待发货', type: 'primary'}
-    } else if (state === 'UNGET') {
-        return {text: '待收货', type: 'primary'}
-    } else if (state === 'UNCOMMENT') {
-        return {text: '待评价', type: 'success'}
-    } else if (state === 'DONE') {
-        return {text: '已完成', type: 'info'}
-    }
-    return {text: 'error', type: 'danger'}
-}
+export const stateMap = new Map()
+stateMap.set('UNPAID', {text: '待支付', type: 'danger'})
+stateMap.set('UNSEND', {text: '待发货', type: 'primary'})
+stateMap.set('UNGET', {text: '待收货', type: 'primary'})
+stateMap.set('UNCOMMENT', {text: '待评价', type: 'success'})
+stateMap.set('DONE', {text: '已完成', type: 'info'})

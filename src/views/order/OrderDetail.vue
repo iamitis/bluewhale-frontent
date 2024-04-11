@@ -5,6 +5,7 @@ import {formattedTime, getOrderByOrderId, payOrder, stateMap} from "../../api/or
 import {productInfo} from "../../api/product.ts";
 import PayOrder from "../../components/PayOrder.vue";
 import ShipOrder from "../../components/ShipOrder.vue";
+import ReceiveOrder from "../../components/ReceiveOrder.vue";
 
 const orderId = ref(-1)
 const order = ref()
@@ -53,7 +54,7 @@ function getOrder() {
     consigneePhone.value = res.invoicePhone
     pickup.value = res.getProducts
     orderState.value = res.invoiceStatus
-    printState.value = stateMap(orderState.value)
+    printState.value = stateMap.get(res.invoiceStatus)
     orderCreateTime.value = formattedTime(Date.parse(res.invoiceTime))
     orderPayTime.value = formattedTime(Date.parse(res.invoicePayTime))
     return productInfo(res.invoiceProductId)
