@@ -6,6 +6,7 @@ import {productInfo} from "../../api/product.ts";
 import PayOrder from "../../components/PayOrder.vue";
 import ShipOrder from "../../components/ShipOrder.vue";
 import ReceiveOrder from "../../components/ReceiveOrder.vue";
+import RateOrder from "../../components/rateOrder.vue";
 
 const orderId = ref(-1)
 const order = ref()
@@ -32,6 +33,7 @@ const orderPayTime = ref('')
 const payDialogVisible = ref(false)
 const shipDialogVisible = ref(false)
 const receiveDialogVisible = ref(false)
+const rateDialogVisible = ref(false)
 const role = sessionStorage.getItem('role')
 
 getOrder()
@@ -135,6 +137,7 @@ function getOrder() {
         <el-col v-if="orderState === 'UNCOMMENT' && role === 'CUSTOMER'" :span="2">
           <el-button
               type="success"
+              @click="rateDialogVisible = true"
               text>
             评价一下
           </el-button>
@@ -173,6 +176,14 @@ function getOrder() {
         :title="'确认您购买的商品 ' + productName + ' 已收到'">
       <receive-order :order-id="orderId" :count="count"/>
     </el-dialog>
+    <el-dialog
+        class="rate-dialog"
+        v-model="rateDialogVisible"
+        width="30%"
+        draggable
+        title="请给我们一个好评!">
+      <rate-order :order-id="orderId"/>
+    </el-dialog>
   </el-main>
 </template>
 
@@ -188,7 +199,7 @@ function getOrder() {
 
 .order-card {
   width: 60%;
-  height: 48%;
+  height: min-content;
   background: aliceblue;
 }
 

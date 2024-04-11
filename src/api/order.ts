@@ -19,6 +19,12 @@ export type OrderPayInfo = {
     invoicePrice: number,
 }
 
+export type OrderRateInfo = {
+    invoiceId: number,
+    score: number,
+    comment: string,
+}
+
 export const getAllOrderByUserId = (userId: number) => {
     return axios.get(`${USER_MODULE}/getAllInvoices`, {params: {'userId': userId}})
         .then(res => {
@@ -57,6 +63,14 @@ export const shipOrder = (invoiceId: number) => {
 
 export const receiveOrder = (invoiceId: number) => {
     return axios.post(`${ORDER_MODULE}/getInvoice`, null, {params: invoiceId})
+        .then(res => {
+            return res
+        })
+}
+
+export const rateOrder = (orderRateInfo: OrderRateInfo) => {
+    console.log(orderRateInfo)
+    return axios.post(`${ORDER_MODULE}/commentInvoice`, null, {params: orderRateInfo})
         .then(res => {
             return res
         })
