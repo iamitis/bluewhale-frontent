@@ -14,13 +14,14 @@ const productDescription = ref('')
 const productCoverUrl = ref('')
 const productPrice = ref(-1)
 const productDetailImages = ref([])
-const productScore = ref(5)
+const avgScore = ref()
 const productSales = ref(-1)
 const productStoreId = ref(-1)
 const role = sessionStorage.getItem('role')
 const storeIdOfUser = Number(sessionStorage.getItem('storeId'))
 const orderDialogVisible = ref(false)
 const rateList = ref([])
+const rateColor = ['darkgrey', 'lightpink', 'lightcoral']
 
 getProductId().then(res => {
   getProductInfo(res)
@@ -43,6 +44,7 @@ function getProductInfo(productId: number) {
     productPrice.value = res.productPrice
     productSales.value = res.productSales
     productStoreId.value = res.productStoreId
+    avgScore.value = res.productScore
   })
   getProductImages({imageBelong: 'PRODUCT', belongId: productId}).then(res => {
     productDetailImages.value = res
@@ -73,7 +75,7 @@ function getProductInfo(productId: number) {
           <el-card class="product-name-card" shadow="never">
             <div class="product-name-row">
               <span class="product-name">{{ productName }}</span>
-              <el-rate v-model="productScore"/>
+              <el-rate v-model="avgScore" allow-half disabled :colors=rateColor />
               <p class="product-dsc">{{ productDescription }}</p>
             </div>
           </el-card>

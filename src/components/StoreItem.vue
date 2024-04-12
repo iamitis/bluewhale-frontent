@@ -35,7 +35,7 @@ const props = defineProps({
         <el-col
             :span="12"
             class="dsc-col">
-          <p class="store-dsc">{{ description }}</p>
+          <el-text tag="p" class="store-dsc">{{ description }}</el-text>
         </el-col>
       </el-row>
     </el-card>
@@ -69,6 +69,9 @@ const props = defineProps({
 }
 
 .dsc-col {
+  display: flex;
+  display: -webkit-flex;
+  align-items: center;
   background: floralwhite;
 }
 
@@ -86,9 +89,10 @@ const props = defineProps({
 
 .store-dsc {
   text-decoration: none;
-  color: black;
+  margin-top: -30%;
+  /*color: black;
   letter-spacing: 1px;
   text-indent: 20px;
-  font-family: "Microsoft YaHei UI Light", serif;
+  font-family: "Microsoft YaHei UI Light", serif;*/
 }
 </style>

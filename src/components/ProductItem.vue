@@ -37,8 +37,8 @@ const props = defineProps({
         <el-col
             :span="12"
             class="dtl-col">
-          <p class="product-dsc">{{productDescription}}</p>
-          <el-tag class="product-price">￥{{productPrice}}</el-tag>
+          <el-text tag="p" class="product-dsc">{{productDescription}}</el-text>
+          <el-tag size="large" class="product-price">￥{{productPrice}}</el-tag>
         </el-col>
       </el-row>
     </el-card>
@@ -66,6 +66,7 @@ const props = defineProps({
 .product-cover {
   width: 100%;
   height: 290px;
+  margin-top: -10%;
 }
 
 .cover-col {
@@ -73,6 +74,11 @@ const props = defineProps({
 }
 
 .dtl-col {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: column;
+  justify-content: start;
+  height: 260px;
   background: floralwhite;
 }
 
@@ -90,14 +96,18 @@ const props = defineProps({
 
 .product-dsc {
   text-decoration: none;
-  color: black;
+  margin-top: 20%;
+  /*color: black;
   letter-spacing: 1px;
   text-indent: 20px;
-  font-family: "Microsoft YaHei UI Light", serif;
+  font-family: "Microsoft YaHei UI Light", serif;*/
 }
 
 .product-price {
-  /* TODO: hope to put in bottom right */
+  width: max-content;
+  align-self: start;
+  margin-top: 10%;
+  font-size: 90%;
 }
 
 </style>

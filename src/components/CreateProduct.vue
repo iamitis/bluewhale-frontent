@@ -142,7 +142,7 @@ function uploadDetailImages(productId: number) {
     })
     return Promise.all(promises)
   }).then(() => {
-    //window.location.reload()
+    window.location.reload()
   })
 }
 

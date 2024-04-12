@@ -32,6 +32,7 @@ function getStoreInfo(storeId: number) {
     description.value = res.category
     storeAddress.value = res.storeAddress
     logoUrl.value = res.storeImageUrl
+    storeScore.value = res.storeScore
   })
 }
 
@@ -68,7 +69,7 @@ function getProductsInfo() {
           <el-card class="store-name-card" shadow="never">
             <div class="store-name-row">
               <span class="store-name">{{ storeName }}</span>
-              <el-rate v-model="storeScore"/>
+              <el-rate v-model="storeScore" disabled allow-half :colors="['darkgrey', 'lightpink', 'lightcoral']"/>
               <p class="store-dsc">{{ description }}</p>
               <p class="store-address"><el-tag type="info" round><el-icon><location /></el-icon>{{storeAddress}}</el-tag></p>
             </div>
