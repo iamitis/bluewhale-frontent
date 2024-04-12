@@ -86,7 +86,7 @@ function getProductsInfo() {
             text
             type="primary"
             class="empty-button"
-            @click="() => {router.replace('/allstore')}">
+            @click="() => {router.push('/allstore')}">
           > 看看别的店
           <el-icon class="el-icon--right"><shopping-trolley /></el-icon>
         </el-button>

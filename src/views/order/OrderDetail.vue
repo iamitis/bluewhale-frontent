@@ -6,7 +6,7 @@ import {productInfo} from "../../api/product.ts";
 import PayOrder from "../../components/PayOrder.vue";
 import ShipOrder from "../../components/ShipOrder.vue";
 import ReceiveOrder from "../../components/ReceiveOrder.vue";
-import RateOrder from "../../components/rateOrder.vue";
+import RateOrder from "../../components/RateOrder.vue";
 
 const orderId = ref(-1)
 const order = ref()

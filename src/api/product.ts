@@ -30,6 +30,7 @@ export type DetailImageInfo = {
 }
 
 export const createProduct = (productInfo: ProductInfo) => {
+    console.log(productInfo)
     return axios.post(`${PRODUCT_MODULE}/createProduct`, productInfo,
         {headers: {'Content-Type': 'application/json'}})
         .then(res => {

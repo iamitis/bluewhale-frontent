@@ -44,7 +44,7 @@ function getOrderList() {
           text
           type="primary"
           class="empty-button"
-          @click="() => {router.replace('allstore')}">
+          @click="() => {router.push('allstore')}">
         > 去商店区转转
         <el-icon class="el-icon--right">
           <shopping-trolley/>

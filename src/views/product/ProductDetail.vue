@@ -6,7 +6,6 @@ import UpdateProduct from "../../components/UpdateProduct.vue";
 import CreateOrder from "../../components/CreateOrder.vue";
 import {router} from "../../router";
 
-const url = window.location.href
 const productId = ref(-1)
 const productName = ref('')
 const productType = ref('')
@@ -105,7 +104,7 @@ function getProductInfo(productId: number) {
       </el-carousel>
 
       <el-tag class="product-price">
-        ￥{{ productPrice }}.00
+        ￥{{ productPrice }}
       </el-tag>
 
       <el-button

@@ -38,7 +38,7 @@ const props = defineProps({
             :span="12"
             class="dtl-col">
           <p class="product-dsc">{{productDescription}}</p>
-          <el-tag class="product-price">￥{{productPrice}}.00</el-tag>
+          <el-tag class="product-price">￥{{productPrice}}</el-tag>
         </el-col>
       </el-row>
     </el-card>

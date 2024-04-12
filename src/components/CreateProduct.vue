@@ -142,7 +142,7 @@ function uploadDetailImages(productId: number) {
     })
     return Promise.all(promises)
   }).then(() => {
-    window.location.reload()
+    //window.location.reload()
   })
 }
 
@@ -168,7 +168,7 @@ function handleCreate() {
     productName: ruleForm.name,
     productCategory: ruleForm.type,
     productStoreId: pros.storeId,
-    productPrice: ruleForm.price,
+    productPrice: price.value,
     productDescription: ruleForm.description,
     productImageUrl: coverUrl.value,
     productRemains: 0,

@@ -69,7 +69,6 @@ export const receiveOrder = (invoiceId: number) => {
 }
 
 export const rateOrder = (orderRateInfo: OrderRateInfo) => {
-    console.log(orderRateInfo)
     return axios.post(`${ORDER_MODULE}/commentInvoice`, null, {params: orderRateInfo})
         .then(res => {
             return res

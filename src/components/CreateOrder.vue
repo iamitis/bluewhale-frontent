@@ -2,6 +2,7 @@
 import {computed, reactive, ref} from "vue";
 import {createOrder} from "../api/order.ts";
 import {ElMessage} from "element-plus";
+import {router} from "../router";
 
 const props = defineProps({
   productId: Number,
@@ -23,6 +24,7 @@ const hasConsigneeName = computed(() => consigneeName.value !== '')
 // 电话号码的规则
 const chinaMobileRegex = /^1(3[0-9]|4[579]|5[0-35-9]|6[2567]|7[0-8]|8[0-9]|9[189])\d{8}$/
 const phoneLegal = computed(() => chinaMobileRegex.test(consigneePhone.value))
+const orderId = ref(-1)
 
 function checkForm() {
   if (!hasPickup.value) {
@@ -52,13 +54,25 @@ function handleCreate() {
     invoiceName: consigneeName.value,
     invoicePhone: consigneePhone.value,
   }).then(res => {
-    if (res.data.code === '000') {  //类型守卫，它检查 res.data 对象中是否存在名为 code 的属性
+    if (res.data.code === '000') {
       ElMessage({
         message: "下单成功！",
         type: 'success',
         center: true,
       })
-      window.location.reload()
+      orderId.value = res.data.result
+      ElMessageBox.confirm(
+          '现在去支付？',
+          {
+            confirmButtonText: '去支付',
+            cancelButtonText: '稍后支付',
+            center: true,
+          }
+      ).then(() => {
+        router.push(`/orderdetail/${orderId.value}`)
+      }).catch(() => {
+        window.location.reload()
+      })
     }
   })
 }
