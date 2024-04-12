@@ -96,6 +96,7 @@ function getOrderList() {
       </el-button>
     </div>
     <order-item
+        style="text-decoration: none"
         v-if="chosenList.length > 0"
         v-for="order in chosenList.sort((a, b) => b.invoiceId - a.invoiceId)"
         :order="order"
