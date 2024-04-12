@@ -25,7 +25,7 @@ getProduct().then(res => {
   productUrl.value = res.productImageUrl
   productPrice.value = res.productPrice
 })
-orderCreateTime.value = formattedTime(Date.parse(props.order.invoiceTime))
+orderCreateTime.value = formattedTime(props.order.invoiceTime)
 
 function getProduct() {
   return productInfo(props.order.invoiceProductId)

@@ -69,3 +69,10 @@ export const updateProductPicture = (detailImage: DetailImage) => {
             return res.data.result
         })
 }
+
+export const getAllRates = (productId: number) => {
+    return axios.get(`${PRODUCT_MODULE}/getAllComments/${productId}`)
+        .then(res => {
+            return res.data.result
+        })
+}

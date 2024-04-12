@@ -1,10 +1,11 @@
 <!--Lab2新增-商品详情界面-->
 <script setup lang="ts">
 import {computed, ref} from "vue";
-import {productInfo, getProductImages} from "../../api/product.ts";
+import {productInfo, getProductImages, getAllRates} from "../../api/product.ts";
 import UpdateProduct from "../../components/UpdateProduct.vue";
 import CreateOrder from "../../components/CreateOrder.vue";
 import {router} from "../../router";
+import RateItem from "../../components/RateItem.vue";
 
 const productId = ref(-1)
 const productName = ref('')
@@ -19,9 +20,13 @@ const productStoreId = ref(-1)
 const role = sessionStorage.getItem('role')
 const storeIdOfUser = Number(sessionStorage.getItem('storeId'))
 const orderDialogVisible = ref(false)
+const rateList = ref([])
 
 getProductId().then(res => {
   getProductInfo(res)
+  getAllRates(res).then((res) => {
+    rateList.value = res
+  })
 })
 
 async function getProductId() {
@@ -78,7 +83,7 @@ function getProductInfo(productId: number) {
               class="sales-card"
               shadow="never">
             <el-tag class="sales">
-              当前库存  {{ productSales }}
+              当前库存 {{ productSales }}
             </el-tag>
             <update-product :product-id="productId"/>
           </el-card>
@@ -103,31 +108,41 @@ function getProductInfo(productId: number) {
         </el-carousel-item>
       </el-carousel>
 
-      <el-tag class="product-price">
-        ￥{{ productPrice }}
-      </el-tag>
+      <div>
+        <el-tag class="product-price">
+          ￥{{ productPrice }}
+        </el-tag>
 
-      <el-button
-          v-if="productSales > 0 && role === 'CUSTOMER'"
-          @click="orderDialogVisible = true"
-          class="order-button"
-          color="lightpink">
-        立即购买
-      </el-button>
-      <el-tag
-          v-if="productSales <= 0"
-          color="darkgrey"
-          class="no-stock">
-        商品抢光了>_&lt;
-      </el-tag>
+        <el-button
+            v-if="productSales > 0 && role === 'CUSTOMER'"
+            @click="orderDialogVisible = true"
+            class="order-button"
+            color="lightpink">
+          立即购买
+        </el-button>
+        <el-tag
+            v-if="productSales <= 0"
+            color="darkgrey"
+            class="no-stock">
+          商品抢光了>_&lt;
+        </el-tag>
+      </div>
+
+      <div class="rate-list-box">
+        <rate-item
+            v-for="rate in rateList.filter(i => i.score != null)"
+            :rate="rate"
+            class="rate-item"/>
+      </div>
+
       <el-dialog
           class="order-dialog"
           v-model="orderDialogVisible"
           width="20%"
           draggable
           :title="'购买 ' + productName">
-        <el-image :src="productCoverUrl" class="order-image" />
-        <p>当前仅剩 : {{productSales}}</p>
+        <el-image :src="productCoverUrl" class="order-image"/>
+        <p>当前仅剩 : {{ productSales }}</p>
         <create-order
             :product-id="productId"
             :product-name="productName"
@@ -205,6 +220,9 @@ function getProductInfo(productId: number) {
 }
 
 .el-main {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: column;
   background: linear-gradient(to right, floralwhite 0%, aliceblue 50%);
   gap: 20px;
 }
@@ -238,5 +256,18 @@ function getProductInfo(productId: number) {
 .order-image {
   width: 90%;
   margin-bottom: 10px;
+}
+
+.rate-list-box{
+  width: 100%;
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  gap: 20px;
+}
+
+.rate-item {
+  width: 46%;
 }
 </style>

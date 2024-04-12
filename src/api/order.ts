@@ -75,7 +75,8 @@ export const rateOrder = (orderRateInfo: OrderRateInfo) => {
         })
 }
 
-export const formattedTime = (timestamp) => {
+export const formattedTime = (time) => {
+    const timestamp = Date.parse(time)
     const date = new Date(timestamp)
     const year = date.getFullYear()
     const month = date.getMonth() + 1

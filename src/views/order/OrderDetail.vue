@@ -57,8 +57,8 @@ function getOrder() {
     pickup.value = res.getProducts
     orderState.value = res.invoiceStatus
     printState.value = stateMap.get(res.invoiceStatus)
-    orderCreateTime.value = formattedTime(Date.parse(res.invoiceTime))
-    orderPayTime.value = formattedTime(Date.parse(res.invoicePayTime))
+    orderCreateTime.value = formattedTime(res.invoiceTime)
+    orderPayTime.value = formattedTime(res.invoicePayTime)
     return productInfo(res.invoiceProductId)
   }).then(res => {
     productCoverUrl.value = res.productImageUrl
