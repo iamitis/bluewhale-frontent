@@ -29,6 +29,7 @@ function getStoreInfo() {
 
       <template v-else>
         <StoreItem
+            style="text-decoration: none"
             v-for="store in storeList"
             class="list-item"
             :store-name="store.storeName"

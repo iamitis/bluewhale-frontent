@@ -95,6 +95,7 @@ function getProductsInfo() {
 
       <template v-else>
         <product-item
+            style="text-decoration: none"
             v-for="product in productList"
             :key="product.productSales"
             :product-cover-url="product.productImageUrl"
