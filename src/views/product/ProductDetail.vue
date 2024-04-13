@@ -21,12 +21,28 @@ const role = sessionStorage.getItem('role')
 const storeIdOfUser = Number(sessionStorage.getItem('storeId'))
 const orderDialogVisible = ref(false)
 const rateList = ref([])
+const allRateList = computed(() => {
+  return rateList.value.filter((rate) => rate.score != null)
+})
+const positiveList = computed(() => {
+  return allRateList.value.filter((rate) => rate.score === 5)
+})
+const middlingList = computed(() => {
+  return allRateList.value.filter((rate) => rate.score >= 2 && rate.score <= 4)
+})
+const negativeList = computed(() => {
+  return allRateList.value.filter((rate) => rate.score === 1)
+})
+const chosenList = ref([])
+const option = ref('全部评论')
+const rateOptions = ['全部评论', '好评', '中评', '差评']
 const rateColor = ['darkgrey', 'lightpink', 'lightcoral']
 
 getProductId().then(res => {
   getProductInfo(res)
   getAllRates(res).then((res) => {
     rateList.value = res
+    chosenList.value = rateList.value.filter((rate) => rate.score != null)
   })
 })
 
@@ -75,7 +91,7 @@ function getProductInfo(productId: number) {
           <el-card class="product-name-card" shadow="never">
             <div class="product-name-row">
               <span class="product-name">{{ productName }}</span>
-              <el-rate v-model="avgScore" allow-half disabled :colors=rateColor />
+              <el-rate v-model="avgScore" :colors=rateColor allow-half disabled/>
               <p class="product-dsc">{{ productDescription }}</p>
             </div>
           </el-card>
@@ -88,6 +104,28 @@ function getProductInfo(productId: number) {
               当前库存 {{ productSales }}
             </el-tag>
             <update-product :product-id="productId"/>
+          </el-card>
+
+          <el-card class="price-pay" shadow="never">
+            <div>
+              <el-tag class="product-price">
+                ￥{{ productPrice }}
+              </el-tag>
+
+              <el-button
+                  v-if="productSales > 0 && role === 'CUSTOMER'"
+                  @click="orderDialogVisible = true"
+                  class="order-button"
+                  color="lightpink">
+                立即购买
+              </el-button>
+              <el-tag
+                  v-if="productSales <= 0"
+                  color="darkgrey"
+                  class="no-stock">
+                商品抢光了>_&lt;
+              </el-tag>
+            </div>
           </el-card>
 
         </el-space>
@@ -110,31 +148,24 @@ function getProductInfo(productId: number) {
         </el-carousel-item>
       </el-carousel>
 
-      <div>
-        <el-tag class="product-price">
-          ￥{{ productPrice }}
-        </el-tag>
-
-        <el-button
-            v-if="productSales > 0 && role === 'CUSTOMER'"
-            @click="orderDialogVisible = true"
-            class="order-button"
-            color="lightpink">
-          立即购买
-        </el-button>
-        <el-tag
-            v-if="productSales <= 0"
-            color="darkgrey"
-            class="no-stock">
-          商品抢光了>_&lt;
-        </el-tag>
+      <div class="rate-options-box">
+        <el-radio-group v-model="option" fill="mistyrose" text-color="grey" class="rate-options">
+          <el-radio-button :label="rateOptions[0]" @click="chosenList = allRateList"/>
+          <el-radio-button :label="rateOptions[1]" @click="chosenList = positiveList"/>
+          <el-radio-button :label="rateOptions[2]" @click="chosenList = middlingList"/>
+          <el-radio-button :label="rateOptions[3]" @click="chosenList = negativeList"/>
+        </el-radio-group>
       </div>
 
       <div class="rate-list-box">
         <rate-item
-            v-for="rate in rateList.filter(i => i.score != null)"
+            v-if="chosenList.length > 0"
+            v-for="rate in chosenList"
             :rate="rate"
             class="rate-item"/>
+        <el-empty
+            v-if="chosenList.length <= 0"
+            description="什么也没有/_ \"/>
       </div>
 
       <el-dialog
@@ -221,6 +252,12 @@ function getProductInfo(productId: number) {
   width: 150px;
 }
 
+.price-pay {
+  background: floralwhite;
+  display: flex;
+  justify-content: center;
+}
+
 .el-main {
   display: flex;
   display: -webkit-flex;
@@ -260,7 +297,7 @@ function getProductInfo(productId: number) {
   margin-bottom: 10px;
 }
 
-.rate-list-box{
+.rate-list-box {
   width: 100%;
   display: flex;
   display: -webkit-flex;
@@ -271,5 +308,13 @@ function getProductInfo(productId: number) {
 
 .rate-item {
   width: 46%;
+}
+
+.rate-options-box {
+
+}
+
+.rate-options {
+  margin-left: 2%;
 }
 </style>

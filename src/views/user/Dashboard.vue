@@ -224,6 +224,11 @@ function updatePassword() {
   padding: 15px;
   gap: 5px;
   justify-content: center;
+  background: floralwhite;
+}
+
+.aside-card {
+  background: aliceblue;
 }
 
 .card-header {
@@ -234,6 +239,7 @@ function updatePassword() {
 
 .change-card {
   width: 66%;
+  background: aliceblue;
 }
 
 .avatar-area {
