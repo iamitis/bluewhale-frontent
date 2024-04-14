@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {computed, reactive, ref} from "vue";
-import {createOrder} from "../api/order.ts";
+import {createOrder} from "../../api/order.ts";
 import {ElMessage} from "element-plus";
-import {router} from "../router";
+import {router} from "../../router";
 
 const props = defineProps({
   productId: Number,

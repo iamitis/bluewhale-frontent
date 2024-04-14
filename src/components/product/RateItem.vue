@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {formattedTime} from "../api/order.ts";
+import {formattedTime} from "../../api/order.ts";
 import {ref} from "vue";
 
 const props = defineProps(['rate'])

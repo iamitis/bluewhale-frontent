@@ -75,6 +75,13 @@ export const rateOrder = (orderRateInfo: OrderRateInfo) => {
         })
 }
 
+export const cancelOrder = (invoiceId: number) => {
+    return axios.post(`${ORDER_MODULE}/cancelInvoice`, null, {params: invoiceId})
+        .then(res => {
+            return res
+        })
+}
+
 export const formattedTime = (time) => {
     const timestamp = Date.parse(time)
     const date = new Date(timestamp)

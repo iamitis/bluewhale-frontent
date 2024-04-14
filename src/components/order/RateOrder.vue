@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {ref} from "vue";
-import {rateOrder} from "../api/order.ts";
+import {rateOrder} from "../../api/order.ts";
 import {ElMessage} from "element-plus";
 
 const props = defineProps({

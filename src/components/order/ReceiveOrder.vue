@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {receiveOrder} from "../api/order.ts";
+import {receiveOrder} from "../../api/order.ts";
 import {ElMessage} from "element-plus";
 
 const props = defineProps({

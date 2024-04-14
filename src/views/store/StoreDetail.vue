@@ -2,8 +2,8 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {allProductsInfo, storeInfo} from "../../api/store.ts";
-import CreateProduct from "../../components/CreateProduct.vue";
-import ProductItem from "../../components/ProductItem.vue";
+import CreateProduct from "../../components/product/CreateProduct.vue";
+import ProductItem from "../../components/product/ProductItem.vue";
 import {router} from "../../router";
 import {Location, ShoppingTrolley} from "@element-plus/icons-vue";
 

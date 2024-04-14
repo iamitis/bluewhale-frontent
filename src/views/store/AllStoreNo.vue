@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {allStoresInfo} from "../../api/store.ts";
-import StoreItem from "../../components/StoreItem.vue";
+import StoreItem from "../../components/store/StoreItem.vue";
 
 const storeList = ref([]);
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {reactive, ref} from "vue";
-import {updateProductSales} from "../api/product.ts";
+import {updateProductSales} from "../../api/product.ts";
 import {ElMessage, FormInstance, FormRules} from "element-plus";
 
 const dialogFormVisible = ref(false)

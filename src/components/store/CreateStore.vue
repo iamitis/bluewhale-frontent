@@ -7,10 +7,10 @@
 
 <script setup lang="ts">
 import {computed, ref} from 'vue'
-import {uploadImage} from '../api/tools.ts'
+import {uploadImage} from '../../api/tools.ts'
 import {Plus, InfoFilled, UploadFilled, Location} from "@element-plus/icons-vue"
 import {ElFormItem, ElMessage} from "element-plus";
-import {createStore} from "../api/store.ts";
+import {createStore} from "../../api/store.ts";
 
 const dialogFormVisible = ref(false)
 const imageFileList = ref([])

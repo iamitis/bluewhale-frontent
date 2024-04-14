@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, ref} from "vue";
-import {productInfo} from "../api/product.ts";
-import {formattedTime, stateMap} from "../api/order.ts";
+import {productInfo} from "../../api/product.ts";
+import {formattedTime, stateMap} from "../../api/order.ts";
 
 const props = defineProps([
   'order'

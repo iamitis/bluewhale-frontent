@@ -2,10 +2,10 @@
 <script setup lang="ts">
 import {computed, ref} from "vue";
 import {productInfo, getProductImages, getAllRates} from "../../api/product.ts";
-import UpdateProduct from "../../components/UpdateProduct.vue";
-import CreateOrder from "../../components/CreateOrder.vue";
+import UpdateProduct from "../../components/product/UpdateProduct.vue";
+import CreateOrder from "../../components/order/CreateOrder.vue";
 import {router} from "../../router";
-import RateItem from "../../components/RateItem.vue";
+import RateItem from "../../components/product/RateItem.vue";
 
 const productId = ref(-1)
 const productName = ref('')

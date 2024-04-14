@@ -1,30 +1,35 @@
 <script setup lang="ts">
-import {shipOrder} from "../api/order.ts";
+import {payOrder} from "../../api/order.ts";
 import {ElMessage} from "element-plus";
+import {computed, ref} from "vue";
 
 const props = defineProps({
   orderId: Number,
-  count: Number,
+  totalPrice: Number,
 })
+const payment = ref(props.totalPrice) // 现在还没有优惠券模块，先让用户自己输入实际付款金额
 
-function confirmShip() {
+function confirmPay() {
   ElMessageBox.confirm(
-      '确定为此订单发货吗？',
+      '确定支付此订单吗？',
       {
         confirmButtonText: '确定',
         cancelButtonText: '还没想好',
         center: true,
       }
   ).then(() => {
-    handleShip()
+    handlePay()
   })
 }
 
-function handleShip() {
-  shipOrder({invoiceId: props.orderId}).then(res => {
+function handlePay() {
+  payOrder({
+    invoiceId: props.orderId,
+    invoicePrice: payment.value
+  }).then(res => {
     if (res.data.code === '000') {
       ElMessage({
-        message: "发货成功！",
+        message: "支付成功！",
         type: 'success',
         center: true,
       })
@@ -41,24 +46,27 @@ function handleShip() {
 </script>
 
 <template>
-  <div class="ship-box">
-    <el-text size="large">
-      发货数量 : &emsp;
-      <el-tag type="warning">
-        {{ count }}
-      </el-tag>
-    </el-text>
+  <div class="pay-box">
+      <el-text size="large">
+        支付金额 : &emsp;
+        <el-input-number
+            v-model="payment"
+            :precision="2"
+            :step="0.1"
+            :min="0"
+            :max="props.totalPrice" />
+      </el-text>
     <el-button
-        @click="confirmShip"
+        @click="confirmPay"
         color="lightpink"
         class="pay-button">
-      发货
+      付款
     </el-button>
   </div>
 </template>
 
 <style scoped>
-.ship-box {
+.pay-box {
   display: flex;
   display: -webkit-flex;
   flex-flow: column;

@@ -1,9 +1,9 @@
 <!--Lab2新增-全部商店界面/主页-->
 <script setup lang="ts">
 import {computed, ref} from "vue";
-import CreateStore from "../../components/CreateStore.vue";
+import CreateStore from "../../components/store/CreateStore.vue";
 import {allStoresInfo} from "../../api/store.ts";
-import StoreItem from "../../components/StoreItem.vue";
+import StoreItem from "../../components/store/StoreItem.vue";
 
 const role = sessionStorage.getItem('role');
 const storeList = ref([]);

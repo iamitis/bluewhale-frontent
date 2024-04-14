@@ -3,10 +3,10 @@ import {computed, ref} from "vue";
 import {router} from "../../router";
 import {formattedTime, getOrderByOrderId, payOrder, stateMap} from "../../api/order.ts";
 import {productInfo} from "../../api/product.ts";
-import PayOrder from "../../components/PayOrder.vue";
-import ShipOrder from "../../components/ShipOrder.vue";
-import ReceiveOrder from "../../components/ReceiveOrder.vue";
-import RateOrder from "../../components/RateOrder.vue";
+import PayOrder from "../../components/order/PayOrder.vue";
+import ShipOrder from "../../components/order/ShipOrder.vue";
+import ReceiveOrder from "../../components/order/ReceiveOrder.vue";
+import RateOrder from "../../components/order/RateOrder.vue";
 
 const orderId = ref(-1)
 const order = ref()

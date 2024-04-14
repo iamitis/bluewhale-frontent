@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, ref} from "vue";
-import OrderItem from "../../components/OrderItem.vue";
+import OrderItem from "../../components/order/OrderItem.vue";
 import {router} from "../../router";
 import {ShoppingTrolley} from "@element-plus/icons-vue"
 import {getAllOrderByUserId} from "../../api/order.ts";   //图标

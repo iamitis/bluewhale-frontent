@@ -7,9 +7,9 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    CreateOrder: typeof import('./src/components/CreateOrder.vue')['default']
-    CreateProduct: typeof import('./src/components/CreateProduct.vue')['default']
-    CreateStore: typeof import('./src/components/CreateStore.vue')['default']
+    CreateOrder: typeof import('./src/components/order/CreateOrder.vue')['default']
+    CreateProduct: typeof import('./src/components/product/CreateProduct.vue')['default']
+    CreateStore: typeof import('./src/components/store/CreateStore.vue')['default']
     ElAffix: typeof import('element-plus/es')['ElAffix']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
@@ -47,16 +47,16 @@ declare module 'vue' {
     ElText: typeof import('element-plus/es')['ElText']
     ElUpload: typeof import('element-plus/es')['ElUpload']
     Header: typeof import('./src/components/Header.vue')['default']
-    OrderItem: typeof import('./src/components/OrderItem.vue')['default']
-    PayOrder: typeof import('./src/components/PayOrder.vue')['default']
-    ProductItem: typeof import('./src/components/ProductItem.vue')['default']
-    RateItem: typeof import('./src/components/RateItem.vue')['default']
-    RateOrder: typeof import('./src/components/RateOrder.vue')['default']
-    ReceiveOrder: typeof import('./src/components/ReceiveOrder.vue')['default']
+    OrderItem: typeof import('./src/components/order/OrderItem.vue')['default']
+    PayOrder: typeof import('./src/components/order/PayOrder.vue')['default']
+    ProductItem: typeof import('./src/components/product/ProductItem.vue')['default']
+    RateItem: typeof import('./src/components/product/RateItem.vue')['default']
+    RateOrder: typeof import('./src/components/order/RateOrder.vue')['default']
+    ReceiveOrder: typeof import('./src/components/order/ReceiveOrder.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    ShipOrder: typeof import('./src/components/ShipOrder.vue')['default']
-    StoreItem: typeof import('./src/components/StoreItem.vue')['default']
-    UpdateProduct: typeof import('./src/components/UpdateProduct.vue')['default']
+    ShipOrder: typeof import('./src/components/order/ShipOrder.vue')['default']
+    StoreItem: typeof import('./src/components/store/StoreItem.vue')['default']
+    UpdateProduct: typeof import('./src/components/product/UpdateProduct.vue')['default']
   }
 }
