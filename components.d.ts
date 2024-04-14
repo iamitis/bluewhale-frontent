@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    CancelOrder: typeof import('./src/components/order/CancelOrder.vue')['default']
     CreateOrder: typeof import('./src/components/order/CreateOrder.vue')['default']
     CreateProduct: typeof import('./src/components/product/CreateProduct.vue')['default']
     CreateStore: typeof import('./src/components/store/CreateStore.vue')['default']

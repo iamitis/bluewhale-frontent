@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import {computed, ref} from "vue";
 import {router} from "../../router";
+import {Close} from "@element-plus/icons-vue"
 import {formattedTime, getOrderByOrderId, payOrder, stateMap} from "../../api/order.ts";
 import {productInfo} from "../../api/product.ts";
 import PayOrder from "../../components/order/PayOrder.vue";
 import ShipOrder from "../../components/order/ShipOrder.vue";
 import ReceiveOrder from "../../components/order/ReceiveOrder.vue";
 import RateOrder from "../../components/order/RateOrder.vue";
+import CancelOrder from "../../components/order/CancelOrder.vue";
 
 const orderId = ref(-1)
 const order = ref()
@@ -34,6 +36,7 @@ const payDialogVisible = ref(false)
 const shipDialogVisible = ref(false)
 const receiveDialogVisible = ref(false)
 const rateDialogVisible = ref(false)
+const cancelDialogVisible = ref(false)
 const role = sessionStorage.getItem('role')
 
 getOrder()
@@ -71,12 +74,19 @@ function getOrder() {
 <template>
   <el-main class="el-main">
     <el-card class="order-card">
-      <el-row>
-        <el-col>
+      <el-row justify="space-between">
+        <el-col :span="6">
           <el-tag :type="stateTagType" class="order-state">{{ stateTagText }}</el-tag>
         </el-col>
+        <el-col v-if="orderState === 'UNPAID' && role === 'CUSTOMER'" :span="1" style="margin-top: -5px">
+          <el-button
+              type="info"
+              :icon="Close"
+              circle
+              @click="cancelDialogVisible = true" />
+        </el-col>
       </el-row>
-      <el-row :justify="'space-between'">
+      <el-row justify="space-between">
         <el-col :span="6">
           <h1>{{ productName }}</h1>
           <el-text size="large" type="info" tag="p">&emsp;&emsp;&emsp;&emsp;数量 :
@@ -156,24 +166,30 @@ function getOrder() {
         class="pay-dialog"
         v-model="payDialogVisible"
         width="20%"
-        draggable
-        :title="'为 ' + productName + ' 支付'">
+        draggable>
+      <template #header>
+        <el-text tag="h1" size="large">为 <el-tag type="info">{{productName}}</el-tag> 支付</el-text>
+      </template>
       <pay-order :order-id="orderId" :total-price="totalPrice"/>
     </el-dialog>
     <el-dialog
         class="ship-dialog"
         v-model="shipDialogVisible"
         width="20%"
-        draggable
-        :title="'为 ' + productName + ' 发货'">
+        draggable>
+      <template #header>
+        <el-text tag="h1" size="large">为 <el-tag type="info">{{productName}}</el-tag> 发货</el-text>
+      </template>
       <ship-order :order-id="orderId" :count="count"/>
     </el-dialog>
     <el-dialog
         class="receive-dialog"
         v-model="receiveDialogVisible"
         width="20%"
-        draggable
-        :title="'确认您购买的商品 ' + productName + ' 已收到'">
+        draggable>
+      <template #header>
+        <el-text tag="h1" size="large">确认您购买的商品 <el-tag type="info">{{productName}}</el-tag> 已收到</el-text>
+      </template>
       <receive-order :order-id="orderId" :count="count"/>
     </el-dialog>
     <el-dialog
@@ -183,6 +199,16 @@ function getOrder() {
         draggable
         title="请给我们一个好评!">
       <rate-order :order-id="orderId"/>
+    </el-dialog>
+    <el-dialog
+        class="cancel-dialog"
+        v-model="cancelDialogVisible"
+        width="30%"
+        draggable>
+      <template #header>
+        <el-text tag="h1" size="large">确定取消 <el-tag type="info">{{productName}}</el-tag> 的订单吗</el-text>
+      </template>
+      <cancel-order :order-id="orderId"/>
     </el-dialog>
   </el-main>
 </template>

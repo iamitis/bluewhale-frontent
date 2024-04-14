@@ -6,6 +6,7 @@ import {ShoppingTrolley} from "@element-plus/icons-vue"
 import {getAllOrderByUserId} from "../../api/order.ts";   //图标
 
 const userId = Number(sessionStorage.getItem('userId'))
+const role = sessionStorage.getItem('role')
 const orderType = ref('ALL')
 const orderList = ref([])
 const unpaidOrderList = computed(() => {
@@ -38,9 +39,10 @@ function getOrderList() {
 <template>
   <el-main class="el-main">
     <el-empty
-        v-if="orderList.length === 0"
-        description="空空如也/_ \">
+        v-if="chosenList.length === 0"
+        description="什么也没有/_ \">
       <el-button
+          v-if="role === 'CUSTOMER'"
           text
           type="primary"
           class="empty-button"
@@ -101,9 +103,6 @@ function getOrderList() {
         v-for="order in chosenList.sort((a, b) => b.invoiceId - a.invoiceId)"
         :order="order"
         class="order-item"/>
-    <el-empty
-        v-if="chosenList.length === 0"
-        description="什么也没有/_ \"/>
   </el-main>
 </template>
 
