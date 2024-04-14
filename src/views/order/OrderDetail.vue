@@ -27,6 +27,8 @@ const stateTagType = computed(() => {
 const stateTagText = computed(() => {
   return printState.value.text
 })
+const storeId = ref(-1)
+const productId = ref(-1)
 const productCoverUrl = ref('')
 const productName = ref('')
 const productPrice = ref('') // unit price
@@ -62,6 +64,8 @@ function getOrder() {
     printState.value = stateMap.get(res.invoiceStatus)
     orderCreateTime.value = formattedTime(res.invoiceTime)
     orderPayTime.value = formattedTime(res.invoicePayTime)
+    storeId.value = res.invoiceStoreId
+    productId.value = res.invoiceProductId
     return productInfo(res.invoiceProductId)
   }).then(res => {
     productCoverUrl.value = res.productImageUrl
@@ -112,7 +116,9 @@ function getOrder() {
           </el-text>
         </el-col>
         <el-col :span="8">
-          <el-image :src="productCoverUrl"/>
+          <el-image
+              :src="productCoverUrl"
+              @click="router.push(`/storedetail/${storeId}/productdetail/${productId}`)"/>
         </el-col>
       </el-row>
       <el-row justify="space-between" align="bottom">

@@ -3,7 +3,7 @@ import {computed, ref} from "vue";
 import OrderItem from "../../components/order/OrderItem.vue";
 import {router} from "../../router";
 import {ShoppingTrolley} from "@element-plus/icons-vue"
-import {getAllOrderByUserId} from "../../api/order.ts";   //图标
+import {getAllOrderByUserId} from "../../api/order.ts";
 
 const userId = Number(sessionStorage.getItem('userId'))
 const role = sessionStorage.getItem('role')

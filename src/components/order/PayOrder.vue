@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {payOrder} from "../../api/order.ts";
 import {ElMessage} from "element-plus";
-import {computed, ref} from "vue";
+import {ref} from "vue";
 
 const props = defineProps({
   orderId: Number,

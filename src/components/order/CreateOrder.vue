@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, reactive, ref} from "vue";
+import {computed, ref} from "vue";
 import {createOrder} from "../../api/order.ts";
 import {ElMessage} from "element-plus";
 import {router} from "../../router";
@@ -120,7 +120,6 @@ function handleCreate() {
 </template>
 
 <style scoped>
-.order-form {}
 .create-button-box {
   padding-top: 10px;
   display: flex;
