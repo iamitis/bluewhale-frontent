@@ -35,6 +35,7 @@ function getStoreInfo() {
             :store-name="store.storeName"
             :description="store.category"
             :store-id="store.storeId"
+            :store-score="store.storeScore"
             :logo-url="store.storeImageUrl"/>
       </template>
       <create-store

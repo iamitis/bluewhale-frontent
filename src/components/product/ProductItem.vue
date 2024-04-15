@@ -9,6 +9,7 @@ const props = defineProps({
   productId: Number,
   productPrice: Number,
   storeId: Number,
+  productScore: Number,
 })
 
 </script>
@@ -20,7 +21,14 @@ const props = defineProps({
         class="product-card"
         shadow="always">
       <template #header>
-        <span class="product-name"><b>{{productName}}</b></span>
+        <div style="display: flex; justify-content: space-between">
+          <span class="product-name"><b>{{ productName }}</b></span>
+          <el-rate
+              v-if="productScore != null"
+              v-model="props.productScore"
+              :colors="['darkgrey', 'lightpink', 'lightcoral']"
+              disabled />
+        </div>
       </template>
       <el-row
           :gutter="12"
@@ -37,8 +45,8 @@ const props = defineProps({
         <el-col
             :span="12"
             class="dtl-col">
-          <el-text tag="p" class="product-dsc">{{productDescription}}</el-text>
-          <el-tag size="large" class="product-price">￥{{productPrice}}</el-tag>
+          <el-text tag="p" class="product-dsc">{{ productDescription }}</el-text>
+          <el-tag size="large" class="product-price">￥{{ productPrice }}</el-tag>
         </el-col>
       </el-row>
     </el-card>
@@ -55,7 +63,7 @@ const props = defineProps({
   border-radius: 18px;
 }
 
-.product-card:hover{
+.product-card:hover {
   box-shadow: 0 0 10px 10px lavender;
 }
 

@@ -15,6 +15,7 @@ const storeAddress = ref('')
 const logoUrl = ref('')
 const productList = ref([])
 const storeScore = ref(5)
+const scoreCount = ref(0)
 const role = sessionStorage.getItem('role')
 
 getStoreId().then(res => {
@@ -33,6 +34,7 @@ function getStoreInfo(storeId: number) {
     storeAddress.value = res.storeAddress
     logoUrl.value = res.storeImageUrl
     storeScore.value = res.storeScore
+    scoreCount.value = res.storeCommentNum
   })
 }
 
@@ -69,7 +71,16 @@ function getProductsInfo() {
           <el-card class="store-name-card" shadow="never">
             <div class="store-name-row">
               <span class="store-name">{{ storeName }}</span>
-              <el-rate v-model="storeScore" disabled allow-half :colors="['darkgrey', 'lightpink', 'lightcoral']"/>
+              <el-rate
+                  v-model="storeScore"
+                  disabled
+                  allow-half
+                  :colors="['darkgrey', 'lightpink', 'lightcoral']"/>
+              <p style="height: 15px; margin-top: -8px">
+                <el-tag type="info" style="height: 14px" size="small">
+                  {{scoreCount}}人评分
+                </el-tag>
+              </p>
               <p class="store-dsc">{{ description }}</p>
               <p class="store-address"><el-tag type="info" round><el-icon><location /></el-icon>{{storeAddress}}</el-tag></p>
             </div>
@@ -103,6 +114,7 @@ function getProductsInfo() {
             :product-id="product.productId"
             :product-name="product.productName"
             :product-price="product.productPrice"
+            :product-score="product.productScore"
             :store-id="storeId"/>
       </template>
       <create-product :store-id="storeId" v-if="role === 'STAFF' && storeId === storeIdOfUser"/>

@@ -7,6 +7,7 @@ const props = defineProps({
   description: String,
   logoUrl: String,
   storeId: Number,
+  storeScore: Number,
 })
 
 </script>
@@ -18,7 +19,14 @@ const props = defineProps({
         class="store-card"
         shadow="always">
       <template #header>
+        <div style="display: flex; justify-content: space-between">
         <span class="store-name"><b>{{ storeName }}</b></span>
+        <el-rate
+            v-if="storeScore != null"
+            v-model="props.storeScore"
+            :colors="['darkgrey', 'lightpink', 'lightcoral']"
+            disabled />
+        </div>
       </template>
       <el-row
           :gutter="12"
