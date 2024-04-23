@@ -20,6 +20,7 @@ const typeList = ref(
 const pros = defineProps({
   storeId: Number
 })
+const emit = defineEmits(['createProductFinished'])
 
 const coverFileList = ref([])
 const coverUrl = ref('')
@@ -142,7 +143,8 @@ function uploadDetailImages(productId: number) {
     })
     return Promise.all(promises)
   }).then(() => {
-    window.location.reload()
+    dialogFormVisible.value = false
+    emit("createProductFinished", true)
   })
 }
 

@@ -6,6 +6,7 @@ const props = defineProps({
   orderId: Number,
   count: Number,
 })
+const emit = defineEmits(['shipFinished'])
 
 function confirmShip() {
   ElMessageBox.confirm(
@@ -28,13 +29,14 @@ function handleShip() {
         type: 'success',
         center: true,
       })
-      window.location.reload()
+      emit("shipFinished", true)
     } else if (res.data.code === '400') {
       ElMessage({
         message: res.data.msg,
         type: 'error',
         center: true,
       })
+      emit("shipFinished", false)
     }
   })
 }

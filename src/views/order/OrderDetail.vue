@@ -73,6 +73,21 @@ function getOrder() {
     productPrice.value = res.productPrice
   })
 }
+
+function closeDialog() {
+  payDialogVisible.value = false
+  shipDialogVisible.value = false
+  receiveDialogVisible.value = false
+  rateDialogVisible.value = false
+  cancelDialogVisible.value = false
+}
+
+function refresh(success: boolean) {
+  if (success) {
+    closeDialog()
+    getOrder()
+  }
+}
 </script>
 
 <template>
@@ -176,7 +191,7 @@ function getOrder() {
       <template #header>
         <el-text tag="h1" size="large">为 <el-tag type="info">{{productName}}</el-tag> 支付</el-text>
       </template>
-      <pay-order :order-id="orderId" :total-price="totalPrice"/>
+      <pay-order :order-id="orderId" :total-price="totalPrice" @pay-finished="refresh"/>
     </el-dialog>
     <el-dialog
         class="ship-dialog"
@@ -186,7 +201,7 @@ function getOrder() {
       <template #header>
         <el-text tag="h1" size="large">为 <el-tag type="info">{{productName}}</el-tag> 发货</el-text>
       </template>
-      <ship-order :order-id="orderId" :count="count"/>
+      <ship-order :order-id="orderId" :count="count" @ship-finished="refresh"/>
     </el-dialog>
     <el-dialog
         class="receive-dialog"
@@ -196,7 +211,7 @@ function getOrder() {
       <template #header>
         <el-text tag="h1" size="large">确认您购买的商品 <el-tag type="info">{{productName}}</el-tag> 已收到</el-text>
       </template>
-      <receive-order :order-id="orderId" :count="count"/>
+      <receive-order :order-id="orderId" :count="count" @receive-finished="refresh"/>
     </el-dialog>
     <el-dialog
         class="rate-dialog"
@@ -204,7 +219,7 @@ function getOrder() {
         width="30%"
         draggable
         title="请给我们一个好评!">
-      <rate-order :order-id="orderId"/>
+      <rate-order :order-id="orderId" @rate-finished="refresh"/>
     </el-dialog>
     <el-dialog
         class="cancel-dialog"

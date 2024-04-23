@@ -46,6 +46,11 @@ function getProductsInfo() {
   })
 }
 
+function refresh(success: boolean) {
+  if (success) {
+    getProductsInfo()
+  }
+}
 
 </script>
 
@@ -77,14 +82,27 @@ function getProductsInfo() {
                   allow-half
                   :colors="['darkgrey', 'lightpink', 'lightcoral']"/>
               <p style="height: 15px; margin-top: -8px">
-                <el-tag type="info" style="height: 14px" size="small">
-                  {{scoreCount}}人评分
+                <el-tag v-if="scoreCount != null" type="info" style="height: 14px" size="small">
+                  {{ scoreCount }}人评分
+                </el-tag>
+                <el-tag v-if="scoreCount == null" type="info" style="height: 14px" size="small">
+                  暂无评分
                 </el-tag>
               </p>
               <p class="store-dsc">{{ description }}</p>
-              <p class="store-address"><el-tag type="info" round><el-icon><location /></el-icon>{{storeAddress}}</el-tag></p>
+              <p class="store-address">
+                <el-tag type="info" round>
+                  <el-icon>
+                    <location/>
+                  </el-icon>
+                  {{ storeAddress }}
+                </el-tag>
+              </p>
             </div>
           </el-card>
+
+          <create-product :store-id="storeId" v-if="role === 'STAFF' && storeId === storeIdOfUser"
+                          @create-product-finished="refresh"/>
 
         </el-space>
       </el-affix>
@@ -100,7 +118,9 @@ function getProductsInfo() {
             class="empty-button"
             @click="() => {router.push('/allstore')}">
           > 看看别的店
-          <el-icon class="el-icon--right"><shopping-trolley /></el-icon>
+          <el-icon class="el-icon--right">
+            <shopping-trolley/>
+          </el-icon>
         </el-button>
       </el-empty>
 
@@ -117,7 +137,6 @@ function getProductsInfo() {
             :product-score="product.productScore"
             :store-id="storeId"/>
       </template>
-      <create-product :store-id="storeId" v-if="role === 'STAFF' && storeId === storeIdOfUser"/>
     </el-main>
   </el-container>
 </template>

@@ -7,6 +7,7 @@ const dialogFormVisible = ref(false)
 const props = defineProps({
   productId: Number
 })
+const emit = defineEmits(['updateProductFinished'])
 
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<RuleForm>({
@@ -74,7 +75,8 @@ function handleUpdate() {
             type: 'success',
             center: true,
           })
-          window.location.reload()
+          dialogFormVisible.value = false
+          emit("updateProductFinished", true)
         } else if (res.data.code == '400') {
           ElMessage({
             message: res.data.msg,

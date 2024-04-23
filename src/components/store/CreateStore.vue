@@ -12,6 +12,7 @@ import {Plus, InfoFilled, UploadFilled, Location} from "@element-plus/icons-vue"
 import {ElFormItem, ElMessage} from "element-plus";
 import {createStore} from "../../api/store.ts";
 
+const emit = defineEmits(['createStoreFinished'])
 const dialogFormVisible = ref(false)
 const imageFileList = ref([])
 const logoUrl = ref('')
@@ -71,7 +72,8 @@ function handleCreate() {
         type: 'success',
         center: true,
       })
-      window.location.reload()
+      dialogFormVisible.value = false
+      emit("createStoreFinished", true)
     } else if (res.data.code === '400') {
       ElMessage({
         message: res.data.msg,

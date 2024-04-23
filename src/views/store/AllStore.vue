@@ -16,6 +16,12 @@ function getStoreInfo() {
   })
 }
 
+function refresh(success: boolean) {
+  if (success) {
+    getStoreInfo()
+  }
+}
+
 </script>
 
 
@@ -39,6 +45,7 @@ function getStoreInfo() {
             :logo-url="store.storeImageUrl"/>
       </template>
       <create-store
+          @create-store-finished="refresh"
           v-if="role === 'MANAGER'"
           class="create-button"/>
     </el-main>

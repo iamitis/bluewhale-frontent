@@ -6,6 +6,7 @@ import {ElMessage} from "element-plus";
 const props = defineProps({
   orderId: Number,
 })
+const emit = defineEmits(['rateFinished'])
 const score = ref(5)
 const comment = ref('')
 
@@ -24,13 +25,14 @@ function handleRate() {
         type: 'success',
         center: true,
       })
-      window.location.reload()
+      emit("rateFinished", true)
     } else if (res.data.code === '400') {
       ElMessage({
         message: res.data.msg,
         type: 'error',
         center: true,
       })
+      emit("rateFinished", false)
     }
   })
 }

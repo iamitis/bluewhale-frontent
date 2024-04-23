@@ -69,6 +69,13 @@ function getProductInfo(productId: number) {
   })
 }
 
+function refresh(success: boolean) {
+  if (success) {
+    orderDialogVisible.value = false
+    getProductInfo(productId.value)
+  }
+}
+
 </script>
 
 
@@ -99,8 +106,11 @@ function getProductInfo(productId: number) {
                   allow-half
                   disabled/>
               <p style="height: 15px; margin-top: -8px">
-                <el-tag type="info" style="height: 14px" size="small">
+                <el-tag v-if="scoreCount != null" type="info" style="height: 14px" size="small">
                   {{scoreCount}}人评分
+                </el-tag>
+                <el-tag v-if="scoreCount == null" type="info" style="height: 14px" size="small">
+                  暂无评分
                 </el-tag>
               </p>
               <p class="product-dsc">{{ productDescription }}</p>
@@ -114,7 +124,7 @@ function getProductInfo(productId: number) {
             <el-tag class="sales">
               当前库存 {{ productSales }}
             </el-tag>
-            <update-product :product-id="productId"/>
+            <update-product :product-id="productId" @update-product-finished="refresh"/>
           </el-card>
 
           <el-card class="price-pay" shadow="never">
@@ -192,7 +202,8 @@ function getProductInfo(productId: number) {
             :product-name="productName"
             :product-price="productPrice"
             :product-store-id="productStoreId"
-            :product-sales="productSales"/>
+            :product-sales="productSales"
+            @create-order-finished="refresh"/>
       </el-dialog>
     </el-main>
   </el-container>

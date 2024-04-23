@@ -7,6 +7,7 @@ const props = defineProps({
   orderId: Number,
   totalPrice: Number,
 })
+const emit = defineEmits(['payFinished'])
 const payment = ref(props.totalPrice) // 现在还没有优惠券模块，先让用户自己输入实际付款金额
 
 function confirmPay() {
@@ -33,13 +34,14 @@ function handlePay() {
         type: 'success',
         center: true,
       })
-      window.location.reload()
+      emit("payFinished", true)
     } else if (res.data.code === '400') {
       ElMessage({
         message: res.data.msg,
         type: 'error',
         center: true,
       })
+      emit("payFinished", false)
     }
   })
 }

@@ -11,6 +11,7 @@ const props = defineProps({
   productPrice: Number,
   productStoreId: Number,
 })
+const emit = defineEmits(['createOrderFinished'])
 const userId = Number(sessionStorage.getItem('userId'))
 const count = ref(1)
 const totalPrice = computed(() => props.productPrice * count.value)
@@ -71,7 +72,7 @@ function handleCreate() {
       ).then(() => {
         router.push(`/orderdetail/${orderId.value}`)
       }).catch(() => {
-        window.location.reload()
+        emit("createOrderFinished", true)
       })
     }
   })

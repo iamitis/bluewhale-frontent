@@ -6,6 +6,7 @@ const props = defineProps({
   orderId: Number,
   count: Number,
 })
+const emit = defineEmits(['receiveFinished'])
 
 function confirmReceive() {
   ElMessageBox.confirm(
@@ -28,13 +29,14 @@ function handleReceive() {
         type: 'success',
         center: true,
       })
-      window.location.reload()
+      emit("receiveFinished", true)
     } else if (res.data.code === '400') {
       ElMessage({
         message: res.data.msg,
         type: 'error',
         center: true,
       })
+      emit("receiveFinished", false)
     }
   })
 }
