@@ -49,7 +49,7 @@ const router = createRouter({
             },
             {
                 path: '/allorder',
-                name: 'allorder',
+                name: 'allOrder',
                 component: () => import('../views/order/AllOrder.vue'),
                 meta: {title: '订单列表'}
             },
@@ -58,6 +58,12 @@ const router = createRouter({
                 name: 'orderDetail',
                 component: () => import('../views/order/OrderDetail.vue'),
                 meta: {title: '订单详情'}
+            },
+            {
+                path: '/allcoupon',
+                name: 'allCoupon',
+                component: () => import('../views/coupon/AllCoupon.vue'),
+                meta: {title: '优惠券列表'}
             }
         ]
     }, {

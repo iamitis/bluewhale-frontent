@@ -15,7 +15,7 @@ export type OrderCreateInfo = {
 
 export type OrderPayInfo = {
     invoiceId: number,
-    invoicePrice: number,
+    couponId: number,
 }
 
 export type OrderRateInfo = {
@@ -78,6 +78,20 @@ export const cancelOrder = (invoiceId: number) => {
     return axios.post(`${ORDER_MODULE}/cancelInvoice`, null, {params: invoiceId})
         .then(res => {
             return res
+        })
+}
+
+export const getAllCoupon = (invoiceId: number) => {
+    return axios.get(`${ORDER_MODULE}/getAllCoupons/${invoiceId}`)
+        .then(res => {
+            return res.data.result
+        })
+}
+
+export const getRealPrice = (orderId: number, couponId: number) => {
+    return axios.get(`${ORDER_MODULE}/getRealPrice/${orderId}/${couponId}`)
+        .then(res => {
+            return res.data.result
         })
 }
 

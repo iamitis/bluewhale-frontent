@@ -3,7 +3,7 @@ import {STORE_MODULE} from './_prefix'
 
 export type StoreInfo = {
     storeName: string,
-    category: string,
+    storeDescription: string,
     storeAddress: string,
     storeImageUrl: string,
 }

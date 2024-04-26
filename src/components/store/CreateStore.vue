@@ -62,7 +62,7 @@ function confirmCreate() {
 function handleCreate() {
   createStore({
     storeName: name.value,
-    category: description.value,
+    storeDescription: description.value,
     storeAddress: storeAddress.value,
     storeImageUrl: logoUrl.value
   }).then(res => {
@@ -92,9 +92,9 @@ function handleCreate() {
   <div class="add-button">
     <el-button
         @click="dialogFormVisible = true"
-        type="primary"
+        color="lightpink"
+        style="color: white"
         round
-        text
         :icon="Plus">
       创建商店
     </el-button>

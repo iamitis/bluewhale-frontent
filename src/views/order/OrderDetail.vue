@@ -186,7 +186,7 @@ function refresh(success: boolean) {
     <el-dialog
         class="pay-dialog"
         v-model="payDialogVisible"
-        width="20%"
+        style="width: min-content"
         draggable>
       <template #header>
         <el-text tag="h1" size="large">为 <el-tag type="info">{{productName}}</el-tag> 支付</el-text>

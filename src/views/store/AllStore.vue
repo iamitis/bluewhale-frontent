@@ -39,7 +39,7 @@ function refresh(success: boolean) {
             v-for="store in storeList"
             class="list-item"
             :store-name="store.storeName"
-            :description="store.category"
+            :description="store.storeDescription"
             :store-id="store.storeId"
             :store-score="store.storeScore"
             :logo-url="store.storeImageUrl"/>

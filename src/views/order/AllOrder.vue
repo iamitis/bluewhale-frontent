@@ -44,7 +44,7 @@ function getOrderList() {
       <el-button
           v-if="role === 'CUSTOMER'"
           text
-          type="primary"
+          :type="'primary'"
           class="empty-button"
           @click="() => {router.push('allstore')}">
         > 去商店区转转
@@ -63,35 +63,35 @@ function getOrderList() {
       </el-button>
       <el-button
           v-model="orderType"
-          type="danger"
+          :type="'danger'"
           plain
           @click="chosenList = unpaidOrderList">
         待支付
       </el-button>
       <el-button
           v-model="orderType"
-          type="primary"
+          :type="'primary'"
           plain
           @click="chosenList = unsendOrderList">
         待发货
       </el-button>
       <el-button
           v-model="orderType"
-          type="primary"
+          :type="'primary'"
           plain
           @click="chosenList = ungetOrderList">
         待收货
       </el-button>
       <el-button
           v-model="orderType"
-          type="success"
+          :type="'success'"
           plain
           @click="chosenList = uncommentOrderList">
         待评价
       </el-button>
       <el-button
           v-model="orderType"
-          type="info"
+          :type="'info'"
           plain
           @click="chosenList = doneOrderList">
         已完成
