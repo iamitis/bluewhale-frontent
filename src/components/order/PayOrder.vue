@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {getAllCoupon, getRealPrice, payOrder} from "../../api/order.ts";
-import {Check, Warning, Pointer} from "@element-plus/icons-vue"
+import {Check, Pointer, Warning} from "@element-plus/icons-vue"
 import {ElMessage} from "element-plus";
 import {computed, ref} from "vue";
 import {couponCategoryMap, getCouponNote, timeMap} from "../../api/coupon.ts";
@@ -16,13 +16,47 @@ const chosenIndex = ref<number>(-1)
 const couponTableVisible = ref(false)
 const realPrice = ref<number>(props.totalPrice)
 const couponNum = computed(() => couponList.value.length)
+const tableData = ref<TableRow[]>([])
+let cutDown = new Map<number,number>()
 
-getCouponList()
+interface TableRow {
+  couponId: number,
+  couponCategory: string,
+  couponExpiredTime: string,
+  cutDown: number,
+}
+
+getCouponList().then(() => {
+  tableData.value = couponList.value.map((coupon: any) => {
+    return {
+      couponId: coupon.couponId,
+      couponCategory: coupon.couponCategory,
+      couponExpiredTime: coupon.couponExpireTime,
+      cutDown: parseFloat((props.totalPrice - cutDown.get(coupon.couponId)).toFixed(2))
+    }
+  })
+})
+
+function lookupCoupon() {
+  couponTableVisible.value = !couponTableVisible.value
+  chosenCoupon.value = null
+  chosenIndex.value = -1
+  realPrice.value = props.totalPrice
+}
 
 function getCouponList() {
   return getAllCoupon(props.orderId).then(res => {
     couponList.value = res
     return res
+  }).then(() => {
+    const promise = couponList.value.map((coupon) => {
+      return getRealPrice(props.orderId, coupon.couponId)
+          .then((res) => {
+            cutDown.set(coupon.couponId, res)
+            return res
+          })
+    })
+    return Promise.all(promise)
   })
 }
 
@@ -82,7 +116,7 @@ function handlePay() {
   <div class="pay-box">
     <el-button
         v-if="couponNum > 0"
-        @click="couponTableVisible=!couponTableVisible; chosenCoupon=null; chosenIndex=-1; realPrice = props.totalPrice"
+        @click="lookupCoupon"
         color="skyblue"
         style="color: white; align-self: flex-start">
       可使用优惠券
@@ -106,7 +140,8 @@ function handlePay() {
 
     <el-table
         v-if="couponTableVisible"
-        :data="couponList"
+        :data="tableData"
+        :default-sort="{prop: 'cutDown', order: 'descending'}"
         max-height="250"
         style="width: 100%">
       <el-table-column label="优惠券类型">
@@ -126,12 +161,17 @@ function handlePay() {
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column label="使用期限">
+      <el-table-column prop="cutDown" sortable label="可省">
         <template #default="scope">
-          <el-text>{{ timeMap(scope.row.couponExpireTime) }}之前</el-text>
+          <el-text>可省{{ scope.row.cutDown }}元</el-text>
         </template>
       </el-table-column>
-      <el-table-column label="选择">
+      <el-table-column prop="couponExpiredTime" sortable label="使用期限">
+        <template #default="scope">
+          <el-text>{{ timeMap(scope.row.couponExpiredTime) }}之前</el-text>
+        </template>
+      </el-table-column>
+      <el-table-column>
         <template #default="scope">
           <div style="display: flex; align-items: center; gap: 10px">
             <el-button

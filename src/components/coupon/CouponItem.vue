@@ -75,7 +75,7 @@ function handleReceive() {
               </el-text>
             </template>
           </el-popover>
-          <div v-if="role === 'CUSTOMER'">
+          <div v-if="role === 'CUSTOMER' || role === 'CEO'">
             <el-text v-if="props.coupon.couponGroupSpace === 'StoreOnly'"
                      class="coupon-info">适用店铺：{{ storeName }}&emsp;
             </el-text>

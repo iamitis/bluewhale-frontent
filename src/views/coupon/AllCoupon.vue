@@ -7,7 +7,7 @@ import CouponItem from "../../components/coupon/CouponItem.vue";
 const role = sessionStorage.getItem('role')
 const createDialogVisible = ref(false)
 const lookupReceive = ref(false)
-const chosenList = ref([])
+const allCouponList = ref([])
 const receivedList = ref([])
 
 getCouponList()
@@ -15,8 +15,7 @@ getReceivedList()
 
 function getCouponList() {
   getAllCoupon().then(res => {
-    chosenList.value = res
-    chosenList.value = chosenList.value.filter(coupon => coupon.couponGroupRemains > 0)
+    allCouponList.value = res
   })
 }
 
@@ -69,11 +68,11 @@ function refresh(success: boolean) {
     <el-main class="el-main">
       <div v-if="!lookupReceive" class="el-main">
         <el-empty
-            v-if="chosenList.length <= 0"
+            v-if="allCouponList.length <= 0"
             description="没有可以领取的优惠券/_ \">
         </el-empty>
         <coupon-item
-            v-for="coupon in chosenList"
+            v-for="coupon in allCouponList"
             :coupon="coupon"
             :is-group="true"
             @receive-finished="refresh"
