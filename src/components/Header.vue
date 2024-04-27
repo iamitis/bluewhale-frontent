@@ -29,53 +29,73 @@ function logout() {
 
 <template>
   <el-affix :offset="0">
-  <el-header class="custom-header" height="20">
-    <el-row :gutter="10">
+    <el-header class="custom-header" height="20">
+      <el-row :gutter="10">
 
-      <el-col :span="3" class="header-icon">
-        <router-link to="/allStore" v-slot="{navigate}" class="no-link">
-          <h1 @click="navigate" class="header-text"> 蓝鲸在线购物</h1>
-        </router-link>
-      </el-col>
+        <el-col :span="3" class="header-icon">
+          <router-link to="/allStore" v-slot="{navigate}" class="no-link">
+            <h1 @click="navigate" class="header-text"> 蓝鲸在线购物</h1>
+          </router-link>
+        </el-col>
 
-      <el-col :span="2">
-        <el-tag class="role-tag" size="large">{{ parseRole(role) }}版</el-tag>
-      </el-col>
+        <el-col :span="2">
+          <el-tag class="role-tag" size="large">{{ parseRole(role) }}版</el-tag>
+        </el-col>
 
-      <el-col :span="14">
-      </el-col>
+        <el-col :span="14">
+        </el-col>
 
-      <el-col :span="1" class="header-icon">
-        <router-link to="/allstore" v-slot="{navigate}">
-          <el-icon @click="navigate" :size="35" color="white" ><Goods /></el-icon>
-        </router-link>
-      </el-col>
+        <el-col :span="1" class="header-icon">
+          <router-link to="/allstore" v-slot="{navigate}">
+            <el-tooltip effect="light" content="商店">
+              <el-icon @click="navigate" :size="35" color="white">
+                <Goods/>
+              </el-icon>
+            </el-tooltip>
+          </router-link>
+        </el-col>
 
-      <el-col :span="1" class="header-icon">
-        <router-link to="/allorder" v-slot="{navigate}">
-          <el-icon @click="navigate" :size="35" color="white" ><List /></el-icon>
-        </router-link>
-      </el-col>
+        <el-col :span="1" class="header-icon">
+          <router-link to="/allorder" v-slot="{navigate}">
+            <el-tooltip effect="light" content="订单">
+              <el-icon @click="navigate" :size="35" color="white">
+                <List/>
+              </el-icon>
+            </el-tooltip>
+          </router-link>
+        </el-col>
 
-      <el-col :span="1" class="header-icon">
-        <router-link to="/allcoupon" v-slot="{navigate}">
-          <el-icon @click="navigate" :size="35" color="white" ><money /></el-icon>
-        </router-link>
-      </el-col>
+        <el-col :span="1" class="header-icon">
+          <router-link to="/allcoupon" v-slot="{navigate}">
+            <el-tooltip effect="light" content="优惠券">
+              <el-icon @click="navigate" :size="35" color="white">
+                <money/>
+              </el-icon>
+            </el-tooltip>
+          </router-link>
+        </el-col>
 
-      <el-col :span="1" class="header-icon">
-        <router-link to="/dashboard" v-slot="{navigate}">
-          <el-icon @click="navigate" :size="35" color="white" ><User /></el-icon>
-        </router-link>
-      </el-col>
+        <el-col :span="1" class="header-icon">
+          <router-link to="/dashboard" v-slot="{navigate}">
+            <el-tooltip effect="light" content="个人信息">
+              <el-icon @click="navigate" :size="35" color="white">
+                <User/>
+              </el-icon>
+            </el-tooltip>
+          </router-link>
+        </el-col>
 
-      <el-col :span="1" class="header-icon">
-        <a @click="logout">
-          <el-icon :size="35" color="white" ><SwitchButton /></el-icon>
-        </a>
-      </el-col>
-    </el-row>
-  </el-header>
+        <el-col :span="1" class="header-icon">
+          <a @click="logout">
+            <el-tooltip effect="light" content="退出登录">
+              <el-icon :size="35" color="white">
+                <SwitchButton/>
+              </el-icon>
+            </el-tooltip>
+          </a>
+        </el-col>
+      </el-row>
+    </el-header>
   </el-affix>
 </template>
 
@@ -100,7 +120,7 @@ function logout() {
 }
 
 .header-text {
-  color:white;
+  color: white;
   font-size: x-large;
   min-width: max-content;
   margin-top: 15px;
@@ -110,7 +130,7 @@ function logout() {
 .header-icon {
   display: flex;
   flex-direction: column;
-  align-items:center;
+  align-items: center;
   justify-content: center;
 }
 </style>

@@ -75,11 +75,13 @@ function handleReceive() {
               </el-text>
             </template>
           </el-popover>
-          <div v-if="role === 'CUSTOMER' && props.coupon.couponGroupSpace === 'StoreOnly'">
-            <el-text class="coupon-info">适用店铺：{{ storeName }}</el-text>
+          <div v-if="role === 'CUSTOMER'">
+            <el-text v-if="props.coupon.couponGroupSpace === 'StoreOnly'"
+                     class="coupon-info">适用店铺：{{ storeName }}&emsp;
+            </el-text>
             <el-text v-if="!props.isGroup"
                      class="coupon-info">
-              &emsp;{{timeMap(props.coupon.expiredTime)}}前有效
+              {{ timeMap(props.coupon.expiredTime) }}前有效
             </el-text>
           </div>
           <div v-if="role === 'CEO' || role === 'STAFF'">
@@ -91,14 +93,20 @@ function handleReceive() {
       <el-col :span="4">
         <div class="right">
           <el-image :src="storeCover" v-if="props.coupon.couponGroupSpace === 'StoreOnly'"></el-image>
+          <el-text v-if="props.coupon.couponGroupSpace === 'GlobalCoupon'"
+                   class="coupon-info">所有店铺可用
+          </el-text>
           <el-button
               v-if="role === 'CUSTOMER' && props.isGroup"
               @click="handleReceive"
               class="receive-button">
             点击领取
           </el-button>
-          <el-tag v-if="role === 'CUSTOMER' && !props.isGroup" :type="couponStateMap(props.coupon.state).type">
-            {{couponStateMap(props.coupon.state).text}}
+          <el-tag
+              v-if="role === 'CUSTOMER' && !props.isGroup"
+              style="order: -1"
+              :type="couponStateMap(props.coupon.state).type">
+            {{ couponStateMap(props.coupon.state).text }}
           </el-tag>
         </div>
       </el-col>
@@ -141,7 +149,7 @@ function handleReceive() {
 .right {
   height: 100%;
   display: flex;
-  flex-flow: column;
+  flex-flow: column-reverse;
   justify-content: space-between;
 }
 
@@ -149,6 +157,7 @@ function handleReceive() {
   background: skyblue;
   color: white;
   font-size: 70%;
+  order: -1;
 }
 
 </style>

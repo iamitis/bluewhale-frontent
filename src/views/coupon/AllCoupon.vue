@@ -62,7 +62,7 @@ function refresh(success: boolean) {
           v-if="role === 'STAFF' || role === 'CEO'"
           @click="createDialogVisible = true"
           class="aside-button"
-          plain>
+          text>
         发布优惠券组
       </el-button>
     </el-header>
