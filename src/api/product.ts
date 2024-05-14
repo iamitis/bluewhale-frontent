@@ -75,3 +75,13 @@ export const getAllRates = (productId: number) => {
             return res.data.result
         })
 }
+
+export const typeList = [
+    {value: '食品', key: 'FOOD'},
+    {value: '服装', key: 'CLOTHES'},
+    {value: '家具', key: 'FURNITURE'},
+    {value: '电子', key: 'ELECTRONICS'},
+    {value: '娱乐', key: 'ENTERTAINMENT'},
+    {value: '运动', key: 'SPORTS'},
+    {value: '奢侈品', key: 'LUXURY'},
+]

@@ -95,6 +95,23 @@ export const getRealPrice = (orderId: number, couponId: number) => {
         })
 }
 
+export const exportOrders = () => {
+    const role = sessionStorage.getItem('role')
+    if (role === 'CEO') {
+        return axios.get(`${ORDER_MODULE}/exportAllInvoices`)
+            .then((res: any) => {
+                return res.data.result
+            })
+    } else if (role === 'STAFF') {
+        const storeId = Number(sessionStorage.getItem('storeId'))
+        return axios.get(`${ORDER_MODULE}/exportInvoices/${storeId}`)
+            .then((res: any) => {
+                console.log(res.data.result)
+                return res.data.result
+            })
+    }
+}
+
 export const formattedTime = (time) => {
     const timestamp = Date.parse(time)
     const date = new Date(timestamp)
@@ -109,7 +126,7 @@ export const formattedTime = (time) => {
 
 export const stateMap = new Map()
 stateMap.set('UNPAID', {text: '待支付', type: 'danger'})
-stateMap.set('UNSEND', {text: '待发货', type: 'primary'})
-stateMap.set('UNGET', {text: '待收货', type: 'primary'})
+stateMap.set('UNSEND', {text: '待发货', type: ''})
+stateMap.set('UNGET', {text: '待收货', type: ''})
 stateMap.set('UNCOMMENT', {text: '待评价', type: 'success'})
 stateMap.set('DONE', {text: '已完成', type: 'info'})

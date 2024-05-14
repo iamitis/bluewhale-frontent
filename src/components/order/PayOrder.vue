@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {getAllCoupon, getRealPrice, payOrder} from "../../api/order.ts";
+import {getAllCoupon, getRealPrice, OrderPayInfo, payOrder} from "../../api/order.ts";
 import {Check, Pointer, Warning} from "@element-plus/icons-vue"
 import {ElMessage} from "element-plus";
 import {computed, ref} from "vue";
@@ -89,10 +89,14 @@ function confirmPay() {
 }
 
 function handlePay() {
-  payOrder({
-    invoiceId: props.orderId,
-    couponId: chosenCoupon.value.couponId
-  }).then(res => {
+  const orderPayInfo: OrderPayInfo = {}
+  orderPayInfo.invoiceId = props.orderId
+  if (chosenCoupon.value != null) {
+    orderPayInfo.couponId = chosenCoupon.value.couponId
+  } else {
+    orderPayInfo.couponId = null
+  }
+  payOrder(orderPayInfo).then(res => {
     if (res.data.code === '000') {
       ElMessage({
         message: "支付成功！",

@@ -3,7 +3,7 @@ import {computed, ref} from "vue";
 import OrderItem from "../../components/order/OrderItem.vue";
 import {router} from "../../router";
 import {ShoppingTrolley} from "@element-plus/icons-vue"
-import {getAllOrderByUserId} from "../../api/order.ts";
+import {exportOrders, getAllOrderByUserId} from "../../api/order.ts";
 
 const userId = Number(sessionStorage.getItem('userId'))
 const role = sessionStorage.getItem('role')
@@ -25,6 +25,7 @@ const doneOrderList = computed(() => {
   return orderList.value.filter((order) => order.invoiceStatus === 'DONE')
 })
 const chosenList = ref([])
+const orderSheet = ref([])
 
 getOrderList()
 
@@ -32,6 +33,12 @@ function getOrderList() {
   getAllOrderByUserId(userId).then(res => {
     orderList.value = res
     chosenList.value = res
+  })
+}
+
+function downloadOrderSheet() {
+  exportOrders().then((res: any) => {
+    orderSheet.value = res
   })
 }
 </script>
@@ -54,6 +61,11 @@ function getOrderList() {
       </el-button>
     </el-empty>
     <div v-if="orderList.length > 0" class="choose-button">
+      <el-button
+          v-if="role === 'CEO' || role === 'STAFF'"
+          @click="downloadOrderSheet">
+        下载订单报表
+      </el-button>
       <el-button
           v-model="orderType"
           color="skyblue"
@@ -103,6 +115,7 @@ function getOrderList() {
         v-for="order in chosenList.sort((a, b) => b.invoiceId - a.invoiceId)"
         :order="order"
         class="order-item"/>
+    <p>{{orderSheet}}</p>
   </el-main>
 </template>
 

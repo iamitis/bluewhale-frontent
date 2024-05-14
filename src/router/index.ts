@@ -64,6 +64,12 @@ const router = createRouter({
                 name: 'allCoupon',
                 component: () => import('../views/coupon/AllCoupon.vue'),
                 meta: {title: '优惠券列表'}
+            },
+            {
+                path: '/search',
+                name: 'search',
+                component: () => import('../views/search/Search.vue'),
+                meta: {title: '搜索商品'}
             }
         ]
     }, {

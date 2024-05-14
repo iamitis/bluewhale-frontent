@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {router} from '../router'
 import {parseRole} from "../utils"
-import {Goods, List, Money, User, SwitchButton} from "@element-plus/icons-vue"   //图标
+import {Search, Goods, List, Money, User, SwitchButton} from "@element-plus/icons-vue"   //图标
 
 const role = sessionStorage.getItem('role')    //登录的时候插入的
 
@@ -42,7 +42,17 @@ function logout() {
           <el-tag class="role-tag" size="large">{{ parseRole(role) }}版</el-tag>
         </el-col>
 
-        <el-col :span="14">
+        <el-col :span="13">
+        </el-col>
+
+        <el-col :span="1" class="header-icon">
+          <router-link to="/search" v-slot="{navigate}">
+            <el-tooltip effect="light" content="搜索商品">
+              <el-icon @click="navigate" :size="35" color="white">
+                <Search/>
+              </el-icon>
+            </el-tooltip>
+          </router-link>
         </el-col>
 
         <el-col :span="1" class="header-icon">
