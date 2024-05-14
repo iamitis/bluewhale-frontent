@@ -51,6 +51,7 @@ function clearFilter() {
             v-model="searchText"
             :prefix-icon="Search"
             placeholder="查找想要的商品"
+            size="large"
             style="width: 50%">
           <template #append>
             <el-button @click="handleSearch">搜索</el-button>
@@ -59,6 +60,7 @@ function clearFilter() {
         <el-button
             @click="drawer = true"
             color="skyblue"
+            size="large"
             style="color: white">
           筛选
         </el-button>
@@ -71,7 +73,7 @@ function clearFilter() {
           description="找不到/_ \">
       </el-empty>
 
-      <template v-else>
+      <div v-else class="products">
         <product-item
             style="text-decoration: none"
             v-for="product in productList"
@@ -83,7 +85,7 @@ function clearFilter() {
             :product-price="product.productPrice"
             :product-score="product.productScore"
             :store-id="product.productStoreId"/>
-      </template>
+      </div>
 
       <el-drawer v-model="drawer">
         <template #header>
@@ -151,14 +153,14 @@ function clearFilter() {
 
 <style scoped>
 .page-top {
-  background: floralwhite;
+  background: aliceblue;
   display: flex;
   justify-content: center;
 }
 
 .search {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -176,7 +178,18 @@ function clearFilter() {
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  background: floralwhite;
+  background: aliceblue;
   gap: 20px;
+}
+
+.products {
+  width: 80%;
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  background: aliceblue;
+  gap: 30px;
 }
 </style>

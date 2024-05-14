@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import {getAllCoupon, getRealPrice, OrderPayInfo, payOrder} from "../../api/order.ts";
+import {addCoupon, getAllCoupon, getRealPrice, OrderPayInfo, payOrder} from "../../api/order.ts";
 import {Check, Pointer, Warning} from "@element-plus/icons-vue"
 import {ElMessage} from "element-plus";
 import {computed, ref} from "vue";
 import {couponCategoryMap, getCouponNote, timeMap} from "../../api/coupon.ts";
+import {notify} from "../../api/alipay.ts";
 
 const props = defineProps({
   orderId: Number,
@@ -15,26 +16,36 @@ const chosenCoupon = ref<any>()
 const chosenIndex = ref<number>(-1)
 const couponTableVisible = ref(false)
 const realPrice = ref<number>(props.totalPrice)
-const couponNum = computed(() => couponList.value.length)
+const couponNum = computed(() => {
+  if (couponList.value != null) {
+    return couponList.value.length
+  } else {
+    return 0
+  }
+})
 const tableData = ref<TableRow[]>([])
-let cutDown = new Map<number,number>()
+let cutDown = new Map<number, number>()
 
 interface TableRow {
   couponId: number,
   couponCategory: string,
   couponExpiredTime: string,
+  couponNote: string,
   cutDown: number,
 }
 
 getCouponList().then(() => {
-  tableData.value = couponList.value.map((coupon: any) => {
-    return {
-      couponId: coupon.couponId,
-      couponCategory: coupon.couponCategory,
-      couponExpiredTime: coupon.couponExpireTime,
-      cutDown: parseFloat((props.totalPrice - cutDown.get(coupon.couponId)).toFixed(2))
-    }
-  })
+  if (couponNum.value > 0) {
+    tableData.value = couponList.value.map((coupon: any) => {
+      return {
+        couponId: coupon.couponId,
+        couponCategory: coupon.couponCategory,
+        couponExpiredTime: coupon.couponExpireTime,
+        couponNote: getCouponNote(coupon),
+        cutDown: parseFloat((props.totalPrice - cutDown.get(coupon.couponId)).toFixed(2))
+      }
+    })
+  }
 })
 
 function lookupCoupon() {
@@ -49,14 +60,17 @@ function getCouponList() {
     couponList.value = res
     return res
   }).then(() => {
-    const promise = couponList.value.map((coupon) => {
-      return getRealPrice(props.orderId, coupon.couponId)
-          .then((res) => {
-            cutDown.set(coupon.couponId, res)
-            return res
-          })
-    })
-    return Promise.all(promise)
+    if (couponNum.value > 0) {
+      const promise = couponList.value.map((coupon) => {
+        return getRealPrice(props.orderId, coupon.couponId)
+            .then((res) => {
+              cutDown.set(coupon.couponId, res)
+              return res
+            })
+      })
+      return Promise.all(promise)
+    }
+    return 0
   })
 }
 
@@ -69,8 +83,8 @@ function handleChosen(index: number, couponRow: any) {
     chosenIndex.value = index
     chosenCoupon.value = couponRow
     getRealPrice(props.orderId, chosenCoupon.value.couponId)
-        .then((res: any) => {
-          realPrice.value = res
+        .then((res: number) => {
+          realPrice.value = parseFloat(res.toFixed(2))
         })
   }
 }
@@ -90,29 +104,27 @@ function confirmPay() {
 
 function handlePay() {
   const orderPayInfo: OrderPayInfo = {}
-  orderPayInfo.invoiceId = props.orderId
-  if (chosenCoupon.value != null) {
-    orderPayInfo.couponId = chosenCoupon.value.couponId
+  orderPayInfo.invoiceId = Number(props.orderId)
+  orderPayInfo.couponId = chosenCoupon.value == null ? null : chosenCoupon.value.couponId
+  if (orderPayInfo.couponId != null) {
+    addCoupon(orderPayInfo).then(() => {
+      payOrder(orderPayInfo).then(res => {
+        const div = document.createElement('div');
+        div.id = 'payDiv'
+        div.innerHTML = res.data.result
+        document.body.appendChild(div)
+        document.getElementById('payDiv').getElementsByTagName('form')[0].submit()
+      })
+    })
   } else {
-    orderPayInfo.couponId = null
+    payOrder(orderPayInfo).then(res => {
+      const div = document.createElement('div');
+      div.id = 'payDiv'
+      div.innerHTML = res.data.result
+      document.body.appendChild(div)
+      document.getElementById('payDiv').getElementsByTagName('form')[0].submit()
+    })
   }
-  payOrder(orderPayInfo).then(res => {
-    if (res.data.code === '000') {
-      ElMessage({
-        message: "支付成功！",
-        type: 'success',
-        center: true,
-      })
-      emit("payFinished", true)
-    } else if (res.data.code === '400') {
-      ElMessage({
-        message: res.data.msg,
-        type: 'error',
-        center: true,
-      })
-      emit("payFinished", false)
-    }
-  })
 }
 </script>
 
@@ -152,7 +164,7 @@ function handlePay() {
         <template #default="scope">
           <el-popover trigger="click" placement="top" width="auto">
             <template #default>
-              <el-text type="info">{{ getCouponNote(scope.row) }}</el-text>
+              <el-text type="info">{{ scope.row.couponNote }}</el-text>
             </template>
             <template #reference>
               <div style="display: flex; align-items: center">

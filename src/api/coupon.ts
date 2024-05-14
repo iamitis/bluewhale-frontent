@@ -59,8 +59,8 @@ const fillCouponVO = (couponCreatInfo: CouponCreateInfo) => {
 export function getCouponNote(coupon: any) {
     let category: string = coupon.couponCategory == null ? coupon.couponGroupCategory : coupon.couponCategory
     if (category === 'FullReduction') {
-        const full: string = String(coupon.full)
-        const reduction: string = String(coupon.reduction)
+        const full: string = coupon.full
+        const reduction: string = coupon.reduction
         return '满' + full + '元减' + reduction + '元'
     } else {
         return '0-100元区间打九五折；' +

@@ -15,7 +15,7 @@ export type OrderCreateInfo = {
 
 export type OrderPayInfo = {
     invoiceId: number,
-    couponId: number,
+    couponId?: number,
 }
 
 export type OrderRateInfo = {
@@ -48,6 +48,14 @@ export const createOrder = (orderCreateInfo: OrderCreateInfo) => {
 
 export const payOrder = (orderPayInfo: OrderPayInfo) => {
     return axios.post(`${ORDER_MODULE}/payInvoice`, null, {params: orderPayInfo})
+        .then(res => {
+            return res
+        })
+}
+
+export const addCoupon = (orderPayInfo: OrderPayInfo) => {
+    console.log(orderPayInfo)
+    return axios.post(`${ORDER_MODULE}/addCoupon`, null, {params: orderPayInfo})
         .then(res => {
             return res
         })

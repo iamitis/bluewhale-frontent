@@ -78,6 +78,7 @@ function handleCreate() {
           v-model="reduction"
           :precision="2"
           :min="0"
+          :max="full"
           :step="10"/>
     </el-form-item>
     <el-form-item label="过期时间">

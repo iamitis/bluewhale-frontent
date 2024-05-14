@@ -16,3 +16,5 @@ export const PRODUCT_MODULE = `${API_MODULE}/products`
 export const ORDER_MODULE = `${API_MODULE}/invoices`
 // 优惠券模块
 export const COUPON_MODULE = `${API_MODULE}/coupon`
+// 支付宝
+export const ALIPAY_MODULE = `${API_MODULE}/ali`

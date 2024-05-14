@@ -57,8 +57,8 @@ const props = defineProps({
 <style scoped>
 
 .product-card {
-  width: 450px;
-  height: 320px;
+  width: 350px;
+  height: 250px;
   padding: 0;
   border-radius: 18px;
 }
@@ -73,7 +73,7 @@ const props = defineProps({
 
 .product-cover {
   width: 100%;
-  height: 290px;
+  height: 240px;
   margin-top: -10%;
 }
 
@@ -99,7 +99,7 @@ const props = defineProps({
   color: darkslategray;
   letter-spacing: 2px;
   font-family: "Microsoft YaHei UI", serif;
-  font-size: 170%;
+  font-size: 140%;
 }
 
 .product-dsc {
