@@ -39,6 +39,7 @@ function getOrderList() {
 function downloadOrderSheet() {
   exportOrders().then((res: any) => {
     orderSheet.value = res
+    window.open(orderSheet.value)
   })
 }
 </script>
@@ -63,8 +64,10 @@ function downloadOrderSheet() {
     <div v-if="orderList.length > 0" class="choose-button">
       <el-button
           v-if="role === 'CEO' || role === 'STAFF'"
-          @click="downloadOrderSheet">
-        下载订单报表
+          @click="downloadOrderSheet"
+          plain
+          color="skyblue">
+        下载报表
       </el-button>
       <el-button
           v-model="orderType"
@@ -75,35 +78,35 @@ function downloadOrderSheet() {
       </el-button>
       <el-button
           v-model="orderType"
-          :type="'danger'"
+          color="skyblue"
           plain
           @click="chosenList = unpaidOrderList">
         待支付
       </el-button>
       <el-button
           v-model="orderType"
-          :type="'primary'"
+          color="skyblue"
           plain
           @click="chosenList = unsendOrderList">
         待发货
       </el-button>
       <el-button
           v-model="orderType"
-          :type="'primary'"
+          color="skyblue"
           plain
           @click="chosenList = ungetOrderList">
         待收货
       </el-button>
       <el-button
           v-model="orderType"
-          :type="'success'"
+          color="skyblue"
           plain
           @click="chosenList = uncommentOrderList">
         待评价
       </el-button>
       <el-button
           v-model="orderType"
-          :type="'info'"
+          color="skyblue"
           plain
           @click="chosenList = doneOrderList">
         已完成
@@ -115,7 +118,6 @@ function downloadOrderSheet() {
         v-for="order in chosenList.sort((a, b) => b.invoiceId - a.invoiceId)"
         :order="order"
         class="order-item"/>
-    <p>{{orderSheet}}</p>
   </el-main>
 </template>
 
@@ -136,7 +138,7 @@ function downloadOrderSheet() {
   flex-flow: column;
   justify-content: center;
   align-items: center;
-  gap: 50px;
+  gap: 30px;
 
   position: fixed;
   top: 270px;

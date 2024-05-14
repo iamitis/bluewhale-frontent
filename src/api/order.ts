@@ -106,7 +106,6 @@ export const exportOrders = () => {
         const storeId = Number(sessionStorage.getItem('storeId'))
         return axios.get(`${ORDER_MODULE}/exportInvoices/${storeId}`)
             .then((res: any) => {
-                console.log(res.data.result)
                 return res.data.result
             })
     }
