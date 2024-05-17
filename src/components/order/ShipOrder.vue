@@ -51,7 +51,7 @@ function handleShip() {
       </el-tag>
     </el-text>
     <el-button
-        @click="confirmShip"
+        @click="handleShip"
         color="lightpink"
         class="pay-button">
       发货

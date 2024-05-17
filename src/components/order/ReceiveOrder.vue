@@ -51,7 +51,7 @@ function handleReceive() {
       </el-tag>
     </el-text>
     <el-button
-        @click="confirmReceive"
+        @click="handleReceive"
         color="deepskyblue"
         class="receive-button">
       收货

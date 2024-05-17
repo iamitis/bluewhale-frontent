@@ -54,7 +54,6 @@ export const payOrder = (orderPayInfo: OrderPayInfo) => {
 }
 
 export const addCoupon = (orderPayInfo: OrderPayInfo) => {
-    console.log(orderPayInfo)
     return axios.post(`${ORDER_MODULE}/addCoupon`, null, {params: orderPayInfo})
         .then(res => {
             return res

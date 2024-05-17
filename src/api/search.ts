@@ -9,10 +9,8 @@ export type SearchInfo = {
     max_price: number,
 }
 export const searchProduct = (searchIndo: SearchInfo) => {
-    console.log(searchIndo)
     return axios.get(`${PRODUCT_MODULE}/searchProduct`, {params: searchIndo})
         .then((res) => {
-            console.log(res.data.result)
             return res.data.result
         })
 }
