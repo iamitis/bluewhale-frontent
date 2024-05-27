@@ -30,6 +30,7 @@ export type DetailImageInfo = {
 }
 
 export const createProduct = (productInfo: ProductInfo) => {
+    console.log(productInfo.productCategory)
     return axios.post(`${PRODUCT_MODULE}/createProduct`, productInfo,
         {headers: {'Content-Type': 'application/json'}})
         .then(res => {
@@ -76,12 +77,105 @@ export const getAllRates = (productId: number) => {
         })
 }
 
-export const typeList = [
-    {value: '食品', key: 'FOOD'},
-    {value: '服装', key: 'CLOTHES'},
-    {value: '家具', key: 'FURNITURE'},
-    {value: '电子', key: 'ELECTRONICS'},
-    {value: '娱乐', key: 'ENTERTAINMENT'},
-    {value: '运动', key: 'SPORTS'},
-    {value: '奢侈品', key: 'LUXURY'},
+export const productTypeEnum: Array = [
+    {
+        value: 'FOOD',
+        label: '食品',
+        children: [
+            {
+                value: 'FOOD_DRINKS',
+                label: '饮料'
+            },
+            {
+                value: 'FOOD_SNACKS',
+                label: '零食'
+            },
+            {
+                value: 'FOOD_FRESH_FOOD',
+                label: '生鲜'
+            }
+        ]
+    },
+    {
+        value: 'CLOTHES',
+        label: '服装',
+        children: [
+            {
+                value: 'CLOTHES_MEN',
+                label: '男装'
+            },
+            {
+                value: 'CLOTHES_WOMEN',
+                label: '女装'
+            },
+            {
+                value: 'CLOTHES_KIDS',
+                label: '童装'
+            }
+        ]
+    },
+    {
+        value: 'FURNITURE',
+        label: '家具',
+        children: [
+            {
+                value: 'FURNITURE_BATHS',
+                label: '卫浴'
+            },
+            {
+                value: 'FURNITURE_LIGHTS',
+                label: '照明'
+            }
+        ]
+    },
+    {
+        value: 'ENTERTAINMENT',
+        label: '娱乐',
+        children: [
+            {
+                value: 'ENTERTAINMENT_TOYS',
+                label: '玩具',
+            },
+            {
+                value: 'ENTERTAINMENT_BOOKS',
+                label: '书籍',
+            },
+            {
+                value: 'ENTERTAINMENT_MUSIC',
+                label: '乐器',
+            }
+        ]
+    },
+    {
+        value: 'SPORTS',
+        label: '运动',
+        children: [
+            {
+                value: 'SPORTS_BALLS',
+                label: '球类'
+            },
+            {
+                value: 'SPORTS_RUNNING',
+                label: '跑步'
+            }
+        ]
+    },
+    {
+        value: 'LUXURY',
+        label: '奢品',
+        children: [
+            {
+                value: 'LUXURY_JEWELRY',
+                label: '珠宝'
+            },
+            {
+                value: 'LUXURY_WATCH',
+                label: '腕表'
+            }
+        ]
+    },
+    {
+        value: 'ELECTRONICS',
+        label: '数码'
+    }
 ]

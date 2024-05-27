@@ -3,17 +3,20 @@ import {ref} from "vue";
 import {Search} from "@element-plus/icons-vue"
 import ProductItem from "../../components/product/ProductItem.vue";
 import {SearchInfo, searchProduct} from "../../api/search.ts";
-import {typeList} from "../../api/product.ts";
+import {productTypeEnum} from "../../api/product.ts";
 import {allStoresInfo} from "../../api/store.ts";
 
 const searchText = ref('')
 const productList = ref([])
 const drawer = ref(false)
-const productType = ref('')
+const productType = ref([])
 const storeList = ref([])
 const chosenStore = ref<number>()
 const minPrice = ref<number>()
 const maxPrice = ref<number>()
+const typeProps = {
+  checkStrictly: true,
+}
 
 handleSearch()
 allStoresInfo().then((res: any[]) => {
@@ -24,10 +27,10 @@ function handleSearch() {
   const searchInfo: SearchInfo = {
     store_id: chosenStore.value,
     name: searchText.value,
-    type: productType.value,
     min_price: minPrice.value,
     max_price: maxPrice.value,
   }
+  searchInfo.type = productType.value === [] ? '' : productType.value.at(-1)
   searchProduct(searchInfo)
       .then((res: any) => {
         productList.value = res
@@ -94,15 +97,13 @@ function clearFilter() {
         <template #default>
           <div class="filter">
             <label for="type">商品种类</label>
-            <el-select
+            <el-cascader
                 id="type"
                 v-model="productType"
-                placeholder="选择商品种类">
-              <el-option
-                  v-for="type in typeList"
-                  :label="type.value"
-                  :value="type.key"/>
-            </el-select>
+                :options="productTypeEnum"
+                :props="typeProps"
+                clearable
+                placeholder=" "/>
             <label for="store">店铺</label>
             <el-select
                 id="store"

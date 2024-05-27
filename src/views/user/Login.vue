@@ -53,24 +53,6 @@ function handleLogin() {
     }
   })
 }
-
-function exit() {
-  ElMessageBox.confirm(
-      '是否要跳过登入/注册',
-      '提示',
-      {
-        customClass: "customDialog",
-        confirmButtonText: '是',
-        cancelButtonText: '否',
-        type: "warning",
-        showClose: false,
-        roundButton: true,
-        center: true
-      }
-  ).then(() => {
-    router.push({path: "/allstoreno"})
-  })
-}
 </script>
 
 
@@ -104,13 +86,6 @@ function exit() {
               </router-link>
           </span>
 
-          <span class="exit">
-            <a @click="exit">
-               <el-button type="danger">跳过注册/登入</el-button>
-            </a>
-
-
-          </span>
         </el-form>
       </div>
     </el-card>
@@ -152,11 +127,5 @@ function exit() {
   gap: 30px;
   align-items: center;
   justify-content: right;
-}
-
-.exit {
-  position: absolute;
-  top: 10px;
-  right: 10px;
 }
 </style>

@@ -19,7 +19,7 @@ const props = defineProps({
   <router-link :to="'/storedetail/' + storeId + '/productdetail/' + productId" v-slot="{navigate}">
     <el-card
         class="product-card"
-        shadow="always">
+        shadow="hover">
       <template #header>
         <div style="display: flex; justify-content: space-between">
           <span class="product-name"><b>{{ productName }}</b></span>
@@ -40,7 +40,7 @@ const props = defineProps({
               :src="productCoverUrl"
               alt="cover"
               class="product-cover"
-              fit="contain"/>
+              fit="cover"/>
         </el-col>
         <el-col
             :span="12"
@@ -73,8 +73,7 @@ const props = defineProps({
 
 .product-cover {
   width: 100%;
-  height: 240px;
-  margin-top: -10%;
+  height: 80%;
 }
 
 .cover-col {

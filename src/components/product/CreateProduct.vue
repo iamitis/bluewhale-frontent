@@ -10,12 +10,9 @@ import {computed, reactive, ref} from "vue";
 import {uploadImage} from '../../api/tools.ts'
 import {Plus, UploadFilled} from "@element-plus/icons-vue";
 import {ElMessage, FormInstance, FormRules} from "element-plus";
-import {createProduct, updateProductPicture} from "../../api/product.ts";
+import {createProduct, productTypeEnum, updateProductPicture} from "../../api/product.ts";
 
 let dialogFormVisible = ref(false)
-const typeList = ref(
-  {'食品': 'FOOD', '服装': 'CLOTHES', '家具': 'FURNITURE', '电子': 'ELECTRONICS', '娱乐': 'ENTERTAINMENT', '运动': 'SPORTS', '奢侈品': 'LUXURY'},
-)
 
 const pros = defineProps({
   storeId: Number
@@ -34,7 +31,7 @@ const hasPrice = computed(() => price.value > 0)
 
 interface RuleForm {
   name: string
-  type: string
+  type: Array
   description: string
 }
 
@@ -168,7 +165,7 @@ function confirmCreate() {
 function handleCreate() {
   createProduct({
     productName: ruleForm.name,
-    productCategory: ruleForm.type,
+    productCategory: ruleForm.type.at(-1),
     productStoreId: pros.storeId,
     productPrice: price.value,
     productDescription: ruleForm.description,
@@ -231,14 +228,10 @@ function handleCreate() {
       </el-form-item>
 
       <el-form-item label="商品种类" prop="type">
-        <el-select
+        <el-cascader
             v-model="ruleForm.type"
-            style="width: 100%">
-          <el-option
-              v-for="(value, key) in typeList"
-              :label="key"
-              :value="value"/>
-        </el-select>
+            :options="productTypeEnum"
+            placeholder=" "/>
       </el-form-item>
 
       <el-form-item label="商品价格">
@@ -246,7 +239,7 @@ function handleCreate() {
             v-model="price"
             :min="0"
             :precision="2"
-            :step="0.1"/>
+            :step="10"/>
       </el-form-item>
 
       <el-form-item label="商品描述" prop="description">

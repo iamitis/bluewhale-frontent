@@ -17,7 +17,7 @@ const props = defineProps({
   <router-link :to="'/storedetail/'+storeId" v-slot="{navigate}">
     <el-card
         class="store-card"
-        shadow="always">
+        shadow="hover">
       <template #header>
         <div style="display: flex; justify-content: space-between">
         <span class="store-name"><b>{{ storeName }}</b></span>
@@ -38,7 +38,7 @@ const props = defineProps({
               :src="logoUrl"
               alt="logo"
               class="store-logo"
-              fit="contain"/>
+              fit="cover"/>
         </el-col>
         <el-col
             :span="12"

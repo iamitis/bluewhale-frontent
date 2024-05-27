@@ -30,7 +30,7 @@ async function getStoreId() {
 function getStoreInfo(storeId: number) {
   storeInfo(storeId).then(res => {
     storeName.value = res.storeName
-    description.value = res.category
+    description.value = res.storeDescription
     storeAddress.value = res.storeAddress
     logoUrl.value = res.storeImageUrl
     storeScore.value = res.storeScore
@@ -201,6 +201,12 @@ function refresh(success: boolean) {
   font-size: 90%;
   color: black;
   margin-bottom: -8px;
+}
+
+.store-name-row {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
 }
 
 .create-button {
