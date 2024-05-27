@@ -2,6 +2,7 @@
 import {computed, ref} from "vue";
 import {productInfo} from "../../api/product.ts";
 import {formattedTime, stateMap} from "../../api/order.ts";
+import {parseTime} from "../../utils";
 
 const props = defineProps([
   'order'
@@ -25,7 +26,7 @@ getProduct().then(res => {
   productUrl.value = res.productImageUrl
   productPrice.value = res.productPrice
 })
-orderCreateTime.value = formattedTime(props.order.invoiceTime)
+orderCreateTime.value = parseTime(props.order.invoiceTime)
 
 function getProduct() {
   return productInfo(props.order.invoiceProductId)

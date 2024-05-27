@@ -115,7 +115,7 @@ function downloadOrderSheet() {
     <order-item
         style="text-decoration: none"
         v-if="chosenList.length > 0"
-        v-for="order in chosenList.sort((a, b) => b.invoiceId - a.invoiceId)"
+        v-for="order in chosenList.sort((a, b) => a.invoiceTime - b.invoiceTime)"
         :order="order"
         class="order-item"/>
   </el-main>
