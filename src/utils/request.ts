@@ -8,11 +8,18 @@ function hasToken() {
     return !(sessionStorage.getItem('token') == '')
 }
 
+function hasRole() {
+    return !(sessionStorage.getItem('role') == '')
+}
+
 //当前实例的拦截器，对所有要发送给后端的请求进行处理，在其中加入token
 service.interceptors.request.use(
     config => {
         if(hasToken()) {
             config.headers['token'] = sessionStorage.getItem('token')
+        }
+        if (hasRole()) {
+            config.headers['UserRole'] = sessionStorage.getItem('role')
         }
         return config
     },
