@@ -60,7 +60,7 @@ const props = defineProps({
   width: 350px;
   height: 250px;
   padding: 0;
-  border-radius: 18px;
+  border-radius: 5px;
 }
 
 .product-card:hover {

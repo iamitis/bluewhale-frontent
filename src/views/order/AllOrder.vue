@@ -45,83 +45,96 @@ function downloadOrderSheet() {
 </script>
 
 <template>
-  <el-main class="el-main">
-    <el-empty
-        v-if="chosenList.length === 0"
-        description="什么也没有/_ \">
-      <el-button
-          v-if="role === 'CUSTOMER'"
-          text
-          :type="'primary'"
-          class="empty-button"
-          @click="() => {router.push('allstore')}">
-        > 去商店区转转
-        <el-icon class="el-icon--right">
-          <shopping-trolley/>
-        </el-icon>
-      </el-button>
-    </el-empty>
-    <div v-if="orderList.length > 0" class="choose-button">
-      <el-button
-          v-if="role === 'CEO' || role === 'STAFF'"
-          @click="downloadOrderSheet"
-          plain
-          color="skyblue">
-        下载报表
-      </el-button>
-      <el-button
-          v-model="orderType"
-          color="skyblue"
-          plain
-          @click="chosenList = orderList">
-        所有订单
-      </el-button>
-      <el-button
-          v-model="orderType"
-          color="skyblue"
-          plain
-          @click="chosenList = unpaidOrderList">
-        待支付
-      </el-button>
-      <el-button
-          v-model="orderType"
-          color="skyblue"
-          plain
-          @click="chosenList = unsendOrderList">
-        待发货
-      </el-button>
-      <el-button
-          v-model="orderType"
-          color="skyblue"
-          plain
-          @click="chosenList = ungetOrderList">
-        待收货
-      </el-button>
-      <el-button
-          v-model="orderType"
-          color="skyblue"
-          plain
-          @click="chosenList = uncommentOrderList">
-        待评价
-      </el-button>
-      <el-button
-          v-model="orderType"
-          color="skyblue"
-          plain
-          @click="chosenList = doneOrderList">
-        已完成
-      </el-button>
-    </div>
-    <order-item
-        style="text-decoration: none"
-        v-if="chosenList.length > 0"
-        v-for="order in chosenList.sort((a, b) => a.invoiceTime - b.invoiceTime)"
-        :order="order"
-        class="order-item"/>
-  </el-main>
+  <el-container>
+    <el-header height="5%" class="page-top">
+      <div class="segmented-box">
+      </div>
+    </el-header>
+    <el-main class="el-main">
+      <el-empty
+          v-if="chosenList.length === 0"
+          description="什么也没有/_ \">
+        <el-button
+            v-if="role === 'CUSTOMER'"
+            text
+            :type="'primary'"
+            class="empty-button"
+            @click="() => {router.push('allstore')}">
+          > 去商店区转转
+          <el-icon class="el-icon--right">
+            <shopping-trolley/>
+          </el-icon>
+        </el-button>
+      </el-empty>
+      <div v-if="orderList.length > 0" class="choose-buttons">
+        <el-button
+            v-if="role === 'CEO' || role === 'STAFF'"
+            @click="downloadOrderSheet"
+            plain
+            color="skyblue">
+          下载报表
+        </el-button>
+        <el-button
+            v-model="orderType"
+            color="skyblue"
+            plain
+            @click="chosenList = orderList">
+          所有订单
+        </el-button>
+        <el-button
+            v-model="orderType"
+            color="skyblue"
+            plain
+            @click="chosenList = unpaidOrderList">
+          待支付
+        </el-button>
+        <el-button
+            v-model="orderType"
+            color="skyblue"
+            plain
+            @click="chosenList = unsendOrderList">
+          待发货
+        </el-button>
+        <el-button
+            v-model="orderType"
+            color="skyblue"
+            plain
+            @click="chosenList = ungetOrderList">
+          待收货
+        </el-button>
+        <el-button
+            v-model="orderType"
+            color="skyblue"
+            plain
+            @click="chosenList = uncommentOrderList">
+          待评价
+        </el-button>
+        <el-button
+            v-model="orderType"
+            color="skyblue"
+            plain
+            @click="chosenList = doneOrderList">
+          已完成
+        </el-button>
+      </div>
+      <order-item
+          style="text-decoration: none"
+          v-if="chosenList.length > 0"
+          v-for="order in chosenList.sort((a, b) => a.invoiceTime - b.invoiceTime)"
+          :order="order"
+          class="order-item"/>
+    </el-main>
+  </el-container>
 </template>
 
 <style scoped>
+.page-top {
+  background: floralwhite;
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+}
+
 .el-main {
   display: flex;
   display: -webkit-flex;
@@ -132,17 +145,16 @@ function downloadOrderSheet() {
   gap: 20px;
 }
 
-.choose-button {
+.choose-buttons {
   display: flex;
   display: -webkit-flex;
   flex-flow: column;
   justify-content: center;
-  align-items: center;
-  gap: 30px;
+  align-items: start;
 
   position: fixed;
   top: 270px;
-  left: 80px
+  left: 0;
 }
 
 .order-item {

@@ -19,7 +19,7 @@ const router = createRouter({
         meta: {title: '商品列表界面/主页'}
     }, {
         path: '/home',
-        redirect: '/allstore',
+        redirect: '/search',
         component: () => import('../views/Home.vue'),
         children: [
             {

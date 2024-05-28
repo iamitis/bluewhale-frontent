@@ -56,7 +56,7 @@ const props = defineProps({
   width: 450px;
   height: 320px;
   padding: 0;
-  border-radius: 18px;
+  border-radius: 5px;
 }
 
 .store-card:hover{

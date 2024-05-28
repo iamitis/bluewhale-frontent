@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, ref} from 'vue'
 import {storeInfo} from "../../api/store.ts";
-import {userInfo, userInfoUpdate} from '../../api/user.ts'
+import {updateAddress, userInfo, userInfoUpdate} from '../../api/user.ts'
 import {parseRole, parseTime} from "../../utils"
 import {router} from '../../router'
 import {UserFilled} from "@element-plus/icons-vue"
@@ -47,6 +47,7 @@ function getUserInfo() {
 }
 
 function updateInfo() {
+  updateAddress(address.value)
   userInfoUpdate({
     name: newName.value,
     password: undefined,
@@ -139,7 +140,7 @@ function updatePassword() {
           {{ tel }}
         </el-descriptions-item>
 
-        <el-descriptions-item label="地址" v-if="role === 'CUSTOMER' || role === 'STAFF'">
+        <el-descriptions-item label="默认收货地址" v-if="role === 'CUSTOMER' || role === 'STAFF'">
           {{ address }}
         </el-descriptions-item>
 
@@ -169,7 +170,7 @@ function updatePassword() {
         </el-form-item>
 
         <el-form-item v-if="role === 'CUSTOMER' || role === 'STAFF'">
-          <label for="address">收货地址</label>
+          <label for="address">默认收货地址</label>
           <el-input id="address" type="textarea"
                     rows="4"
                     v-model="address" placeholder="中华门"></el-input>

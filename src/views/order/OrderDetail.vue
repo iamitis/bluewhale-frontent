@@ -9,6 +9,7 @@ import ShipOrder from "../../components/order/ShipOrder.vue";
 import ReceiveOrder from "../../components/order/ReceiveOrder.vue";
 import RateOrder from "../../components/order/RateOrder.vue";
 import CancelOrder from "../../components/order/CancelOrder.vue";
+import {parseTime} from "../../utils";
 
 const orderId = ref(-1)
 const order = ref()
@@ -62,8 +63,9 @@ function getOrder() {
     pickup.value = res.getProducts
     orderState.value = res.invoiceStatus
     printState.value = stateMap.get(res.invoiceStatus)
-    orderCreateTime.value = formattedTime(res.invoiceTime)
-    orderPayTime.value = formattedTime(res.invoicePayTime)
+    orderCreateTime.value = parseTime(res.invoiceTime)
+    console.log(res.invoiceTime)
+    orderPayTime.value = res.invoicePayTime == null ? '' : parseTime(res.invoicePayTime)
     storeId.value = res.invoiceStoreId
     productId.value = res.invoiceProductId
     return productInfo(res.invoiceProductId)
@@ -92,7 +94,7 @@ function refresh(success: boolean) {
 
 <template>
   <el-main class="el-main">
-    <el-card class="order-card">
+    <el-card class="order-card" shadow="never">
       <el-row justify="space-between">
         <el-col :span="6">
           <el-tag :type="stateTagType" class="order-state">{{ stateTagText }}</el-tag>
@@ -106,7 +108,7 @@ function refresh(success: boolean) {
         </el-col>
       </el-row>
       <el-row justify="space-between">
-        <el-col :span="6">
+        <el-col :span="10">
           <h1>{{ productName }}</h1>
           <el-text size="large" type="info" tag="p">&emsp;&emsp;&emsp;&emsp;数量 :
             <el-tag color="floralwhite">{{ count }}</el-tag>
@@ -120,7 +122,7 @@ function refresh(success: boolean) {
           <el-text size="large" type="info" tag="p" v-if="orderState !== 'UNPAID'">&emsp;&emsp;&emsp;&emsp;实付 :
             <el-tag color="floralwhite">￥{{ payment }}</el-tag>
           </el-text>
-          <el-text size="large" type="info" tag="p" v-if="pickup === 'DELIVERY'">&emsp;&emsp;送货地址 :
+          <el-text size="large" type="info" tag="p" v-if="pickup === 'DELIVERY'">&emsp;&emsp;收货地址 :
             <el-tag color="floralwhite">{{ address }}</el-tag>
           </el-text>
           <el-text size="large" type="info" tag="p">&emsp;取件人姓名 :

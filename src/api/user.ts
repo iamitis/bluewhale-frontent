@@ -28,7 +28,6 @@ type UpdateInfo = {
 // 用户登录
 export const userLogin = (loginInfo: LoginInfo) => {
     loginInfo.password = md5.start().appendStr(loginInfo.password).end()
-    console.log(loginInfo)
     return axios.post(`${USER_MODULE}/login`, null, {params: loginInfo})
         .then(res => {
             return res
@@ -59,6 +58,56 @@ export const userInfoUpdate = (updateInfo: UpdateInfo) => {
         updateInfo.password = md5.start().appendStr(updateInfo.password).end()
     }
     return axios.post(`${USER_MODULE}`, updateInfo, {headers: {'Content-Type': 'application/json'}})
+        .then(res => {
+            return res
+        })
+}
+
+export const getAllPhones = () => {
+    const userId = Number(sessionStorage.getItem('userId'))
+    return axios.get(`${USER_MODULE}/getAllPhones`, {params: {userId: userId}})
+        .then((res) => {
+            return res.data.result
+        })
+}
+
+export const getAllAddresses = () => {
+    const userId = Number(sessionStorage.getItem('userId'))
+    return axios.get(`${USER_MODULE}/getAllAddresses`, {params: {userId: userId}})
+        .then(res => {
+            return res.data.result
+        })
+}
+
+export const addPhone = (phone: string) => {
+    const params = {
+        phone: phone,
+        userId: Number(sessionStorage.getItem('userId'))
+    }
+    return axios.get(`${USER_MODULE}/addPhone`, {params: params})
+        .then(res => {
+            console.log(res)
+            return res
+        })
+}
+
+export const addAddress = (address: string) => {
+    const params = {
+        address: address,
+        userId: Number(sessionStorage.getItem('userId'))
+    }
+    return axios.get(`${USER_MODULE}/addAddress`, {params: params})
+        .then(res => {
+            return res
+        })
+}
+
+export const updateAddress = (address: string) => {
+    const params = {
+        address: address,
+        userId: Number(sessionStorage.getItem('userId'))
+    }
+    return axios.get(`${USER_MODULE}/updateAddress`, {params: params})
         .then(res => {
             return res
         })

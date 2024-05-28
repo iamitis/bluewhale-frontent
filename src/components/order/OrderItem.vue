@@ -35,7 +35,7 @@ function getProduct() {
 
 <template>
   <router-link :to="'/orderdetail/' + props.order.invoiceId" v-slot="{navigate}">
-    <el-card class="order-card">
+    <el-card class="order-card" shadow="hover">
       <el-row>
         <el-col>
           <el-tag :type="stateTagType">{{ stateTagText }}</el-tag>
