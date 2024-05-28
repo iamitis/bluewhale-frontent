@@ -208,8 +208,4 @@ function refresh(success: boolean) {
   flex-flow: column;
   align-items: center;
 }
-
-.create-button {
-  /* TODO: hope proper position */
-}
 </style>

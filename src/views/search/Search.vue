@@ -179,7 +179,7 @@ function clearFilter() {
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  background: aliceblue;
+  background: radial-gradient(floralwhite, aliceblue);
   gap: 20px;
 }
 
@@ -190,7 +190,6 @@ function clearFilter() {
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  background: aliceblue;
   gap: 30px;
 }
 </style>

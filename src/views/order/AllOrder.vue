@@ -7,7 +7,6 @@ import {exportOrders, getAllOrderByUserId} from "../../api/order.ts";
 
 const userId = Number(sessionStorage.getItem('userId'))
 const role = sessionStorage.getItem('role')
-const orderType = ref('ALL')
 const orderList = ref([])
 const unpaidOrderList = computed(() => {
   return orderList.value.filter((order) => order.invoiceStatus === 'UNPAID')
@@ -26,13 +25,40 @@ const doneOrderList = computed(() => {
 })
 const chosenList = ref([])
 const orderSheet = ref([])
+const activeIndex = ref('2')
 
 getOrderList()
+
+function handleSelectType(key: string, keyPath: string[]) {
+  switch (key) {
+    case '1':
+      chosenList.value = orderList.value;
+      break
+    case '2':
+      chosenList.value = unpaidOrderList.value;
+      break;
+    case '3':
+      chosenList.value = unsendOrderList.value;
+      break;
+    case '4':
+      chosenList.value = ungetOrderList.value;
+      break;
+    case '5':
+      chosenList.value = uncommentOrderList.value;
+      break;
+    case '6':
+      chosenList.value = doneOrderList.value;
+      break;
+    default:
+      ElMessage.warning('错误！');
+      break;
+  }
+}
 
 function getOrderList() {
   getAllOrderByUserId(userId).then(res => {
     orderList.value = res
-    chosenList.value = res
+    chosenList.value = orderList.value.filter((order) => order.invoiceStatus === 'UNPAID')
   })
 }
 
@@ -45,10 +71,30 @@ function downloadOrderSheet() {
 </script>
 
 <template>
-  <el-container>
-    <el-header height="5%" class="page-top">
-      <div class="segmented-box">
-      </div>
+  <el-container style="background: floralwhite">
+    <el-header height="7%" class="page-top">
+      <el-button
+          v-if="role === 'CEO' || role === 'STAFF'"
+          @click="downloadOrderSheet"
+          text
+          style="height: 100%; color: skyblue">
+        下载报表
+      </el-button>
+      <el-menu
+          :default-active="activeIndex"
+          mode="horizontal"
+          @select="handleSelectType"
+          :ellipsis="false"
+          style="background: floralwhite"
+          text-color="skyblue"
+          active-text-color="skyblue">
+        <el-menu-item index="1">所有订单</el-menu-item>
+        <el-menu-item index="2">待支付</el-menu-item>
+        <el-menu-item index="3">待发货</el-menu-item>
+        <el-menu-item index="4">待收货</el-menu-item>
+        <el-menu-item index="5">待评价</el-menu-item>
+        <el-menu-item index="6">已完成</el-menu-item>
+      </el-menu>
     </el-header>
     <el-main class="el-main">
       <el-empty
@@ -66,61 +112,10 @@ function downloadOrderSheet() {
           </el-icon>
         </el-button>
       </el-empty>
-      <div v-if="orderList.length > 0" class="choose-buttons">
-        <el-button
-            v-if="role === 'CEO' || role === 'STAFF'"
-            @click="downloadOrderSheet"
-            plain
-            color="skyblue">
-          下载报表
-        </el-button>
-        <el-button
-            v-model="orderType"
-            color="skyblue"
-            plain
-            @click="chosenList = orderList">
-          所有订单
-        </el-button>
-        <el-button
-            v-model="orderType"
-            color="skyblue"
-            plain
-            @click="chosenList = unpaidOrderList">
-          待支付
-        </el-button>
-        <el-button
-            v-model="orderType"
-            color="skyblue"
-            plain
-            @click="chosenList = unsendOrderList">
-          待发货
-        </el-button>
-        <el-button
-            v-model="orderType"
-            color="skyblue"
-            plain
-            @click="chosenList = ungetOrderList">
-          待收货
-        </el-button>
-        <el-button
-            v-model="orderType"
-            color="skyblue"
-            plain
-            @click="chosenList = uncommentOrderList">
-          待评价
-        </el-button>
-        <el-button
-            v-model="orderType"
-            color="skyblue"
-            plain
-            @click="chosenList = doneOrderList">
-          已完成
-        </el-button>
-      </div>
       <order-item
           style="text-decoration: none"
           v-if="chosenList.length > 0"
-          v-for="order in chosenList.sort((a, b) => a.invoiceTime - b.invoiceTime)"
+          v-for="order in chosenList.sort((a, b) => b.invoiceId - a.invoiceId)"
           :order="order"
           class="order-item"/>
     </el-main>
@@ -133,31 +128,21 @@ function downloadOrderSheet() {
   display: flex;
   flex-flow: row;
   justify-content: center;
+  align-items: center;
+  gap: 1em;
 }
 
 .el-main {
   display: flex;
-  display: -webkit-flex;
-  flex-flow: column;
+  flex-flow: row wrap;
   justify-content: center;
   align-items: center;
   background: floralwhite;
-  gap: 20px;
-}
-
-.choose-buttons {
-  display: flex;
-  display: -webkit-flex;
-  flex-flow: column;
-  justify-content: center;
-  align-items: start;
-
-  position: fixed;
-  top: 270px;
-  left: 0;
+  align-content: center;
 }
 
 .order-item {
-  width: 60%;
+  width: 35%;
+  margin-top: 2rem;
 }
 </style>

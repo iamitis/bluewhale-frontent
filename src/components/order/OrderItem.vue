@@ -62,6 +62,9 @@ function getProduct() {
 <style scoped>
 .order-card {
   background: aliceblue;
+  height: 80%;
+  width: 90%;
+  font-size: .8rem;
 }
 
 .order-card:hover {

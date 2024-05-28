@@ -55,7 +55,7 @@ function refresh(success: boolean) {
 
 <style scoped>
 .main {
-  background: aliceblue;
+  background: radial-gradient(floralwhite, aliceblue);
   display: flex;
   display: -webkit-flex;
   flex-flow: row wrap;
