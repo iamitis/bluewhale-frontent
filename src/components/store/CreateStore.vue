@@ -92,8 +92,8 @@ function handleCreate() {
   <div class="add-button">
     <el-button
         @click="dialogFormVisible = true"
-        color="lightpink"
-        style="color: white"
+        text
+        style="color: skyblue"
         round
         :icon="Plus">
       创建商店

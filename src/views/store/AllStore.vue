@@ -27,6 +27,12 @@ function refresh(success: boolean) {
 
 <template>
   <el-container>
+    <el-header height="5%" class="page-top">
+      <create-store
+          @create-store-finished="refresh"
+          v-if="role === 'MANAGER'"
+          class="create-button"/>
+    </el-header>
     <el-main class="main">
       <el-empty
           v-if="storeList.length === 0"
@@ -44,16 +50,16 @@ function refresh(success: boolean) {
             :store-score="store.storeScore"
             :logo-url="store.storeImageUrl"/>
       </template>
-      <create-store
-          @create-store-finished="refresh"
-          v-if="role === 'MANAGER'"
-          class="create-button"/>
     </el-main>
   </el-container>
 </template>
 
 
 <style scoped>
+.page-top {
+  background: aliceblue;
+}
+
 .main {
   background: radial-gradient(floralwhite, aliceblue);
   display: flex;
