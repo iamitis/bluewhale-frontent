@@ -15,7 +15,7 @@ export type CouponCreateInfo = {
 export const createCoupon = (couponCreateInfo: CouponCreateInfo) => {
     return axios.post(`${COUPON_MODULE}/createCouponGroup`,
         fillCouponVO(couponCreateInfo),
-        {params: {'userId': couponCreateInfo.userId, 'num': couponCreateInfo.couponNum}})
+        {params: {'num': couponCreateInfo.couponNum}})
         .then((res) => {
             return res
         })
@@ -23,23 +23,21 @@ export const createCoupon = (couponCreateInfo: CouponCreateInfo) => {
 
 export const getAllCoupon = () => {
     const userId = Number(sessionStorage.getItem('userId'))
-    return axios.get(`${COUPON_MODULE}/getAllCouponGroups`, {params: {userId: userId}})
+    return axios.get(`${COUPON_MODULE}/getAllCouponGroups`)
         .then(res => {
             return res.data.result
         })
 }
 
 export const receiveCoupon = (couponGroupId: number) => {
-    const userId = Number(sessionStorage.getItem('userId'))
-    return axios.post(`${COUPON_MODULE}/receiveCoupon`, null, {params: {couponGroupId: couponGroupId, userId: userId}})
+    return axios.post(`${COUPON_MODULE}/receiveCoupon`, null, {params: {couponGroupId: couponGroupId}})
         .then(res => {
             return res
         })
 }
 
 export const getReceivedCoupon = () => {
-    const userId = Number(sessionStorage.getItem('userId'))
-    return axios.get(`${USER_MODULE}/getAllCoupons`, {params: {userId: userId}})
+    return axios.get(`${USER_MODULE}/getAllCoupons`)
         .then(res => {
             return res.data.result
         })

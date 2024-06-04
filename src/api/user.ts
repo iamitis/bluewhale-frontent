@@ -65,7 +65,7 @@ export const userInfoUpdate = (updateInfo: UpdateInfo) => {
 
 export const getAllPhones = () => {
     const userId = Number(sessionStorage.getItem('userId'))
-    return axios.get(`${USER_MODULE}/getAllPhones`, {params: {userId: userId}})
+    return axios.get(`${USER_MODULE}/getAllPhones`)
         .then((res) => {
             return res.data.result
         })
@@ -73,7 +73,7 @@ export const getAllPhones = () => {
 
 export const getAllAddresses = () => {
     const userId = Number(sessionStorage.getItem('userId'))
-    return axios.get(`${USER_MODULE}/getAllAddresses`, {params: {userId: userId}})
+    return axios.get(`${USER_MODULE}/getAllAddresses`)
         .then(res => {
             return res.data.result
         })
@@ -82,9 +82,8 @@ export const getAllAddresses = () => {
 export const addPhone = (phone: string) => {
     const params = {
         phone: phone,
-        userId: Number(sessionStorage.getItem('userId'))
     }
-    return axios.get(`${USER_MODULE}/addPhone`, {params: params})
+    return axios.post(`${USER_MODULE}/addPhone`, null, {params: params})
         .then(res => {
             console.log(res)
             return res
@@ -94,9 +93,8 @@ export const addPhone = (phone: string) => {
 export const addAddress = (address: string) => {
     const params = {
         address: address,
-        userId: Number(sessionStorage.getItem('userId'))
     }
-    return axios.get(`${USER_MODULE}/addAddress`, {params: params})
+    return axios.post(`${USER_MODULE}/addAddress`, null, {params: params})
         .then(res => {
             return res
         })
@@ -105,9 +103,8 @@ export const addAddress = (address: string) => {
 export const updateAddress = (address: string) => {
     const params = {
         address: address,
-        userId: Number(sessionStorage.getItem('userId'))
     }
-    return axios.get(`${USER_MODULE}/updateAddress`, {params: params})
+    return axios.post(`${USER_MODULE}/updateAddress`, null, {params: params})
         .then(res => {
             return res
         })

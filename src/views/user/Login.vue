@@ -43,7 +43,12 @@ function handleLogin() {
         sessionStorage.setItem('userId', res.data.result.id)
         sessionStorage.setItem('defaultPhone', res.data.result.phone)
         sessionStorage.setItem('defaultAddress', res.data.result.address)
-        router.push({path: "/search"})
+        if (res.data.result.role === 'STAFF') {
+          const storeId = res.data.result.storeId
+          router.push({path: `/storedetail/${storeId}`})
+        } else {
+          router.push({path: `/search`})
+        }
       })
     } else if (res.data.code === '400') {
       ElMessage({

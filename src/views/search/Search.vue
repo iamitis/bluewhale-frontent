@@ -25,10 +25,10 @@ allStoresInfo().then((res: any[]) => {
 
 function handleSearch() {
   const searchInfo: SearchInfo = {
-    store_id: chosenStore.value,
+    storeId: chosenStore.value,
     name: searchText.value,
-    min_price: minPrice.value,
-    max_price: maxPrice.value,
+    minPrice: minPrice.value,
+    maxPrice: maxPrice.value,
   }
   searchInfo.type = productType.value === [] ? '' : productType.value.at(-1)
   searchProduct(searchInfo)
@@ -121,13 +121,14 @@ function clearFilter() {
                   :step="10"
                   :precision="2"
                   :min="0"
+                  :max="maxPrice"
                   placeholder="最低价"/>
               <el-text style="margin-left: 10px">-</el-text>
               <el-input-number
                   v-model="maxPrice"
                   :step="10"
                   :precision="2"
-                  :min="0"
+                  :min="minPrice"
                   style="margin-left: 10px"
                   placeholder="最高价"/>
             </div>

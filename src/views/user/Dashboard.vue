@@ -150,6 +150,11 @@ function updatePassword() {
           {{ regTime }}
         </el-descriptions-item>
       </el-descriptions>
+      <el-button text style="color: skyblue; margin-top: 10px"
+                 v-if="role === 'STAFF'"
+                 @click="router.push(`/storedetail/${storeId}`)">
+        > 我的商店
+      </el-button>
     </el-card>
 
     <el-card v-if="displayInfoCard" class="change-card" shadow="never">
@@ -184,7 +189,8 @@ function updatePassword() {
       <template #header>
         <div class="card-header">
           <span>修改密码</span>
-          <el-button @click="updatePassword" :disabled="changeDisabled" text style="color: floralwhite; background: skyblue">
+          <el-button @click="updatePassword" :disabled="changeDisabled" text
+                     style="color: floralwhite; background: skyblue">
             修改
           </el-button>
         </div>

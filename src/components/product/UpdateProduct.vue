@@ -65,7 +65,7 @@ function confirmUpdate() {
 function handleUpdate() {
   updateProductSales(
       {
-        product_id: props.productId,
+        productId: props.productId,
         sales: ruleForm.sales
       })
       .then(res => {

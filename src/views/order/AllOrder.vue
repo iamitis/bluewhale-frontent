@@ -25,7 +25,7 @@ const doneOrderList = computed(() => {
 })
 const chosenList = ref([])
 const orderSheet = ref([])
-const activeIndex = ref('2')
+const activeIndex = ref('1')
 
 getOrderList()
 
@@ -56,9 +56,9 @@ function handleSelectType(key: string, keyPath: string[]) {
 }
 
 function getOrderList() {
-  getAllOrderByUserId(userId).then(res => {
+  getAllOrderByUserId().then(res => {
     orderList.value = res
-    chosenList.value = orderList.value.filter((order) => order.invoiceStatus === 'UNPAID')
+    chosenList.value = orderList.value
   })
 }
 

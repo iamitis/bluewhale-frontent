@@ -64,7 +64,6 @@ function getOrder() {
     orderState.value = res.invoiceStatus
     printState.value = stateMap.get(res.invoiceStatus)
     orderCreateTime.value = parseTime(res.invoiceTime)
-    console.log(res.invoiceTime)
     orderPayTime.value = res.invoicePayTime == null ? '' : parseTime(res.invoicePayTime)
     storeId.value = res.invoiceStoreId
     productId.value = res.invoiceProductId

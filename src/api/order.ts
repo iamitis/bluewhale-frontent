@@ -24,8 +24,8 @@ export type OrderRateInfo = {
     comment: string,
 }
 
-export const getAllOrderByUserId = (userId: number) => {
-    return axios.get(`${USER_MODULE}/getAllInvoices`, {params: {'userId': userId}})
+export const getAllOrderByUserId = () => {
+    return axios.get(`${USER_MODULE}/getAllInvoices`)
         .then(res => {
             return res.data.result
         })

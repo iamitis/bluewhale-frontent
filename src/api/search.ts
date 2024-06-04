@@ -3,11 +3,11 @@ import {PRODUCT_MODULE} from './_prefix'
 import {productTypeEnum} from "./product.ts";
 
 export type SearchInfo = {
-    store_id: number,
+    storeId: number,
     name: string, // product's name
     type: string,
-    min_price: number,
-    max_price: number,
+    minPrice: number,
+    maxPrice: number,
 }
 export const searchProduct = (searchIndo: SearchInfo) => {
     let productList = []

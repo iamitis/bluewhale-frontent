@@ -42,7 +42,7 @@ function getProduct() {
         </el-col>
       </el-row>
       <el-row justify="space-between">
-        <el-col :span="12">
+        <el-col :span="16">
           <h1>{{ productName }}</h1>
           <p>
             <span><b>单价 : ￥{{ productPrice }}</b>&emsp;&emsp;</span>
