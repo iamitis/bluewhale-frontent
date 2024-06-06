@@ -50,7 +50,7 @@ function handleReceive() {
 </script>
 
 <template>
-  <el-card class="coupon-card">
+  <el-card shadow="hover" class="coupon-card">
     <el-row justify="space-between" style="height: 180px">
       <el-col :span="18">
         <div class="left">
