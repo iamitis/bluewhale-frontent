@@ -1,7 +1,7 @@
-![[登录填写.png]]
-![[商店列表-其他.png]]
-![[新建商品成功.png]]
-![[下单对话框.png]]
-![[支付对话框.png]]
-![[评价.png]]
-![[筛选.png]]
+![登录填写](https://github.com/iamitis/bluewhale-frontent/blob/master/img/登录填写.png)
+![商店列表](https://github.com/iamitis/bluewhale-frontent/blob/master/img/商店列表-其他.png)
+![新建商品成功](https://github.com/iamitis/bluewhale-frontent/blob/master/img/新建商品成功.png)
+![下单对话框](https://github.com/iamitis/bluewhale-frontent/blob/master/img/下单对话框.png)
+![支付对话框](https://github.com/iamitis/bluewhale-frontent/blob/master/img/支付对话框.png)
+![评价](https://github.com/iamitis/bluewhale-frontent/blob/master/img/评价.png)
+![筛选](https://github.com/iamitis/bluewhale-frontent/blob/master/img/筛选.png)
